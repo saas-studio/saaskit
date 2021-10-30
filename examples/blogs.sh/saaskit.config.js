@@ -1,6 +1,5 @@
 const saaskit, { ref } = require('saaskit')
-const { tweet } = require('saaskit-twitter')
-const stripe = require('saaskit-stripe')('pk_live_51IYBWQHednQ8H7dFP774NG71cAhI6Ki72P4l06H1HoDhiE8LGETwx87B6wICk6pMsSrA7ji4pjcSYGpQQrnXl7Ye00gRcLDR4e')
+const { tweet } = require('@saaskit/twitter')
 
 module.exports = {
   domain: 'blogs.sh',
@@ -33,13 +32,9 @@ module.exports = {
       links: ['url'],
     }
   },
-  verbs: {},
   experiments: [],
-  prices: [stripe('price_1ImL2WHednQ8H7dFlzZc7Obx'),stripe('price_1ImL3AHednQ8H7dFbmNixzAt')],
   integrations: [
     require('tag-management-studio')('2kN4TuEYatnOex'),
   ],
-  plugins: [
-    require('@saaskit/api'),
-  ],
+  plugins: [],
 }
