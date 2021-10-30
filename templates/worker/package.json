@@ -1,7 +1,7 @@
 {
     "name": "{{ project-name }}",
     "private": true,
-    "version": "1.0.0",
+    "version": "0.1.0",
     "description": "Package for creating SaaSkit worker templates",
     "main": "index.js",
     "scripts": {

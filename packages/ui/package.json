@@ -80,6 +80,6 @@
     "next-auth": "^3.29.0",
     "react-icons": "^4.3.1",
     "rollup-plugin-postcss": "^4.0.1",
-    "saaskit": "0.0.0"
+    "saaskit": "latest"
   }
 }
