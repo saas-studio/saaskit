@@ -74,8 +74,12 @@
   "dependencies": {
     "@craco/craco": "^6.4.0",
     "@flayyer/use-googlefonts": "^0.3.0",
+    "@headlessui/react": "^1.4.1",
+    "@heroicons/react": "^1.0.5",
+    "@tailwindcss/forms": "^0.3.4",
     "next-auth": "^3.29.0",
     "react-icons": "^4.3.1",
-    "rollup-plugin-postcss": "^4.0.1"
+    "rollup-plugin-postcss": "^4.0.1",
+    "saaskit": "0.0.0"
   }
 }

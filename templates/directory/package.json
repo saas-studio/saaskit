@@ -1,5 +1,5 @@
 {
-  "private": true,
+  "name": "@saaskit/directory-template",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

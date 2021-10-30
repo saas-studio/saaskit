@@ -1,5 +1,5 @@
 {
-  "private": true,
+  "name": "@saaskit/brand-template",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

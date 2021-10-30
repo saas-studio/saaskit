@@ -1,5 +1,5 @@
 {
-  "private": true,
+  "name": "@saaskit/api-template",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
