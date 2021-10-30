@@ -1,7 +1,7 @@
 # SaaSkit 
 
-**[SaaSkit](https://saaskit.js.org)** from [SaaS.Dev](https://saas.dev) is a highly opinionated framework and abstraction layer for rapidly 
-creating, launching, and iterating on SaaS products like Apps, APIs, and Marketplaces.
+**[SaaSkit](https://saaskit.js.org)** from [SaaS.Dev](https://saas.dev) is a highly-opinionated low-code framework and abstraction layer for rapidly 
+creating, launching, and iterating on SaaS products including Apps, APIs, and Marketplaces.
 
 With one simple command:
 
