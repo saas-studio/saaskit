@@ -46,6 +46,7 @@ export interface Noun<T = void> {
   plural?: string
   description?: string
   schema?: Schema
+  createdBy?: User
   get?: (id: string | number, ctx: Context) => T
   onCreate?: (instance: T, ctx: Context) => void | T
   onUpdate?: (instance: T, ctx: Context) => void | T
@@ -70,6 +71,10 @@ export interface Integration {
 
 export interface Plugin {
 
+}
+
+export interface User {
+  
 }
 
 export const getApp = async (name: string = process.env.SAASKIT_APP ?? 'saas.dev') => {
