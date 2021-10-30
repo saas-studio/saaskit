@@ -1,0 +1,20 @@
+{
+    "name": "{{ project-name }}",
+    "private": true,
+    "version": "1.0.0",
+    "description": "Package for creating SaaSkit worker templates",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "format": "prettier --write '**/*.{js,css,json,md}'"
+    },
+    "author": "{{ authors }}",
+    "license": "ISC",
+    "devDependencies": {
+        "prettier": "^1.17.0"
+    },
+    "dependencies": {
+        "itty-router": "^2.1.9",
+        "serverless-cloudflare-workers": "^1.2.0"
+    }
+}
