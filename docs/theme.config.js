@@ -19,11 +19,11 @@ export default {
       <meta name="description" content="SaaSkit: Highly-Opinionated Lo-Code SaaS Framework" />
       <meta name="og:description" content="SaaSkit: RHighly-Opinionated Lo-Code SaaS Framework" />
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:image" content="https://saaskit.js.org/og.png" />
+      <meta name="twitter:image" content="https://opengraph.studio/**SaaS**kit.png?theme=light&md=1&fontSize=175px&images=https%3A%2F%2Fassets.vercel.com%2Fimage%2Fupload%2Ffront%2Fassets%2Fdesign%2Fvercel-triangle-black.svg" />
       <meta name="twitter:site:domain" content="saaskit.js.org" />
       <meta name="twitter:url" content="https://saaskit.js.org" />
       <meta name="og:title" content="SaaSkit: Highly-Opinionated Lo-Code SaaS Product Framework" />
-      <meta name="og:image" content="https://saaskit.js.org/og.png" />
+      <meta name="og:image" content="https://opengraph.studio/**SaaS**kit.png?theme=light&md=1&fontSize=175px&images=https%3A%2F%2Fassets.vercel.com%2Fimage%2Fupload%2Ffront%2Fassets%2Fdesign%2Fvercel-triangle-black.svg" />
       <meta name="apple-mobile-web-app-title" content="SaaSkit" />
       <link
         rel="apple-touch-icon"
