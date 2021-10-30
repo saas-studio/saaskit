@@ -1,0 +1,14 @@
+{
+  "name": "@saaskit/email",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "SaaS.Dev",
+  "license": "MIT",
+  "dependencies": {
+    "node-email-reply-parser": "^0.1.3"
+  }
+}
