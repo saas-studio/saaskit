@@ -4,7 +4,7 @@ export default {
   titleSuffix: ' – SaaSkit',
   logo: (
     <>
-      <span className="mr-2 font-extrabold hidden md:inline">SaaSkit</span>
+      <span className="mr-2 hidden md:inline"><span className="font-extrabold">SaaS</span>kit</span>
       <span className="text-gray-600 font-normal hidden md:inline">
         Low-Code SaaS Framework
       </span>
