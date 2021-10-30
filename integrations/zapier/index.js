@@ -34,15 +34,28 @@ const App = {
 
   // If you want your trigger to show up, you better include it here!
   triggers: {
+    [people.key]: people,
+    [species.key]: species,
   },
 
-  // If you want your searches to show up, you better include it here!
-  searches: {
-  },
+  searches: { [RecipeSearch.key]: RecipeSearch },
 
-  // If you want your creates to show up, you better include it here!
-  creates: {
-  }
+  creates: { [RecipeCreate.key]: RecipeCreate },
+
+  searchOrCreates: {
+    [RecipeSearch.key]: {
+      // The key must match the search
+      key: RecipeSearch.key, // same as above
+      display: {
+        // The label shows up when the search-or-create checkbox is checked.
+        // See https://cdn.zappy.app/5fc31d104c6bd0050c44510557b3b98f.png
+        label: 'Find or Create a Recipe',
+        description: 'x', // this is ignored
+      },
+      search: RecipeSearch.key,
+      create: RecipeCreate.key,
+    },
+  },
 };
 
 // Finally, export the app.
