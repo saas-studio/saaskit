@@ -1,5 +1,7 @@
 const { version } = require('../package.json')
 
+import { Story } from './story'
+import { Noun } from './semantics'
 export interface SaaS extends Product {
     callToAction?: {
         [key: string]: { 
@@ -36,52 +38,6 @@ export interface SaaS extends Product {
     },
   }
 
-  export interface Story {
-    persona?: string,
-    problem?: string | {
-      internal?: string,
-      external?: string,
-      philosophical?: string,
-    },
-    solution?: string,
-    brand?: string,
-    offer?: string,
-    callToAction?: {
-      [key: string]: { 
-        [key: string]: any, 
-        annualPrice?: number, 
-        monthlyPrice?: number,
-        annualUserPrice?: number, 
-        monthlyUserPrice?: number,
-      },
-    },
-    failure?: string,
-    success?: string | {
-      goal?: string,
-      transformation?: { from: string, to: string }
-    }
-  }
-  
-  export interface Noun<T = void> {
-    name?: string
-    plural?: string
-    description?: string
-    schema?: Schema
-    createdBy?: User
-    get?: (id: string | number, ctx: Context) => T
-    onCreate?: (instance: T, ctx: Context) => void | T
-    onUpdate?: (instance: T, ctx: Context) => void | T
-    onDelete?: (instance: T, ctx: Context) => void | T
-    search?: (criteria: object, ctx: Context) => T | T[]
-  }
-  
-  export interface Schema {
-  
-  }
-  
-  export interface Context {
-  
-  }
   
   export interface Experiment {
   
@@ -95,9 +51,7 @@ export interface SaaS extends Product {
   
   }
   
-  export interface User {
-    
-  }
+ 
   
   export const getApp = async (name: string = process.env.SAASKIT_APP ?? 'saas.dev') => {
     const secret = process.env.SAASKIT_SECRET ?? 'anonymous'
