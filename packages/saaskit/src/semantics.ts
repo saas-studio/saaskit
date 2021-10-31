@@ -1,9 +1,11 @@
 export interface Noun<T = void> {
-    name?: string
+    noun?: string
     plural?: string
     description?: string
     schema?: Schema
     createdBy?: User
+    is?: Noun
+    partOfSpeech?: 'noun'
     get?: (id: string | number, ctx: Context) => T
     onCreate?: (instance: T, ctx: Context) => void | T
     onUpdate?: (instance: T, ctx: Context) => void | T
@@ -15,8 +17,13 @@ export interface ProperNoun<T = void> extends Noun<T> {
 
 }
 
+
+
 export interface Verb {
-    
+    verb?: string
+    active?: string
+    past?: string
+    gerund?: string
 }
 
 export interface Word {
@@ -29,6 +36,14 @@ export interface Instance<T = Noun> {
 }
 
 export interface Adjective {
+    
+}
+
+export interface Adverb {
+
+}
+
+export interface Person {
     
 }
 
