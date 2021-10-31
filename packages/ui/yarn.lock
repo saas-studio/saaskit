@@ -12385,6 +12385,11 @@ rxjs@^6.6.0:
   dependencies:
     tslib "^1.9.0"
 
+saaskit@latest:
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/saaskit/-/saaskit-0.1.6.tgz#ce74ffb124add8965ae899fdb895d977d5066563"
+  integrity sha512-GgHIUA8ih4tJd1gIY0ngAVN8coUKxmt9cGuUro4aZJpshEsboSCRGEALtD1Mxk+EWhGQwdo+3WjX7HeZ7p/CYQ==
+
 sade@^1.4.2:
   version "1.7.4"
   resolved "https://registry.yarnpkg.com/sade/-/sade-1.7.4.tgz#ea681e0c65d248d2095c90578c03ca0bb1b54691"

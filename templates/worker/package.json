@@ -1,5 +1,5 @@
 {
-    "name": "{{ project-name }}",
+    "name": "@saaskit/worker-template",
     "private": true,
     "version": "0.1.0",
     "description": "Package for creating SaaSkit worker templates",
@@ -8,13 +8,14 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "format": "prettier --write '**/*.{js,css,json,md}'"
     },
-    "author": "{{ authors }}",
-    "license": "ISC",
+    "author": "SaaS.Dev",
+    "license": "MIT",
     "devDependencies": {
         "prettier": "^1.17.0"
     },
     "dependencies": {
         "itty-router": "^2.1.9",
+        "saaskit": "latest",
         "serverless-cloudflare-workers": "^1.2.0"
     }
 }

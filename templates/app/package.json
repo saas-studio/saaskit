@@ -12,7 +12,7 @@
     "saaskit": "latest"
   },
   "devDependencies": {
-    "@saaskit/ui": "0.2.0",
+    "@saaskit/ui": "latest",
     "autoprefixer": "^10.2.6",
     "postcss": "^8.3.5",
     "saaskit": "latest",
