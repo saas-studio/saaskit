@@ -2,6 +2,8 @@ const { version } = require('../package.json')
 
 import { Story } from './story'
 import { Noun } from './semantics'
+import { Logo, Color, Font } from './marketing'
+
 export interface SaaS extends Product {
     callToAction?: {
         [key: string]: { 
@@ -13,9 +15,12 @@ export interface SaaS extends Product {
         },
     },
     theme?: {
-      color?: string,
-      font?: string,
-      logo?: URL | string,
+      primaryColor?: string | Color,
+      secondaryColor?: string | Color,
+      accentColor?: string | Color,
+      backgroundColor?: string | Color,
+      font?: string | Font,
+      logo?: string | Logo,
       darkMode?: boolean,
     },
     nouns?: {
@@ -24,7 +29,7 @@ export interface SaaS extends Product {
     verbs?: {
       [key: string]: any
     },
-    experiments?: [],
+    experiments?: SaaS[],
     integrations?: Integration[],
     plugins?: Plugin[]
   }
@@ -61,4 +66,46 @@ export interface SaaS extends Product {
         'Authorization': `Bearer ${secret}`
       }
     }).then(res => res.json())
+  }
+
+  export const defaultApp: SaaS = {
+    persona: 'Coder',
+    problem: {
+      villain: 'Boilerplate',
+      internal: 'Hates repetitive tasks',
+      external: 'Needs to build a SaaS',
+      philosophical: 'What tech stack is best?',
+    },
+    solution: 'SaaSkit.js.org',
+    brand: 'SaaS.Dev',
+    offer: 'Headless SaaS Platform',
+    callToAction: {
+      build: { 
+        price: 0 
+      }
+    },
+    failure: 'Endless complexity and lost opportunities',
+    success: {
+      goal: 'Building a Unicorn',
+      transformation: { 
+        from: 'Struggling to Ship', 
+        to: 'Titan of SaaS'
+      }
+    },
+    theme: {
+      logo: {
+        font: 'Roboto',
+        color: 'gray-900',
+        icon: 'cube',
+      },
+      primaryColor: '',
+      accentColor: '',
+      backgroundColor: '',
+      font: '',
+    },
+    experiments: [{
+      problem: {
+        villain: 'Friction'
+      }
+    }]
   }

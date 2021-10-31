@@ -3,6 +3,7 @@ import { Adjective, Noun } from './semantics'
 export interface Story {
     persona?: string,
     problem?: string | {
+      villain?: string,
       internal?: string,
       external?: string,
       philosophical?: string,

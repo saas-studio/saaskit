@@ -134,6 +134,20 @@ export interface Link {
     href: string
 }
 
+export interface Font {
+    family?: string
+    name?: string
+}
+
+export interface Color {
+    name?: string
+    rgb?: string
+    rgba?: string
+    red?: string | number
+    green?: string | number
+    blue?: string | number
+    alpha?: string | number
+}
 export interface Image {
     src?: string
     layout?: 'intrinsic' | 'fixed' | 'responsive' | 'fill'
@@ -143,11 +157,12 @@ export interface Image {
 }
 
 export interface Logo extends Wordmark {
-    icon: string | Icon
+    icon?: string | Icon
 }
 
 export interface Wordmark {
-    name: string
+    name?: string
+    wordmark?: string
     font?: string
     color?: string
 }
