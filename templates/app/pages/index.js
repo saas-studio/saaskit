@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import Benefits from '@saaskit/ui'
+import { Benefits } from '@saaskit/ui'
 
 export default function Home() {
   return (
@@ -9,7 +9,7 @@ export default function Home() {
         <link rel="icon" href="https://favicon.ninja/favicon.ico" />
       </Head>
 
-      <Benefits />
+      {/* <Benefits /> */}
 
     </div>
   )
