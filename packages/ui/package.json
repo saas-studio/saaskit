@@ -1,5 +1,6 @@
 {
-  "version": "0.1.0",
+  "name": "@saaskit/ui",
+  "version": "0.2.0",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -35,7 +36,6 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "name": "ui",
   "author": "SaaS.Dev",
   "module": "dist/ui.esm.js",
   "size-limit": [
