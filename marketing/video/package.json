@@ -13,6 +13,8 @@
 	"repository": {},
 	"license": "UNLICENSED",
 	"dependencies": {
+		"@giphy/js-fetch-api": "^4.1.2",
+		"@giphy/react-components": "^5.4.0",
 		"@remotion/bundler": "^2.0.0",
 		"@remotion/cli": "^2.0.0",
 		"@remotion/eslint-config": "^2.0.0",

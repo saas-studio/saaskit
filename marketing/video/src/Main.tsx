@@ -25,6 +25,8 @@ import voiceover from './voiceover-no-music.mp3';
 import {Website} from './Website';
 import {WebTechnologies} from './WebTechnologies';
 
+import {GIF} from './GIF'
+
 export const Main: React.FC = () => {
 	const frame = useCurrentFrame();
 
@@ -33,9 +35,14 @@ export const Main: React.FC = () => {
 			<div>
 				<Sequence from={0} durationInFrames={120 + 8}>
 					<Transition type="out">
-						<Intro showText offset={0} />
+						<GIF id="fpXxIjftmkk9y" />
 					</Transition>
 				</Sequence>
+				{/* <Sequence from={0} durationInFrames={120 + 8}>
+					<Transition type="out">
+						<Intro showText offset={0} />
+					</Transition>
+				</Sequence> */}
 				<Sequence from={120} durationInFrames={60}>
 					<Transition type="in">
 						<GoToGithub />
