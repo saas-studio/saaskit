@@ -1,5 +1,6 @@
 import React from "react"
-import { Hero, Props } from "./Hero"
+import { Hero } from "./Hero"
+import saaskit from "saaskit"
 
 import "../tailwind.css"
 
@@ -18,7 +19,7 @@ export default {
   },
 }
 
-const story = (args: Props) => <Hero {...args} />
+const story = (args: saaskit.Hero) => <Hero {...args} />
 
 export const Default = story.bind(null)
 
