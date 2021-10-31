@@ -1,12 +1,14 @@
 import { ChevronRightIcon, StarIcon } from '@heroicons/react/solid'
 import React from 'react'
 
-export interface Props {
-    title: string,
+import saaskit from 'saaskit'
 
-}
-
-export function Hero() {
+export function Hero({
+    headerBadge = `What's New`,
+    headerLink = 'Join us on Product Hunt!',
+    title = 'Low-Code SaaS Framework',
+    description = 'With a simple abstraction layer and a little bit of AI, you can create fully functional Apps and APIs including a marketing website and both user & developer documention in minutes. '
+}: saaskit.Hero) {
   return (
     <div className="bg-white pb-8 sm:pb-12 lg:pb-12">
       <div className="pt-8 overflow-hidden sm:pt-12 lg:relative lg:py-48">
@@ -22,59 +24,29 @@ export function Hero() {
             <div className="mt-20">
               <div>
                 <a href="#" className="inline-flex space-x-4">
-                  <span className="rounded bg-indigo-50 px-2.5 py-1 text-xs font-semibold text-indigo-600 tracking-wide uppercase">
-                    What's new
+                  <span className="rounded bg-indigo-50 px-2.5 py-1 text-xs font-semibold text-primary-600 tracking-wide uppercase">
+                    {headerBadge}
                   </span>
-                  <span className="inline-flex items-center text-sm font-medium text-indigo-600 space-x-1">
-                    <span>Just shipped version 0.1.0</span>
+                  <span className="inline-flex items-center text-sm font-medium text-primary-600 space-x-1">
+                    <span>{headerLink}</span>
                     <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
                   </span>
                 </a>
               </div>
               <div className="mt-6 sm:max-w-xl">
                 <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl">
-                  Server management for growing teams
+                {title}
                 </h1>
                 <p className="mt-6 text-xl text-gray-500">
-                  Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo.
+                {description}
                 </p>
               </div>
-              <form action="#" className="mt-12 sm:max-w-lg sm:w-full sm:flex">
-                <div className="min-w-0 flex-1">
-                  <label htmlFor="hero-email" className="sr-only">
-                    Email address
-                  </label>
-                  <input
-                    id="hero-email"
-                    type="email"
-                    className="block w-full border border-gray-300 rounded-md px-5 py-3 text-base text-gray-900 placeholder-gray-500 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                    placeholder="Enter your email"
-                  />
-                </div>
-                <div className="mt-4 sm:mt-0 sm:ml-3">
-                  <button
+              <button
                     type="submit"
-                    className="block w-full rounded-md border border-transparent px-5 py-3 bg-indigo-600 text-base font-medium text-white shadow hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:px-10"
+                    className="block w-full mt-12 rounded-md border border-transparent px-5 py-3 bg-primary-600 text-base font-medium text-white shadow hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:px-10"
                   >
-                    Notify me
-                  </button>
-                </div>
-              </form>
-              <div className="mt-6">
-                <div className="inline-flex items-center divide-x divide-gray-300">
-                  <div className="flex-shrink-0 flex pr-5">
-                    <StarIcon className="h-5 w-5 text-yellow-400" aria-hidden="true" />
-                    <StarIcon className="h-5 w-5 text-yellow-400" aria-hidden="true" />
-                    <StarIcon className="h-5 w-5 text-yellow-400" aria-hidden="true" />
-                    <StarIcon className="h-5 w-5 text-yellow-400" aria-hidden="true" />
-                    <StarIcon className="h-5 w-5 text-yellow-400" aria-hidden="true" />
-                  </div>
-                  <div className="min-w-0 flex-1 pl-5 py-1 text-sm text-gray-500 sm:py-3">
-                    <span className="font-medium text-gray-900">Rated 5 stars</span> by over{' '}
-                    <span className="font-medium text-indigo-600">500 beta users</span>
-                  </div>
-                </div>
-              </div>
+                    Request Pre-Release Access
+              </button>
             </div>
           </div>
         </div>
