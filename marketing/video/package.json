@@ -1,7 +1,7 @@
 {
-	"name": "remotion-template",
+	"name": "@saaskit/video",
 	"version": "1.0.0",
-	"description": "My Remotion video",
+	"description": "SaaSkit video rendering",
 	"scripts": {
 		"start": "remotion preview src/index.tsx",
 		"build-video": "remotion render src/index.tsx Main out.mp4",

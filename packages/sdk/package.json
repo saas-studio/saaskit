@@ -1,4 +1,6 @@
 {
+  "name": "@saaskit/sdk",
+  "author": "SaaS.Dev",
   "version": "0.1.0",
   "license": "MIT",
   "main": "dist/index.js",
@@ -31,8 +33,6 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "name": "sdk",
-  "author": "SaaS.Dev",
   "module": "dist/sdk.esm.js",
   "size-limit": [
     {
