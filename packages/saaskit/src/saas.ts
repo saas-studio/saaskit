@@ -56,7 +56,9 @@ export interface SaaS extends Product {
     },
   }
 
-  
+  export interface API {
+    name?: string
+  }
   export interface Experiment {
     weight?: number
     variant?: SaaS

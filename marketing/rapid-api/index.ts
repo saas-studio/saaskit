@@ -1,3 +1,5 @@
+import saaskit from 'saaskit'
+
 export default {
-    tweet: () => { hello: 'twitter' }
+    publishAPI: (api: saaskit.SaaS) => { hello: 'Rapid API' }
 }

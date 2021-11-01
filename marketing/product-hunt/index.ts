@@ -1,3 +1,5 @@
+import {Product} from 'saaskit'
+
 export default {
-    tweet: () => { hello: 'twitter' }
+    createShipPage: (product: Product) => { hello: 'Product Hunt' }
 }

@@ -1,0 +1,14 @@
+{
+  "name": "@saaskit/sales-deck",
+  "version": "0.2.2",
+  "private": false,
+  "description": "SaaSkit integration with Product Hunt",
+  "repository": "saas-studio/saaskit/integrations/twitter",
+  "homepage": "https://saaskit.js.org/",
+  "author": "SaaS.Dev",
+  "license": "MIT",
+  "main": "index.js",
+	"dependencies": {
+		"saaskit": "latest"
+  }
+}
