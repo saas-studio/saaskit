@@ -1,5 +1,6 @@
 {
 	"name": "create-saas-app",
+	"private": false,
 	"version": "0.2.0",
 	"keywords": [
 		"saas",

@@ -1,5 +1,6 @@
 {
   "name": "@saaskit/ui",
+  "private": false,
   "version": "0.2.0",
   "license": "MIT",
   "main": "dist/index.js",

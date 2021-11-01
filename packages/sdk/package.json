@@ -1,5 +1,6 @@
 {
   "name": "@saaskit/sdk",
+  "private": false,
   "author": "SaaS.Dev",
   "version": "0.2.0",
   "license": "MIT",
