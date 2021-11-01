@@ -3,6 +3,7 @@ import { useGoogleFonts, GoogleFontsStatus } from "@flayyer/use-googlefonts";
 
 export interface Props {
   name?: string,
+  color?: string,
   fontFamily?: string,
   nameLeft?: string,
   nameRight?: string,
@@ -10,7 +11,7 @@ export interface Props {
   fontRight?: string,
 }
 
-export const Wordmark: FC<Props> = ({name = 'SaaS.Dev', fontFamily = 'Cabin'}) => {
+export const Wordmark: FC<Props> = ({name = 'SaaS.Dev', color = 'gray-900', fontFamily = 'Cabin'}) => {
     const font = useGoogleFonts([
         {
             family: fontFamily, // Family Name
@@ -41,7 +42,7 @@ export const Wordmark: FC<Props> = ({name = 'SaaS.Dev', fontFamily = 'Cabin'}) =
     }
 
   return (
-    <h1 className="text-gray-300" style={{ fontFamily: `'${fontFamily}', sans-serif` }}>
+    <h1 className={color} style={{ fontFamily: `'${fontFamily}', sans-serif` }}>
         {name}
     </h1>
   )

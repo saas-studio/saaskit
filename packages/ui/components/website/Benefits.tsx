@@ -5,7 +5,7 @@ export interface Props {
     //benefits: string[] //Benefit[]
 }
 
-export function Benefits() {
+export function Benefits({title = 'Features'}) {
   return (
     <div className="relative bg-white pt-16 pb-32 overflow-hidden">
       <div className="relative">

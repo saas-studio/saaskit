@@ -8,7 +8,7 @@ export interface Props {
     foregroundColor?: string,
 }
 
-export const Logo: FC<Props> = ({size = 32, backgroundColor = 'gray-600', foregroundColor = 'gray-100'}) => {
+export default function Logo({size = 32, backgroundColor = 'gray-600', foregroundColor = 'gray-100'}: Props) {
   return (
     <div className="object-center">
         <BsFillSquareFill size={size} className={`absolute text-${backgroundColor}`} />

@@ -1,4 +1,4 @@
-import { ChevronRightIcon, StarIcon } from '@heroicons/react/solid'
+import { ChevronRightIcon } from '@heroicons/react/solid'
 import React from 'react'
 
 import saaskit from 'saaskit'
@@ -6,7 +6,7 @@ import saaskit from 'saaskit'
 export function Hero({
     headerBadge = `What's New`,
     headerLink = 'Join us on Product Hunt!',
-    title = 'Low-Code SaaS Framework',
+    title = 'Headless SaaS Platform',
     description = 'With a simple abstraction layer and a little bit of AI, you can create fully functional Apps and APIs including a marketing website and both user & developer documention in minutes. '
 }: saaskit.Hero) {
   return (

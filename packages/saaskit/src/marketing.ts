@@ -18,7 +18,10 @@ export interface Page {
 }
 
 export interface LandingPage extends Website, Page {
-
+    hero?: Hero
+    features?: Features
+    benefits?: Benefits
+    blog?: Blog
 }
 
 export interface Header {
