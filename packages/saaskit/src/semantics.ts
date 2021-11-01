@@ -62,3 +62,29 @@ export interface Context {
 export interface User {
     
 }
+
+export const prepositions = {
+    // for: phrase
+}
+
+export const nouns = {
+    saas: {},
+    app: {},
+    api: {}
+}
+
+export const verbs = {
+    creates: nouns,
+    launches: nouns,
+    prepares: nouns,
+}
+
+export const personas = {
+    builder: verbs,
+    maker: verbs,
+    coder: verbs,
+}
+
+const { coder } = personas
+
+coder.launches.app
