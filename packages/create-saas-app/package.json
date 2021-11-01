@@ -36,7 +36,7 @@
 		"got": "10.7.0",
 		"prompts": "2.1.0",
 		"rimraf": "3.0.0",
-    "saaskit": "latest",
+		"saaskit": "latest",
 		"tar": "4.4.10",
 		"update-check": "1.5.4",
 		"validate-npm-package-name": "3.0.0"

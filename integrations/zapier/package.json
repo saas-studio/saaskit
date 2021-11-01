@@ -1,22 +1,21 @@
-
 {
-    "name": "@saaskit/zapier",
-    "version": "1.0.0",
-    "description": "SaaSkit integration with Zapier",
-    "repository": "saas-studio/saaskit/integrations/zapier",
-    "homepage": "https://saaskit.js.org/",
-    "author": "SaaS.Dev",
-    "license": "MIT",
-    "main": "index.js",
-    "scripts": {
-      "test": "mocha --recursive"
-    },
-    "dependencies": {
-      "saaskit": "latest",
-      "zapier-platform-core": "8.0.1"
-    },
-    "devDependencies": {
-      "mocha": "^5.2.0",
-      "should": "^13.2.0"
-    }
+  "name": "@saaskit/zapier",
+  "version": "0.2.0",
+  "description": "SaaSkit integration with Zapier",
+  "repository": "saas-studio/saaskit/integrations/zapier",
+  "homepage": "https://saaskit.js.org/",
+  "author": "SaaS.Dev",
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --recursive"
+  },
+  "dependencies": {
+    "saaskit": "latest",
+    "zapier-platform-core": "8.0.1"
+  },
+  "devDependencies": {
+    "mocha": "^5.2.0",
+    "should": "^13.2.0"
   }
+}
