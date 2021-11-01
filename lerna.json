@@ -2,9 +2,8 @@
   "packages": [
     "integrations/*",
     "marketing/*",
-    "packages/*",
-    "templates/*"
+    "packages/*"
   ],
-  "version": "0.2.0",
+  "version": "0.1.9",
   "npmClient": "yarn"
 }
