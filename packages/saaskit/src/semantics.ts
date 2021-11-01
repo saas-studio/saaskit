@@ -19,11 +19,15 @@ export interface ProperNoun<T = void> extends Noun<T> {
 
 
 
-export interface Verb {
+export interface Verb<T = void> {
     verb?: string
     active?: string
     past?: string
     gerund?: string
+    execute?: (id: string | number, ctx: Context) => T
+    beforeExecute?: (instance: T, ctx: Context) => void | T
+    onError?: (instance: T, ctx: Context) => void | T
+    onSuccess?: (instance: T, ctx: Context) => void | T
 }
 
 export interface Word {
