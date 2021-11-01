@@ -41,9 +41,9 @@ export interface SaaS extends Product {
       [key: string]: Action
     }
     website?: Website | LandingPage
-    experiments?: SaaS[] | Experiment[],
-    integrations?: Integration[],
-    plugins?: Plugin[]
+    experiments?: [] | SaaS[] | Experiment[],
+    integrations?: [] | Integration[],
+    plugins?: [] | Plugin[]
   }
 
   export interface Product extends Story {
