@@ -1,4 +1,4 @@
-export * from './api'
+export * from './sdk'
 export * from './marketing'
 export * from './saas'
 export * from './semantics'
