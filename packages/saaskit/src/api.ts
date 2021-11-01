@@ -19,7 +19,7 @@ export interface Source extends Resource {
 }
 
 export interface CRUDSource extends Source {
-    name: 'SaaS.Dev' | 'Firebase' | 'Supabase' | 'Fauna' | 'Upstash'
+    name: 'SaaS.Dev' | 'Workers KV' | 'Durable Object' | 'Firebase' | 'Supabase' | 'Fauna' | 'Upstash'
 }
 
 export interface Endpoint extends Resource {
