@@ -32,33 +32,33 @@ export const updateShipPage = (shipPageSlug: string, page: ShipPage) =>
 })
 
 export interface ShipPage {
-    _id:                    string;
+    _id:                     string;
     id?:                     string;
     __typename?:             string;
     accountId?:              string;
-    angellistUrl?:           null;
-    appStoreUrl?:            null;
+    angellistUrl?:           string;
+    appStoreUrl?:            string;
     availableTemplateNames?: string[];
     canManageShipAb?:        boolean;
     canPromoteUpcomingPage?: boolean;
-    facebookUrl?:            null;
+    facebookUrl?:            string;
     hiring?:                 boolean;
     name?:                   string;
-    playStoreUrl?:           null;
-    privacyPolicyUrl?:       null;
-    seoDescription?:         null;
-    seoImageUuid?:           null;
-    seoTitle?:               null;
+    playStoreUrl?:           string;
+    privacyPolicyUrl?:       string;
+    seoDescription?:         string;
+    seoImageUuid?:           string;
+    seoTitle?:               string;
     slug?:                   string;
     status?:                 string;
     tagline?:                string;
     thumbnailUuid?:          string;
     topicIds?:               string[];
-    twitterUrl?:             null;
+    twitterUrl?:             string;
     updatedAt?:              Date;
-    webhookUrl?:             null;
+    webhookUrl?:             string;
     websiteUrl?:             string;
-    widgetIntroMessage?:     null;
+    widgetIntroMessage?:     string;
     variants?:               Variant[];
     meta?:                   Meta;
 }
@@ -67,10 +67,10 @@ export interface Meta {
     canonicalUrl?: string;
     creator?:      string;
     description?:  string;
-    image?:        null;
-    mobileAppUrl?: null;
-    oembedUrl?:    null;
-    robots?:       null;
+    image?:        string;
+    mobileAppUrl?: string;
+    oembedUrl?:    string;
+    robots?:       string;
     title?:        string;
     type?:         string;
     author?:       string;
@@ -82,13 +82,13 @@ export interface Variant {
     id?:                    string;
     _id?:                   string;
     backgroundColor?:       string;
-    backgroundImageUuid?:   null;
+    backgroundImageUuid?:   string;
     brandColor?:            string;
     kind?:                  string;
     logoUuid?:              string;
     templateName?:          string;
     thumbnailUuid?:         string;
-    unsplashBackgroundUrl?: null;
+    unsplashBackgroundUrl?: string;
     whatText?:              string;
     whoText?:               string;
     whyText?:               string;
@@ -106,8 +106,8 @@ export interface Media {
 }
 
 export interface Metadata {
-    url?:        null;
-    platform?:   null;
-    videoId?:    null;
+    url?:        string;
+    platform?:   string;
+    videoId?:    string;
     __typename?: string;
 }
