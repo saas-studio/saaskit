@@ -1,9 +1,9 @@
 {
-  "name": "@saaskit/zapier-marketing",
+  "name": "@saaskit/twitter",
   "version": "0.2.2",
   "private": false,
-  "description": "SaaSkit integration with Zapier",
-  "repository": "saas-studio/saaskit/integrations/zapier",
+  "description": "SaaSkit integration with Twitter",
+  "repository": "saas-studio/saaskit/integrations/twitter",
   "homepage": "https://saaskit.js.org/",
   "author": "SaaS.Dev",
   "license": "MIT",
