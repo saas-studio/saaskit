@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/zapier-marketing",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "private": false,
   "description": "SaaSkit integration with Zapier",
   "repository": "saas-studio/saaskit/integrations/zapier",
@@ -8,7 +8,7 @@
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",
-	"dependencies": {
-		"saaskit": "latest"
+  "dependencies": {
+    "saaskit": "latest"
   }
 }

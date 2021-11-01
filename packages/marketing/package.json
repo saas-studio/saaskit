@@ -2,7 +2,7 @@
   "name": "@saaskit/marketing",
   "public": true,
   "author": "SaaS.Dev",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",

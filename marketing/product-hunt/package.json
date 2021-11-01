@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/producthunt",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "private": false,
   "description": "SaaSkit integration with Product Hunt",
   "repository": "saas-studio/saaskit/integrations/twitter",
@@ -8,7 +8,7 @@
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",
-	"dependencies": {
-		"saaskit": "latest"
+  "dependencies": {
+    "saaskit": "latest"
   }
 }
