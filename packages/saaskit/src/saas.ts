@@ -3,6 +3,7 @@ const { version } = require('../package.json')
 import { Story } from './story'
 import { Noun } from './semantics'
 import { Logo, Color, Font } from './marketing'
+import { LandingPage, Website } from '.';
 
 export interface SaaS extends Product {
     callToAction?: {
@@ -29,12 +30,26 @@ export interface SaaS extends Product {
     verbs?: {
       [key: string]: any
     },
-    experiments?: SaaS[],
+    creates?: {
+      [key: string]: Create
+    }
+    triggers?: {
+      [key: string]: Trigger
+    }
+    searches?: {
+      [key: string]: Search
+    }
+    actions?: {
+      [key: string]: Action
+    }
+    website?: Website | LandingPage
+    experiments?: SaaS[] | Experiment[],
     integrations?: Integration[],
     plugins?: Plugin[]
   }
 
   export interface Product extends Story {
+    category?: Category | Category[]
     callToAction?: {
         [key: string]: { 
           [key: string]: any, 
@@ -45,7 +60,8 @@ export interface SaaS extends Product {
 
   
   export interface Experiment {
-  
+    weight?: number
+    variant?: SaaS
   }
 
   export interface Integration {
@@ -56,7 +72,108 @@ export interface SaaS extends Product {
   
   }
   
- 
+  export type Create = {
+    name?: string;
+  };
+
+  export type Trigger = {
+    name?: string;
+  };
+  
+  export type Search = {
+    name?: string;
+  };
+  
+  export type Action = {
+    name?: string;
+  };
+  
+  export type Alternative = {
+    name?: string;
+    url?: string;
+    description?: string;
+    pros?: string[];
+    cons?: string[];
+  };
+  
+  enum Category {
+    Accounting = 'Accounting',
+    AdsConversion = 'Ads & Conversion',
+    Analytics = 'Analytics',
+    AppBuilder = 'App Builder',
+    AppFamilies = 'App Families',
+    BookmarkManagers = 'Bookmark Managers',
+    BusinessIntelligence = 'Business Intelligence',
+    Calendar = 'Calendar',
+    CallTracking = 'Call Tracking',
+    CMS = 'Website Builders',
+    Commerce = 'Commerce',
+    Communication = 'Communication',
+    ContactManagement = 'Contact Management',
+    ContentFiles = 'Content & Files',
+    CRM = 'CRM (Customer Relationship Management)',
+    CustomerAppreciation = 'Customer Appreciation',
+    CustomerSupport = 'Customer Support',
+    Dashboards = 'Dashboards',
+    Databases = 'Databases',
+    DeveloperTools = 'Developer Tools',
+    Devices = 'Devices',
+    Documents = 'Documents',
+    DripEmails = 'Drip Emails',
+    eCommerce = 'eCommerce',
+    Education = 'Education',
+    Email = 'Email',
+    EmailNewsletters = 'Email Newsletters',
+    EventManagement = 'Event Management',
+    Fax = 'Fax',
+    FileManagementStorage = 'File Management & Storage',
+    Filters = 'Filters',
+    Fitness = 'Fitness',
+    FormsSurveys = 'Forms & Surveys',
+    Fundraising = 'Fundraising',
+    Gaming = 'Gaming',
+    HRTalentRecruitment = 'HR Talent & Recruitment',
+    HumanResources = 'Human Resources',
+    ImagesDesign = 'Images & Design',
+    InternetOfThings = 'Internet of Things',
+    ProposalInvoiceManagement = 'Proposal & Invoice Management',
+    ITOperations = 'IT Operations',
+    OnlineCourses = 'Online Courses',
+    LifestyleEntertainment = 'Lifestyle & Entertainment',
+    Marketing = 'Marketing',
+    MarketingAutomation = 'Marketing Automation',
+    NewsLifestyle = 'News & Lifestyle',
+    Notes = 'Notes',
+    Notifications = 'Notifications',
+    PaymentProcessing = 'Payment Processing',
+    PhoneSMS = 'Phone & SMS',
+    Printing = 'Printing',
+    ProductManagement = 'Product Management',
+    Productivity = 'Productivity',
+    ProjectManagement = 'Project Management',
+    Reviews = 'Reviews',
+    SalesCRM = 'Sales & CRM',
+    SchedulingBooking = 'Scheduling & Booking',
+    SecurityIdentityTools = 'Security & Identity Tools',
+    ServerMonitoring = 'Server Monitoring',
+    Signatures = 'Signatures',
+    SocialMediaAccounts = 'Social Media Accounts',
+    SocialMediaMarketing = 'Social Media Marketing',
+    Spreadsheets = 'Spreadsheets',
+    Support = 'Support',
+    Taxes = 'Taxes',
+    TeamChat = 'Team Chat',
+    TeamCollaboration = 'Team Collaboration',
+    TimeTrackingSoftware = 'Time Tracking Software',
+    TaskManagement = 'Task Management',
+    TransactionalEmail = 'Transactional Email',
+    Transcription = 'Transcription',
+    URLShortener = 'URL Shortener',
+    VideoAudio = 'Video & Audio',
+    VideoConferencing = 'Video Conferencing',
+    Webinars = 'Webinars',
+    WebsiteAppBuilding = 'Website & App Building',
+  }
   
   export const getApp = async (name: string = process.env.SAASKIT_APP ?? 'saas.dev') => {
     const secret = process.env.SAASKIT_SECRET ?? 'anonymous'
