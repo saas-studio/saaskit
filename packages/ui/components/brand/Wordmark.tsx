@@ -1,17 +1,8 @@
-import React, { FC } from 'react'
+import React from 'react'
 import { useGoogleFonts, GoogleFontsStatus } from "@flayyer/use-googlefonts";
 
-export interface Props {
-  name?: string,
-  color?: string,
-  fontFamily?: string,
-  nameLeft?: string,
-  nameRight?: string,
-  fontLeft?: string,
-  fontRight?: string,
-}
 
-export const Wordmark: FC<Props> = ({name = 'SaaS.Dev', color = 'gray-900', fontFamily = 'Cabin'}) => {
+export default function Wordmark ({name = 'SaaS.Dev', color = 'gray-900', fontFamily = 'Cabin'}) {
     const font = useGoogleFonts([
         {
             family: fontFamily, // Family Name
