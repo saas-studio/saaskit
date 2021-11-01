@@ -1,5 +1,6 @@
 {
   "name": "@saaskit/zapier-marketing",
+  "version": "0.2.1",
   "private": false,
   "devDependencies": {
     "lerna": "^4.0.0"
