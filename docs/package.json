@@ -1,5 +1,6 @@
 {
-  "name": "nextra",
+  "name": "saaskit-docs",
+  "private": true,
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,7 +9,7 @@
     "start": "next start",
     "build": "next build"
   },
-  "author": "Shu Ding",
+  "author": "SaaS.Dev",
   "license": "MIT",
   "dependencies": {
     "next": "^11.0.1",
