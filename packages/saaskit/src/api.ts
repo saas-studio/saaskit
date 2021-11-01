@@ -14,8 +14,12 @@ export interface CRUD {
 }
 
 export interface Source extends Resource {
-    name?: string | 'SaaS.Dev' | 'Firebase' | 'Supabase' | 'Fauna'
+    name?: string
     resources?: [] | Resource | Resource[]
+}
+
+export interface CRUDSource extends Source {
+    name: 'SaaS.Dev' | 'Firebase' | 'Supabase' | 'Fauna' | 'Upstash'
 }
 
 export interface Endpoint extends Resource {
@@ -43,8 +47,9 @@ export interface Resource<Data = unknown> {
     basePath?: string | URL | Domain
     headers?: Headers
     onRequest?: (ctx: Context) => Promise<void>
-    onResponse?: (ctx: Context) => Response | Data
-    onSuccess?: (ctx: Context) => Response | Data
+    onResponse?: (ctx: Context) => Response
+    onSuccess?: (ctx: Context) => Data
+    fetcher?: (ctx: Context) => FetcherResponse<Data>
 }
 
 export type FetcherResponse<Data = unknown> = Data | Promise<Data>
