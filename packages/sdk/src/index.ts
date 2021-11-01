@@ -1,6 +1,3 @@
-export const sum = (a: number, b: number) => {
-  if ('development' === process.env.NODE_ENV) {
-    console.log('boop');
-  }
-  return a + b;
-};
+export default {
+  generate: (name = 'test') => console.log(`Generating SDK for ${name}`)
+}
