@@ -1,5 +1,5 @@
 {
-	"name": "create-saas",
+	"name": "create-saaskit-app",
 	"private": false,
 	"version": "0.2.0",
 	"keywords": [
@@ -44,5 +44,6 @@
 	},
 	"engines": {
 		"node": ">=12.22.0"
-	}
+	},
+	"gitHead": "0ed743604eadb042ceee54568a3e645a4b4cc35a"
 }
