@@ -12,11 +12,16 @@
   "author": "SaaS.Dev",
   "license": "MIT",
   "dependencies": {
+    "@tailwindcss/aspect-ratio": "^0.3.0",
+    "add": "^2.0.6",
     "next": "^11.0.1",
     "nextra": "^1.1.0",
     "nextra-theme-docs": "^1.2.2",
     "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "react-dom": "^17.0.1",
+    "react-iframe": "^1.8.0",
+    "react-youtube": "^7.13.1",
+    "yarn": "^1.22.17"
   },
   "devDependencies": {
     "prettier": "^2.0.5"
