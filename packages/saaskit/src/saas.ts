@@ -43,7 +43,8 @@ export interface SaaS extends Product {
     website?: Website | LandingPage
     experiments?: [] | SaaS[] | Experiment[],
     integrations?: [] | Integration[],
-    plugins?: [] | Plugin[]
+    plugins?: [] | Plugin[],
+    state?: 'loading' | 'loaded' | 'generated' | 'failed'
   }
 
   export interface Product extends Story {
@@ -99,7 +100,7 @@ export interface SaaS extends Product {
   
 
 
-  enum Category {
+  export enum Category {
     Accounting = 'Accounting',
     AdsConversion = 'Ads & Conversion',
     Analytics = 'Analytics',

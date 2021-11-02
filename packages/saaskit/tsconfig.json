@@ -1,6 +1,6 @@
 {
   // see https://www.typescriptlang.org/tsconfig to better understand tsconfigs
-  "include": ["src", "types"],
+  "include": ["src", "types", "../ui/components/saas-provider.ts", "../ui/components/with-saas.ts", "../ui/components/use-saas.ts"],
   "compilerOptions": {
     "module": "esnext",
     "lib": ["dom", "esnext"],

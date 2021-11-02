@@ -155,3 +155,73 @@ export type Fetcher<Data = unknown, ResourceKey extends Key = Key> =
         set(key: Key, value: Data): void
         delete(key: Key): void
       }
+      
+    export type Middleware = (
+        useSWRNext: void //SWRHook
+      ) => <Data = any, Error = any, Args extends Key = Key>(
+        key: Args,
+        fetcher: Fetcher<Data, Args> | null,
+        config: Configuration<Data, Error>
+      ) => void //Response<Data, Error>
+
+export type Configuration<
+  Data = any,
+  Error = any,
+  SWRKey extends Key = Key
+  > = Partial<PublicConfiguration<Data, Error, SWRKey>>
+
+  export type FullConfiguration = InternalConfiguration & PublicConfiguration
+
+      export interface InternalConfiguration {
+        cache: Cache
+        mutate: ScopedMutator
+      }
+      
+      export interface PublicConfiguration<
+        Data = any,
+        Error = any,
+        SWRKey extends Key = Key
+      > {
+        errorRetryInterval: number
+        errorRetryCount?: number
+        loadingTimeout: number
+        focusThrottleInterval: number
+        dedupingInterval: number
+        refreshInterval?: number
+        refreshWhenHidden?: boolean
+        refreshWhenOffline?: boolean
+        revalidateOnFocus: boolean
+        revalidateOnReconnect: boolean
+        revalidateOnMount?: boolean
+        revalidateIfStale: boolean
+        shouldRetryOnError: boolean
+        suspense?: boolean
+        fallbackData?: Data
+        fetcher?: Fetcher<Data, SWRKey>
+        use?: Middleware[]
+        fallback: { [key: string]: any }
+      
+        isPaused: () => boolean
+        onLoadingSlow: (
+          key: string,
+          config: Readonly<PublicConfiguration<Data, Error, SWRKey>>
+        ) => void
+        onSuccess: (
+          data: Data,
+          key: string,
+          config: Readonly<PublicConfiguration<Data, Error, SWRKey>>
+        ) => void
+        onError: (
+          err: Error,
+          key: string,
+          config: Readonly<PublicConfiguration<Data, Error, SWRKey>>
+        ) => void
+        onErrorRetry: (
+          err: Error,
+          key: string,
+          config: Readonly<PublicConfiguration<Data, Error, SWRKey>>,
+          // revalidate: Revalidator,
+          // revalidateOpts: Required<RevalidatorOptions>
+        ) => void
+        onDiscarded: (key: string) => void
+      }
