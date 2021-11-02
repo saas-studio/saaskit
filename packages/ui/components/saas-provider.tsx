@@ -1,11 +1,15 @@
-import { createContext, useState } from 'react'
+import { createContext, useState } from "react"
 import { SaaS } from 'saaskit'
 
-const SaaSContext = createContext<SaaS>({})
+export type SaaSContent = {
+    saas: SaaS
+    setSaaS:(saas: SaaS) => void
+}
 
-export const SaaSProvider = ({saas: SaaS, children: JSX.Element}) => {
+export const SaaSProvider = (init: SaaS, children: JSX.Element) => {
 
-    const [saas, setSaaS] = useState(saas)
+    const [saas, setSaaS] = useState<SaaS>(init)
+    const SaaSContext = createContext<SaaSContent>({saas, setSaaS})
 
     return (
         <SaaSContext.Provider value={{saas, setSaaS}}>

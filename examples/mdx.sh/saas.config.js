@@ -1,6 +1,6 @@
 import slugify from 'slugify'
 
-export const app = {
+export default {
   persona: 'Coder',
   problem: {
     villain: 'Jira',
