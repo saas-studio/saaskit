@@ -2,7 +2,7 @@ import { NextWebVitalsMetric } from "next/dist/next-server/lib/utils"
 
 export function reportWebVitals(metric: NextWebVitalsMetric) {
   const body = JSON.stringify(metric)
-  const url = 'https://example.com/analytics'
+  const url = 'https://saas.dev/api/analytics'
 
   // Use `navigator.sendBeacon()` if available, falling back to `fetch()`.
   if (navigator.sendBeacon) {
