@@ -1,3 +1,7 @@
+export type PropertyTypes = 'string' | 'bool' | 'int' | 'decimal' | 'currency' | 'date'
+export type OptionalTypes = '' | '?'
+// export type NounTypes = `${PropertyTypes}${OptionalTypes}`
+
 export interface Noun<T = void> {
     noun?: string
     plural?: string

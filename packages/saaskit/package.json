@@ -54,6 +54,7 @@
   },
   "dependencies": {
     "isomorphic-fetch": "^3.0.0",
-    "schema-dts": "^1.0.0"
+    "schema-dts": "^1.0.0",
+    "slugify": "^1.6.1"
   }
 }

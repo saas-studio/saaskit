@@ -56,9 +56,10 @@ export interface SaaS extends Product {
     },
   }
 
-  export interface API {
+  export interface API extends SaaS {
     name?: string
   }
+  
   export interface Experiment {
     weight?: number
     variant?: SaaS
@@ -96,6 +97,8 @@ export interface SaaS extends Product {
     cons?: string[];
   };
   
+
+
   enum Category {
     Accounting = 'Accounting',
     AdsConversion = 'Ads & Conversion',
