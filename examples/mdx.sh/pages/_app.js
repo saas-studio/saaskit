@@ -1,10 +1,16 @@
 import 'tailwindcss/tailwind.css'
-import { Layout, reportWebVitals } from '@saaskit/web'
+import { SessionProvider } from 'next-auth/react'
+import { Layout } from '@saaskit/web'
 
-export const reportWebVitals
+export { reportWebVitals } from '@saaskit/web'
 
-function MySaaS({ Component, pageProps }) {
-  return <Layout><Component {...pageProps} /></Layout>
+export default function App({
+  Component,
+  pageProps: { session, ...pageProps },
+}) {
+  return (
+    <SessionProvider session={session}>
+      <Component {...pageProps} />
+    </SessionProvider>
+  )
 }
-
-export default SaaS

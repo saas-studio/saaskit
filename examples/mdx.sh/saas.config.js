@@ -28,7 +28,7 @@ export default {
   nouns: {
     page: {
       name: 'string',
-      slug: page => slugify(page.name),
+      // slug: page => slugify(page.name),
       title: 'string?',
       subtitle: 'string?',
       content: 'mdx?',
@@ -36,9 +36,9 @@ export default {
       layoutModule: 'url?', 
       images: ['image'],
       attachments: ['attachment'],
-      categories: [app.nouns.category],
-      tags: [app.nouns.tag],
-      teams: [app.nouns.team],
+      categories: 'app.nouns.category[]',
+      tags: 'app.nouns.tag[]',
+      teams: 'app.nouns.team[]',
     },
     category: {
       name: 'string',
@@ -50,12 +50,12 @@ export default {
       name: 'string',
       icon: 'icon',
       header: 'image',
-      members: [app.nouns.user],
+      members: 'app.nouns.user[]',
     },
     user: {
       name: 'string?',
       email: 'email',
-      invitedBy: ctx => ctx.createdBy,
+      // invitedBy: ctx => ctx.createdBy,
     },
   },
   experiments: [],

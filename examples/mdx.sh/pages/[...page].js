@@ -1,4 +1,5 @@
 import { LandingPage, getSaaS } from '@saaskit/web'
+import saas from '../saas.config'
 
 export default function Page(saas) {
     return (
@@ -7,8 +8,15 @@ export default function Page(saas) {
 }
 
 export async function getStaticProps(context) {
-    const saas = getSaaS(context)
+    // const saas = getSaaS(context)
     return {
-        props: {saas}
+        props: saas
     }
 } 
+
+export async function getStaticPaths() {
+    return {
+      paths: [],
+      fallback: 'blocking' 
+    }
+  }
