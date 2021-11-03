@@ -88,5 +88,6 @@
     "react-icons": "^4.3.1",
     "rollup-plugin-postcss": "^4.0.1",
     "saaskit": "latest"
-  }
+  },
+  "gitHead": "7ce8d069a9e21a33b136be9640cb2b44585c71fa"
 }
