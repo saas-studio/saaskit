@@ -23,7 +23,7 @@ export interface SaaS extends Product {
       darkMode?: boolean,
     },
     nouns?: {
-      [key: string]: Noun
+      [key: string]: Noun & KeyValue<Types>
     },
     verbs?: {
       [key: string]: any
@@ -47,12 +47,15 @@ export interface SaaS extends Product {
     state?: 'loading' | 'loaded' | 'generated' | 'failed'
   }
 
-  export type Types = 'string' | 'integer' | 'decimal' | 'currency' | 'percentage' | 'image' | 'attachments'
 
-  export type ConditionalStatements = 'is' | 'isNot' | 'contains' | 'doesNotContain' | 'startsWith' | 'endsWith' | 'isEmpty' | 'isNotEmpty' | 'isCurrentUsers' | 'isNotCurrentUsers'
-  export type ConditionOptions = '' | '?' | '[]'
-  export type Conditions = `${ConditionalStatements}${ConditionOptions}`
-  
+  export type BaseTypes = 'string' | 'integer' | 'decimal' | 'currency' | 'percentage' | 'image' | 'attachments'
+  export type TypeOptions = '' | '?' | '[]'
+  export type Types = `${BaseTypes}${TypeOptions}`
+
+  export interface KeyValue<T = String> {
+    [key: string]: T
+  }
+
   export interface Product extends Story {
     category?: Category | Category[]
     callToAction?: {

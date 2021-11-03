@@ -17,6 +17,8 @@ export interface Noun<T = void> {
     search?: (criteria: object, ctx: Context) => T | T[]
   }
 
+  export type ConditionalStatements = 'is' | 'isNot' | 'contains' | 'doesNotContain' | 'startsWith' | 'endsWith' | 'isEmpty' | 'isNotEmpty' | 'isCurrentUsers' | 'isNotCurrentUsers'
+  
 export interface ProperNoun<T = void> extends Noun<T> {
 
 }
