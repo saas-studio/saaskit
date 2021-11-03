@@ -1,5 +1,5 @@
 {
-  "name": "sdk-template",
+  "name": "@saaskit/sdk-template",
   "private": true,
   "repository": {},
   "description": "SDK Template from SaaSkit",
