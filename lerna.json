@@ -1,6 +1,6 @@
 {
   "packages": [
-    "examples/*/sdk",
+    "examples/**/sdk",
     "integrations/*",
     "marketing/*",
     "packages/*"
