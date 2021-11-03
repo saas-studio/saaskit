@@ -1,7 +1,7 @@
 import { Story } from './story'
 import { Noun } from './semantics'
 import { Logo, Color, Font } from './marketing'
-import { LandingPage, Website } from '.';
+import { Icon, LandingPage, Website } from '.';
 
 export interface SaaS extends Product {
     callToAction?: {
@@ -47,6 +47,12 @@ export interface SaaS extends Product {
     state?: 'loading' | 'loaded' | 'generated' | 'failed'
   }
 
+  export type Types = 'string' | 'integer' | 'decimal' | 'currency' | 'percentage' | 'image' | 'attachments'
+
+  export type ConditionalStatements = 'is' | 'isNot' | 'contains' | 'doesNotContain' | 'startsWith' | 'endsWith' | 'isEmpty' | 'isNotEmpty' | 'isCurrentUsers' | 'isNotCurrentUsers'
+  export type ConditionOptions = '' | '?' | '[]'
+  export type Conditions = `${ConditionalStatements}${ConditionOptions}`
+  
   export interface Product extends Story {
     category?: Category | Category[]
     callToAction?: {
@@ -55,6 +61,20 @@ export interface SaaS extends Product {
           price?: number, 
         },
     },
+  }
+
+  export interface App extends SaaS {
+    navigation?: string[] | Navigation
+    icon?: string | Icon
+    css?: string | CSS
+  }
+
+  export type CSS = String
+
+  export interface Navigation {
+    [key: string]: String | {
+      [key: string]: String
+    }
   }
 
   export interface API extends SaaS {
