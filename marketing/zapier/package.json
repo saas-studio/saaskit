@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/zapier-marketing",
-  "version": "0.2.3",
+  "version": "0.2.6",
   "private": false,
   "description": "SaaSkit integration with Zapier",
   "repository": "saas-studio/saaskit/integrations/zapier",

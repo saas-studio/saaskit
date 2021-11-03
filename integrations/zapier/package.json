@@ -1,7 +1,7 @@
 {
   "name": "@saaskit/zapier",
   "private": false,
-  "version": "0.2.3",
+  "version": "0.2.6",
   "description": "SaaSkit integration with Zapier",
   "repository": "saas-studio/saaskit/integrations/zapier",
   "homepage": "https://saaskit.js.org/",

@@ -1,7 +1,7 @@
 {
 	"name": "@saaskit/video",
 	"private": true,
-	"version": "0.2.2",
+	"version": "0.2.6",
 	"description": "SaaSkit video rendering",
 	"scripts": {
 		"start": "remotion preview src/index.tsx",

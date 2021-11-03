@@ -2,7 +2,7 @@
   "name": "@saaskit/web",
   "private": false,
   "author": "SaaS.Dev",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",

@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/twitter",
-  "version": "0.2.3",
+  "version": "0.2.6",
   "private": false,
   "description": "SaaSkit integration with Twitter",
   "repository": "saas-studio/saaskit/integrations/twitter",
