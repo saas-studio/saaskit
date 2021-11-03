@@ -2,7 +2,7 @@
   "name": "saas.js",
   "repository": {},
   "description": "Javascript SaaS (Software-as-a-Service) App & API Framework",
-  "version": "0.2.0",
+  "version": "0.2.4",
   "homepage": "https://saas.js.org",
   "author": "SaaS.Dev",
   "license": "MIT",
