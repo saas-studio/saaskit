@@ -2,11 +2,12 @@
 
 ## Getting Started
 ```bash
-npm i mdx.sh
+npm i mdxsh
 # or
-yarn add mdx.sh
+yarn add mdxsh
 ```
+
 ## To duplicate this sample
-```bash
-npx create-saas-app -e mdx.sh
+```javascript
+mdxsh.get('mysite.com')
 ```
