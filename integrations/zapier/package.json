@@ -12,6 +12,7 @@
     "test": "mocha --recursive"
   },
   "dependencies": {
+    "@schemastore/package": "^0.0.6",
     "saaskit": "latest",
     "zapier-platform-core": "8.0.1"
   },
