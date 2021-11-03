@@ -1,5 +1,14 @@
 {
-  "private": true,
+  "name": "mdx.sh",
+  "repository": {},
+  "description": "MDX.sh Abstract SaaS.js App, API, Website, & Documentation",
+  "version": "3.3.3",
+  "keywords": [
+    "mdx",
+    "headless",
+    "saas",
+    "saaskit"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",

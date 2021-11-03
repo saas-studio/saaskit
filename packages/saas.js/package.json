@@ -1,0 +1,16 @@
+{
+  "name": "saas.js",
+  "repository": {},
+  "description": "Javascript SaaS (Software-as-a-Service) App & API Framework",
+  "version": "0.2.0",
+  "homepage": "https://saas.js.org",
+  "author": "SaaS.Dev",
+  "license": "MIT",
+  "keywords": [
+    "app",
+    "api",
+    "saas",
+    "saas.js",
+    "saaskit"
+  ]
+}
