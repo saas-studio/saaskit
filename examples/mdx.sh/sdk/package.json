@@ -1,6 +1,5 @@
 {
-  "name": "mdx.sh",
-  "private": true,
+  "name": "mdxsh",
   "repository": {},
   "description": "MDX.sh Abstract SaaS.js App, API, Website, & Documentation",
   "version": "0.2.6",
