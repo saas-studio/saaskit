@@ -1,0 +1,15 @@
+{
+  "name": "@saaskit/blueshift",
+  "version": "0.2.0",
+  "private": false,
+  "description": "SaaSkit integration with Blueshift",
+  "repository": "saas-studio/saaskit/integrations/blueshift",
+  "homepage": "https://saaskit.js.org/integrations/blueshift",
+  "author": "SaaS.Dev",
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {
+    "blueshift": "analytics.js-integration-blueshift",
+    "saaskit": "latest"
+  }
+}

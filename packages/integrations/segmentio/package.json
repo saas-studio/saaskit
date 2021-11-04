@@ -1,0 +1,15 @@
+{
+  "name": "@saaskit/segmentio",
+  "version": "0.2.0",
+  "private": false,
+  "description": "SaaSkit integration with Segmentio",
+  "repository": "saas-studio/saaskit/integrations/segmentio",
+  "homepage": "https://saaskit.js.org/integrations/segmentio",
+  "author": "SaaS.Dev",
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {
+    "segmentio": "analytics.js-integration-segmentio",
+    "saaskit": "latest"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "@saaskit/olark",
+  "version": "0.2.0",
+  "private": false,
+  "description": "SaaSkit integration with Olark",
+  "repository": "saas-studio/saaskit/integrations/olark",
+  "homepage": "https://saaskit.js.org/integrations/olark",
+  "author": "SaaS.Dev",
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {
+    "olark": "analytics.js-integration-olark",
+    "saaskit": "latest"
+  }
+}

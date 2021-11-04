@@ -1,0 +1,15 @@
+{
+  "name": "@saaskit/piwik",
+  "version": "0.2.0",
+  "private": false,
+  "description": "SaaSkit integration with Piwik",
+  "repository": "saas-studio/saaskit/integrations/piwik",
+  "homepage": "https://saaskit.js.org/integrations/piwik",
+  "author": "SaaS.Dev",
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {
+    "piwik": "analytics.js-integration-piwik",
+    "saaskit": "latest"
+  }
+}

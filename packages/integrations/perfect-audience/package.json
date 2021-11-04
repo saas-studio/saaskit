@@ -1,0 +1,15 @@
+{
+  "name": "@saaskit/perfect-audience",
+  "version": "0.2.0",
+  "private": false,
+  "description": "SaaSkit integration with Perfect Audience",
+  "repository": "saas-studio/saaskit/integrations/perfect-audience",
+  "homepage": "https://saaskit.js.org/integrations/perfect-audience",
+  "author": "SaaS.Dev",
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {
+    "perfect-audience": "analytics.js-integration-perfect-audience",
+    "saaskit": "latest"
+  }
+}

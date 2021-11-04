@@ -1,0 +1,15 @@
+{
+  "name": "@saaskit/clicktale",
+  "version": "0.2.0",
+  "private": false,
+  "description": "SaaSkit integration with Clicktale",
+  "repository": "saas-studio/saaskit/integrations/clicktale",
+  "homepage": "https://saaskit.js.org/integrations/clicktale",
+  "author": "SaaS.Dev",
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {
+    "clicktale": "analytics.js-integration-clicktale",
+    "saaskit": "latest"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "@saaskit/atatus",
+  "version": "0.2.0",
+  "private": false,
+  "description": "SaaSkit integration with Atatus",
+  "repository": "saas-studio/saaskit/integrations/atatus",
+  "homepage": "https://saaskit.js.org/integrations/atatus",
+  "author": "SaaS.Dev",
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {
+    "atatus": "analytics.js-integration-atatus",
+    "saaskit": "latest"
+  }
+}

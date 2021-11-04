@@ -1,6 +1,7 @@
 const jsonfile = require('jsonfile')
 const fs = require('fs')
 const { capitalCase } = require('capital-case')
+const camelCase = require('camelcase')
 
 const integrations = {
     'adroll': 'analytics.js-integration-adroll',
@@ -110,11 +111,22 @@ function package(name, package) {
     }
 }
 
+function index(name, package) {
+    return `
+    import ${camelCase(name)} from '${package}'
+
+    export default {
+        ${camelCase(name)}
+    }
+    `
+}
+
 for (integration in integrations) {
     console.log(integration)
-    if (!fs.existsSync(`../integrations/${integration}`)) {
-        fs.mkdirSync(`../integrations/${integration}`)
+    if (!fs.existsSync(`../../integrations/${integration}`)) {
+        fs.mkdirSync(`../../integrations/${integration}`)
     }
     jsonfile.writeFileSync(`../integrations/${integration}/package.json`, package(integration, integrations[integration]), { spaces: 2, EOL: '\r\n' })
+    fs.writeFileSync(`../integrations/${integration}/index.js`, index(integration, integrations[integration]))
 }
   

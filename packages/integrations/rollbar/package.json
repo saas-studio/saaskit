@@ -1,0 +1,15 @@
+{
+  "name": "@saaskit/rollbar",
+  "version": "0.2.0",
+  "private": false,
+  "description": "SaaSkit integration with Rollbar",
+  "repository": "saas-studio/saaskit/integrations/rollbar",
+  "homepage": "https://saaskit.js.org/integrations/rollbar",
+  "author": "SaaS.Dev",
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {
+    "rollbar": "analytics.js-integration-rollbar",
+    "saaskit": "latest"
+  }
+}

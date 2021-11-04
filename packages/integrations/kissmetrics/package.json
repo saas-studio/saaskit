@@ -1,0 +1,15 @@
+{
+  "name": "@saaskit/kissmetrics",
+  "version": "0.2.0",
+  "private": false,
+  "description": "SaaSkit integration with Kissmetrics",
+  "repository": "saas-studio/saaskit/integrations/kissmetrics",
+  "homepage": "https://saaskit.js.org/integrations/kissmetrics",
+  "author": "SaaS.Dev",
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {
+    "kissmetrics": "analytics.js-integration-kissmetrics",
+    "saaskit": "latest"
+  }
+}
