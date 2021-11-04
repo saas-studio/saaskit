@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/tapstream",
-  "version": "0.2.0",
+  "version": "0.2.9",
   "private": false,
   "description": "SaaSkit integration with Tapstream",
   "repository": "saas-studio/saaskit/integrations/tapstream",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "tapstream": "analytics.js-integration-tapstream",
-    "saaskit": "latest"
+    "saaskit": "latest",
+    "tapstream": "analytics.js-integration-tapstream"
   }
 }

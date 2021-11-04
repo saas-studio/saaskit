@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/saasquatch",
-  "version": "0.2.0",
+  "version": "0.2.9",
   "private": false,
   "description": "SaaSkit integration with Saasquatch",
   "repository": "saas-studio/saaskit/integrations/saasquatch",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "saasquatch": "analytics.js-integration-saasquatch",
-    "saaskit": "latest"
+    "saaskit": "latest",
+    "saasquatch": "analytics.js-integration-saasquatch"
   }
 }

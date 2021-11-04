@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/kenshoo",
-  "version": "0.2.0",
+  "version": "0.2.9",
   "private": false,
   "description": "SaaSkit integration with Kenshoo",
   "repository": "saas-studio/saaskit/integrations/kenshoo",

@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/perfect-audience",
-  "version": "0.2.0",
+  "version": "0.2.9",
   "private": false,
   "description": "SaaSkit integration with Perfect Audience",
   "repository": "saas-studio/saaskit/integrations/perfect-audience",

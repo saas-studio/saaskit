@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/userlike",
-  "version": "0.2.0",
+  "version": "0.2.9",
   "private": false,
   "description": "SaaSkit integration with Userlike",
   "repository": "saas-studio/saaskit/integrations/userlike",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "userlike": "analytics.js-integration-userlike",
-    "saaskit": "latest"
+    "saaskit": "latest",
+    "userlike": "analytics.js-integration-userlike"
   }
 }

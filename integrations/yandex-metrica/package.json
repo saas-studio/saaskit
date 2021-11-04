@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/yandex-metrica",
-  "version": "0.2.0",
+  "version": "0.2.9",
   "private": false,
   "description": "SaaSkit integration with Yandex Metrica",
   "repository": "saas-studio/saaskit/integrations/yandex-metrica",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "yandex-metrica": "analytics.js-integration-yandex-metrica",
-    "saaskit": "latest"
+    "saaskit": "latest",
+    "yandex-metrica": "analytics.js-integration-yandex-metrica"
   }
 }

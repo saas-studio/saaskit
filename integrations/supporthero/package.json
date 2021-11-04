@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/supporthero",
-  "version": "0.2.0",
+  "version": "0.2.9",
   "private": false,
   "description": "SaaSkit integration with Supporthero",
   "repository": "saas-studio/saaskit/integrations/supporthero",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "supporthero": "analytics.js-integration-supporthero",
-    "saaskit": "latest"
+    "saaskit": "latest",
+    "supporthero": "analytics.js-integration-supporthero"
   }
 }
