@@ -1,4 +1,5 @@
+// import Zapier from '@saaskit/zapier-marketing'
 
 export default {
-  hello: 'world'
+  zapier: {} //Zapier
 }
