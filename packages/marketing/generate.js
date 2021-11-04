@@ -135,8 +135,8 @@ for (integration in integrations) {
     if (!fs.existsSync(`../../integrations/${integration}`)) {
         fs.mkdirSync(`../../integrations/${integration}`)
     }
-    jsonfile.writeFileSync(`../integrations/${integration}/package.json`, package(integration, integrations[integration]), { spaces: 2, EOL: '\r\n' })
-    fs.writeFileSync(`../integrations/${integration}/index.js`, index(integration, integrations[integration]))
-    fs.writeFileSync(`../integrations/${integration}/README.md`, readme(integration, integrations[integration]))
+    jsonfile.writeFileSync(`../../integrations/${integration}/package.json`, package(integration, integrations[integration]), { spaces: 2, EOL: '\r\n' })
+    fs.writeFileSync(`../../integrations/${integration}/index.js`, index(integration, integrations[integration]))
+    fs.writeFileSync(`../../integrations/${integration}/README.md`, readme(integration, integrations[integration]))
 }
   
