@@ -16,6 +16,7 @@
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
+    "generate": "node generate",
     "test": "tsdx test",
     "lint": "tsdx lint",
     "prepare": "tsdx build",
@@ -47,6 +48,7 @@
   "devDependencies": {
     "@size-limit/preset-small-lib": "^6.0.4",
     "husky": "^7.0.4",
+    "jsonfile": "^6.1.0",
     "size-limit": "^6.0.4",
     "tsdx": "^0.14.1",
     "tslib": "^2.3.1",
