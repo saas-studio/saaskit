@@ -25,7 +25,7 @@ export interface SaaS extends Product {
       darkMode?: boolean,
     },
     nouns?: {
-      [key: string]: Noun & KeyValue<Types>
+      [key: string]: Noun & KeyValue<BaseTypes>
     },
     verbs?: {
       [key: string]: any
@@ -52,7 +52,7 @@ export interface SaaS extends Product {
 
   export type BaseTypes = 'string' | 'integer' | 'decimal' | 'currency' | 'percentage' | 'image' | 'attachments'
   export type TypeOptions = '' | '?' | '[]'
-  export type Types = `${BaseTypes}${TypeOptions}`
+  // export type Types = `${BaseTypes}${TypeOptions}`
 
   export interface KeyValue<T = String> {
     [key: string]: T
