@@ -131,7 +131,7 @@ function readme(name) {
 }
 
 for (integration in integrations) {
-    console.log(integration)
+    console.log(`${capitalCase(integration)},${integration},${camelCase(integration)},${`@saaskit/${integration}`}`)
     if (!fs.existsSync(`../../integrations/${integration}`)) {
         fs.mkdirSync(`../../integrations/${integration}`)
     }
