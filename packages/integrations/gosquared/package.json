@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Gosquared",
   "repository": "saas-studio/saaskit/integrations/gosquared",
   "homepage": "https://saaskit.js.org/integrations/gosquared",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-gosquared",
+    "gosquared"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Outbound",
   "repository": "saas-studio/saaskit/integrations/outbound",
   "homepage": "https://saaskit.js.org/integrations/outbound",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-outbound",
+    "outbound"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

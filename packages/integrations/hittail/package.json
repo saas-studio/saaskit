@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Hittail",
   "repository": "saas-studio/saaskit/integrations/hittail",
   "homepage": "https://saaskit.js.org/integrations/hittail",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-hittail",
+    "hittail"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Amplitude",
   "repository": "saas-studio/saaskit/integrations/amplitude",
   "homepage": "https://saaskit.js.org/integrations/amplitude",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-amplitude",
+    "amplitude"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Quantcast",
   "repository": "saas-studio/saaskit/integrations/quantcast",
   "homepage": "https://saaskit.js.org/integrations/quantcast",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-quantcast",
+    "quantcast"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

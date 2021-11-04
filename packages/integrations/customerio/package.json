@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Customerio",
   "repository": "saas-studio/saaskit/integrations/customerio",
   "homepage": "https://saaskit.js.org/integrations/customerio",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-customerio",
+    "customerio"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

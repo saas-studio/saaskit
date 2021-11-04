@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Uservoice",
   "repository": "saas-studio/saaskit/integrations/uservoice",
   "homepage": "https://saaskit.js.org/integrations/uservoice",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-uservoice",
+    "uservoice"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

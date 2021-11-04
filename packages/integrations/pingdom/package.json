@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Pingdom",
   "repository": "saas-studio/saaskit/integrations/pingdom",
   "homepage": "https://saaskit.js.org/integrations/pingdom",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-pingdom",
+    "pingdom"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

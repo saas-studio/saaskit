@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Awesm",
   "repository": "saas-studio/saaskit/integrations/awesm",
   "homepage": "https://saaskit.js.org/integrations/awesm",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-awesm",
+    "awesm"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

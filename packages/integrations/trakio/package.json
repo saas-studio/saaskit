@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Trakio",
   "repository": "saas-studio/saaskit/integrations/trakio",
   "homepage": "https://saaskit.js.org/integrations/trakio",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-trakio",
+    "trakio"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

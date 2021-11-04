@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Wootric",
   "repository": "saas-studio/saaskit/integrations/wootric",
   "homepage": "https://saaskit.js.org/integrations/wootric",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-wootric",
+    "wootric"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

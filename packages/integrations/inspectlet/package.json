@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Inspectlet",
   "repository": "saas-studio/saaskit/integrations/inspectlet",
   "homepage": "https://saaskit.js.org/integrations/inspectlet",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-inspectlet",
+    "inspectlet"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

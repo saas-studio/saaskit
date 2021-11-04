@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Piwik",
   "repository": "saas-studio/saaskit/integrations/piwik",
   "homepage": "https://saaskit.js.org/integrations/piwik",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-piwik",
+    "piwik"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

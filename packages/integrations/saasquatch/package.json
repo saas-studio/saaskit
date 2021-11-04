@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Saasquatch",
   "repository": "saas-studio/saaskit/integrations/saasquatch",
   "homepage": "https://saaskit.js.org/integrations/saasquatch",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-saasquatch",
+    "saasquatch"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

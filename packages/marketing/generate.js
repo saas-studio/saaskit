@@ -101,6 +101,7 @@ function package(name, package) {
         "description": `SaaSkit integration with ${capitalCase(name)}`,
         "repository": `saas-studio/saaskit/integrations/${name}`,
         "homepage": `https://saaskit.js.org/integrations/${name}`,
+        "keywords": ["saas","analytics","saaskit",`saaskit-${name}`, name],
         "author": "SaaS.Dev",
         "license": "MIT",
         "main": "index.js",
@@ -121,6 +122,14 @@ function index(name, package) {
     `
 }
 
+function readme(name) {
+    return `
+# **SaaS**kit.js Integration with ${capitalCase(name)}
+
+[**SaaS**kit.js](https://saaskit.js.org) from [SaaS.Dev](https://saas.dev) provides an integration with [${capitalCase(name)}](https://saaskit.js.org/integrations/${name})
+`
+}
+
 for (integration in integrations) {
     console.log(integration)
     if (!fs.existsSync(`../../integrations/${integration}`)) {
@@ -128,5 +137,6 @@ for (integration in integrations) {
     }
     jsonfile.writeFileSync(`../integrations/${integration}/package.json`, package(integration, integrations[integration]), { spaces: 2, EOL: '\r\n' })
     fs.writeFileSync(`../integrations/${integration}/index.js`, index(integration, integrations[integration]))
+    fs.writeFileSync(`../integrations/${integration}/README.md`, readme(integration, integrations[integration]))
 }
   

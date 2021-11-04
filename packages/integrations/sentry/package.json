@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Sentry",
   "repository": "saas-studio/saaskit/integrations/sentry",
   "homepage": "https://saaskit.js.org/integrations/sentry",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-sentry",
+    "sentry"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

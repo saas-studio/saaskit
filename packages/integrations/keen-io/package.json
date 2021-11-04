@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Keen Io",
   "repository": "saas-studio/saaskit/integrations/keen-io",
   "homepage": "https://saaskit.js.org/integrations/keen-io",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-keen-io",
+    "keen-io"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

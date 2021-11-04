@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Nudgespot",
   "repository": "saas-studio/saaskit/integrations/nudgespot",
   "homepage": "https://saaskit.js.org/integrations/nudgespot",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-nudgespot",
+    "nudgespot"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

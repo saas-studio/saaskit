@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Improvely",
   "repository": "saas-studio/saaskit/integrations/improvely",
   "homepage": "https://saaskit.js.org/integrations/improvely",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-improvely",
+    "improvely"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

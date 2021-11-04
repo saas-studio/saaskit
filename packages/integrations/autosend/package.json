@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Autosend",
   "repository": "saas-studio/saaskit/integrations/autosend",
   "homepage": "https://saaskit.js.org/integrations/autosend",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-autosend",
+    "autosend"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

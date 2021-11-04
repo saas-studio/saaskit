@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Webengage",
   "repository": "saas-studio/saaskit/integrations/webengage",
   "homepage": "https://saaskit.js.org/integrations/webengage",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-webengage",
+    "webengage"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

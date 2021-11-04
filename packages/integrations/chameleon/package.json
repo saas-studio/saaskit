@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Chameleon",
   "repository": "saas-studio/saaskit/integrations/chameleon",
   "homepage": "https://saaskit.js.org/integrations/chameleon",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-chameleon",
+    "chameleon"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

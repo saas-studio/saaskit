@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Bing Ads",
   "repository": "saas-studio/saaskit/integrations/bing-ads",
   "homepage": "https://saaskit.js.org/integrations/bing-ads",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-bing-ads",
+    "bing-ads"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

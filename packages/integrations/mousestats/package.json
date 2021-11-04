@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Mousestats",
   "repository": "saas-studio/saaskit/integrations/mousestats",
   "homepage": "https://saaskit.js.org/integrations/mousestats",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-mousestats",
+    "mousestats"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

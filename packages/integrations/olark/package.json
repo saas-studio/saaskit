@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Olark",
   "repository": "saas-studio/saaskit/integrations/olark",
   "homepage": "https://saaskit.js.org/integrations/olark",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-olark",
+    "olark"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

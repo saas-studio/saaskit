@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Preact",
   "repository": "saas-studio/saaskit/integrations/preact",
   "homepage": "https://saaskit.js.org/integrations/preact",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-preact",
+    "preact"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

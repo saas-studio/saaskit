@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Chartbeat",
   "repository": "saas-studio/saaskit/integrations/chartbeat",
   "homepage": "https://saaskit.js.org/integrations/chartbeat",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-chartbeat",
+    "chartbeat"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

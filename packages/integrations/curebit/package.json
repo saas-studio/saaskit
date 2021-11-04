@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Curebit",
   "repository": "saas-studio/saaskit/integrations/curebit",
   "homepage": "https://saaskit.js.org/integrations/curebit",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-curebit",
+    "curebit"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Vero",
   "repository": "saas-studio/saaskit/integrations/vero",
   "homepage": "https://saaskit.js.org/integrations/vero",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-vero",
+    "vero"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

@@ -4,6 +4,7 @@
   "author": "SaaS.Dev",
   "version": "0.2.6",
   "license": "MIT",
+  "keywords": ["saaskit"],
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "files": [

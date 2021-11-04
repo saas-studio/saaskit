@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Taplytics",
   "repository": "saas-studio/saaskit/integrations/taplytics",
   "homepage": "https://saaskit.js.org/integrations/taplytics",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-taplytics",
+    "taplytics"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

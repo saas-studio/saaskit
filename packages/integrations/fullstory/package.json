@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Fullstory",
   "repository": "saas-studio/saaskit/integrations/fullstory",
   "homepage": "https://saaskit.js.org/integrations/fullstory",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-fullstory",
+    "fullstory"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

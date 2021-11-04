@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Segmentio",
   "repository": "saas-studio/saaskit/integrations/segmentio",
   "homepage": "https://saaskit.js.org/integrations/segmentio",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-segmentio",
+    "segmentio"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

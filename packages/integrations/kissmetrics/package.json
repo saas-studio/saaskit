@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Kissmetrics",
   "repository": "saas-studio/saaskit/integrations/kissmetrics",
   "homepage": "https://saaskit.js.org/integrations/kissmetrics",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-kissmetrics",
+    "kissmetrics"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

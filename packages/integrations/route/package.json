@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Route",
   "repository": "saas-studio/saaskit/integrations/route",
   "homepage": "https://saaskit.js.org/integrations/route",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-route",
+    "route"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

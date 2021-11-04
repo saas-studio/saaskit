@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Elevio",
   "repository": "saas-studio/saaskit/integrations/elevio",
   "homepage": "https://saaskit.js.org/integrations/elevio",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-elevio",
+    "elevio"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

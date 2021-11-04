@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Alexa",
   "repository": "saas-studio/saaskit/integrations/alexa",
   "homepage": "https://saaskit.js.org/integrations/alexa",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-alexa",
+    "alexa"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

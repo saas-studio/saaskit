@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Drip",
   "repository": "saas-studio/saaskit/integrations/drip",
   "homepage": "https://saaskit.js.org/integrations/drip",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-drip",
+    "drip"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

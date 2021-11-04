@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Insidevault",
   "repository": "saas-studio/saaskit/integrations/insidevault",
   "homepage": "https://saaskit.js.org/integrations/insidevault",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-insidevault",
+    "insidevault"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

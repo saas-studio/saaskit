@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Twitter Ads",
   "repository": "saas-studio/saaskit/integrations/twitter-ads",
   "homepage": "https://saaskit.js.org/integrations/twitter-ads",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-twitter-ads",
+    "twitter-ads"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

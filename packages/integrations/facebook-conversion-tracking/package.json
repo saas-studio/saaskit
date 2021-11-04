@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Facebook Conversion Tracking",
   "repository": "saas-studio/saaskit/integrations/facebook-conversion-tracking",
   "homepage": "https://saaskit.js.org/integrations/facebook-conversion-tracking",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-facebook-conversion-tracking",
+    "facebook-conversion-tracking"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Blueshift",
   "repository": "saas-studio/saaskit/integrations/blueshift",
   "homepage": "https://saaskit.js.org/integrations/blueshift",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-blueshift",
+    "blueshift"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Lytics",
   "repository": "saas-studio/saaskit/integrations/lytics",
   "homepage": "https://saaskit.js.org/integrations/lytics",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-lytics",
+    "lytics"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

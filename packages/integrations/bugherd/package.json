@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Bugherd",
   "repository": "saas-studio/saaskit/integrations/bugherd",
   "homepage": "https://saaskit.js.org/integrations/bugherd",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-bugherd",
+    "bugherd"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

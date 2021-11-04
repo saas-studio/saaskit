@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Mojn",
   "repository": "saas-studio/saaskit/integrations/mojn",
   "homepage": "https://saaskit.js.org/integrations/mojn",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-mojn",
+    "mojn"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

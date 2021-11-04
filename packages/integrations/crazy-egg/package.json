@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Crazy Egg",
   "repository": "saas-studio/saaskit/integrations/crazy-egg",
   "homepage": "https://saaskit.js.org/integrations/crazy-egg",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-crazy-egg",
+    "crazy-egg"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

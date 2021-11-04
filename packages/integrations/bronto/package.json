@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Bronto",
   "repository": "saas-studio/saaskit/integrations/bronto",
   "homepage": "https://saaskit.js.org/integrations/bronto",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-bronto",
+    "bronto"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

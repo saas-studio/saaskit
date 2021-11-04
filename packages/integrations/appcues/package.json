@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Appcues",
   "repository": "saas-studio/saaskit/integrations/appcues",
   "homepage": "https://saaskit.js.org/integrations/appcues",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-appcues",
+    "appcues"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

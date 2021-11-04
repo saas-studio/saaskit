@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Comscore",
   "repository": "saas-studio/saaskit/integrations/comscore",
   "homepage": "https://saaskit.js.org/integrations/comscore",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-comscore",
+    "comscore"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

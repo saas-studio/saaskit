@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Extole",
   "repository": "saas-studio/saaskit/integrations/extole",
   "homepage": "https://saaskit.js.org/integrations/extole",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-extole",
+    "extole"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

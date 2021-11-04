@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Satismeter",
   "repository": "saas-studio/saaskit/integrations/satismeter",
   "homepage": "https://saaskit.js.org/integrations/satismeter",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-satismeter",
+    "satismeter"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

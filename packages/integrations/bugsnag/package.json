@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Bugsnag",
   "repository": "saas-studio/saaskit/integrations/bugsnag",
   "homepage": "https://saaskit.js.org/integrations/bugsnag",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-bugsnag",
+    "bugsnag"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

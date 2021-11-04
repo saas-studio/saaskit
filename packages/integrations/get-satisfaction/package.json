@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Get Satisfaction",
   "repository": "saas-studio/saaskit/integrations/get-satisfaction",
   "homepage": "https://saaskit.js.org/integrations/get-satisfaction",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-get-satisfaction",
+    "get-satisfaction"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

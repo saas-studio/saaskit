@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Rollbar",
   "repository": "saas-studio/saaskit/integrations/rollbar",
   "homepage": "https://saaskit.js.org/integrations/rollbar",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-rollbar",
+    "rollbar"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

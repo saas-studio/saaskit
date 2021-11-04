@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Mixpanel",
   "repository": "saas-studio/saaskit/integrations/mixpanel",
   "homepage": "https://saaskit.js.org/integrations/mixpanel",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-mixpanel",
+    "mixpanel"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

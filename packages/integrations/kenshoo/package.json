@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Kenshoo",
   "repository": "saas-studio/saaskit/integrations/kenshoo",
   "homepage": "https://saaskit.js.org/integrations/kenshoo",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-kenshoo",
+    "kenshoo"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

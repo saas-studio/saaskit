@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Intercom",
   "repository": "saas-studio/saaskit/integrations/intercom",
   "homepage": "https://saaskit.js.org/integrations/intercom",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-intercom",
+    "intercom"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

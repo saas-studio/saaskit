@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Woopra",
   "repository": "saas-studio/saaskit/integrations/woopra",
   "homepage": "https://saaskit.js.org/integrations/woopra",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-woopra",
+    "woopra"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

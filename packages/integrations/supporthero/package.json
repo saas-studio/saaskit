@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Supporthero",
   "repository": "saas-studio/saaskit/integrations/supporthero",
   "homepage": "https://saaskit.js.org/integrations/supporthero",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-supporthero",
+    "supporthero"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

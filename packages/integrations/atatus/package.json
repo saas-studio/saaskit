@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Atatus",
   "repository": "saas-studio/saaskit/integrations/atatus",
   "homepage": "https://saaskit.js.org/integrations/atatus",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-atatus",
+    "atatus"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

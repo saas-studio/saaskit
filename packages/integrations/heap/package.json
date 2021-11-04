@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Heap",
   "repository": "saas-studio/saaskit/integrations/heap",
   "homepage": "https://saaskit.js.org/integrations/heap",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-heap",
+    "heap"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

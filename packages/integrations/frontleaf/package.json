@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Frontleaf",
   "repository": "saas-studio/saaskit/integrations/frontleaf",
   "homepage": "https://saaskit.js.org/integrations/frontleaf",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-frontleaf",
+    "frontleaf"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

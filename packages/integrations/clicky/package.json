@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Clicky",
   "repository": "saas-studio/saaskit/integrations/clicky",
   "homepage": "https://saaskit.js.org/integrations/clicky",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-clicky",
+    "clicky"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

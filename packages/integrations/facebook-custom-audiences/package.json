@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Facebook Custom Audiences",
   "repository": "saas-studio/saaskit/integrations/facebook-custom-audiences",
   "homepage": "https://saaskit.js.org/integrations/facebook-custom-audiences",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-facebook-custom-audiences",
+    "facebook-custom-audiences"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

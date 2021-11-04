@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Errorception",
   "repository": "saas-studio/saaskit/integrations/errorception",
   "homepage": "https://saaskit.js.org/integrations/errorception",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-errorception",
+    "errorception"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Clicktale",
   "repository": "saas-studio/saaskit/integrations/clicktale",
   "homepage": "https://saaskit.js.org/integrations/clicktale",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-clicktale",
+    "clicktale"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

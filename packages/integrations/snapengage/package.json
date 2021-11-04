@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Snapengage",
   "repository": "saas-studio/saaskit/integrations/snapengage",
   "homepage": "https://saaskit.js.org/integrations/snapengage",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-snapengage",
+    "snapengage"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

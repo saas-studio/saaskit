@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Gauges",
   "repository": "saas-studio/saaskit/integrations/gauges",
   "homepage": "https://saaskit.js.org/integrations/gauges",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-gauges",
+    "gauges"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

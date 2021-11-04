@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Hellobar",
   "repository": "saas-studio/saaskit/integrations/hellobar",
   "homepage": "https://saaskit.js.org/integrations/hellobar",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-hellobar",
+    "hellobar"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

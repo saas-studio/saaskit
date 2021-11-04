@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Adwords",
   "repository": "saas-studio/saaskit/integrations/adwords",
   "homepage": "https://saaskit.js.org/integrations/adwords",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-adwords",
+    "adwords"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

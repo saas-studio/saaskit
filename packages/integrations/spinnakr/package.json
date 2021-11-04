@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Spinnakr",
   "repository": "saas-studio/saaskit/integrations/spinnakr",
   "homepage": "https://saaskit.js.org/integrations/spinnakr",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-spinnakr",
+    "spinnakr"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

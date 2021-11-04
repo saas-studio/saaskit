@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Perfect Audience",
   "repository": "saas-studio/saaskit/integrations/perfect-audience",
   "homepage": "https://saaskit.js.org/integrations/perfect-audience",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-perfect-audience",
+    "perfect-audience"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

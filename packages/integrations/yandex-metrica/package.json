@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Yandex Metrica",
   "repository": "saas-studio/saaskit/integrations/yandex-metrica",
   "homepage": "https://saaskit.js.org/integrations/yandex-metrica",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-yandex-metrica",
+    "yandex-metrica"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

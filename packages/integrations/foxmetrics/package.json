@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Foxmetrics",
   "repository": "saas-studio/saaskit/integrations/foxmetrics",
   "homepage": "https://saaskit.js.org/integrations/foxmetrics",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-foxmetrics",
+    "foxmetrics"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

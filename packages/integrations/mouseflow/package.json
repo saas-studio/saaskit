@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Mouseflow",
   "repository": "saas-studio/saaskit/integrations/mouseflow",
   "homepage": "https://saaskit.js.org/integrations/mouseflow",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-mouseflow",
+    "mouseflow"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

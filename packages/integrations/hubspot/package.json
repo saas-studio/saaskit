@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Hubspot",
   "repository": "saas-studio/saaskit/integrations/hubspot",
   "homepage": "https://saaskit.js.org/integrations/hubspot",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-hubspot",
+    "hubspot"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

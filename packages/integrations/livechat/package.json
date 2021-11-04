@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Livechat",
   "repository": "saas-studio/saaskit/integrations/livechat",
   "homepage": "https://saaskit.js.org/integrations/livechat",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-livechat",
+    "livechat"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

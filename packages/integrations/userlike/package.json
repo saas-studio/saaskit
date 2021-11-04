@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Userlike",
   "repository": "saas-studio/saaskit/integrations/userlike",
   "homepage": "https://saaskit.js.org/integrations/userlike",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-userlike",
+    "userlike"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

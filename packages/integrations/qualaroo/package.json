@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Qualaroo",
   "repository": "saas-studio/saaskit/integrations/qualaroo",
   "homepage": "https://saaskit.js.org/integrations/qualaroo",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-qualaroo",
+    "qualaroo"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

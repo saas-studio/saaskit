@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Navilytics",
   "repository": "saas-studio/saaskit/integrations/navilytics",
   "homepage": "https://saaskit.js.org/integrations/navilytics",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-navilytics",
+    "navilytics"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Optimizely",
   "repository": "saas-studio/saaskit/integrations/optimizely",
   "homepage": "https://saaskit.js.org/integrations/optimizely",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-optimizely",
+    "optimizely"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",

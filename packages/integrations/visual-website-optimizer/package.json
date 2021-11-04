@@ -5,6 +5,13 @@
   "description": "SaaSkit integration with Visual Website Optimizer",
   "repository": "saas-studio/saaskit/integrations/visual-website-optimizer",
   "homepage": "https://saaskit.js.org/integrations/visual-website-optimizer",
+  "keywords": [
+    "saas",
+    "analytics",
+    "saaskit",
+    "saaskit-visual-website-optimizer",
+    "visual-website-optimizer"
+  ],
   "author": "SaaS.Dev",
   "license": "MIT",
   "main": "index.js",
