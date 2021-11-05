@@ -1,4 +1,4 @@
-import { Noun, Verb, Adjective, ProperNoun, Word } from './types/semantics'
+import { Noun, Verb, Adjective, ProperNoun, Word } from './types/word'
 // import { Story } from './story'
 
 

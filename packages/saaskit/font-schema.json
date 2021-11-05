@@ -1,0 +1,210 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "type": "object",
+    "additionalProperties": {
+        "$ref": "#/definitions/FontSchemaValue"
+    },
+    "definitions": {
+        "FontSchemaValue": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "family": {
+                    "type": "string"
+                },
+                "displayName": {
+                    "anyOf": [
+                        {
+                            "type": "null"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
+                },
+                "category": {
+                    "$ref": "#/definitions/Category"
+                },
+                "size": {
+                    "type": "integer"
+                },
+                "subsets": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "fonts": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/Font"
+                    }
+                },
+                "axes": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Axe"
+                    }
+                },
+                "unsupportedAxes": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Axe"
+                    }
+                },
+                "designers": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "lastModified": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "dateAdded": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "popularity": {
+                    "type": "integer"
+                },
+                "trending": {
+                    "type": "integer"
+                },
+                "defaultSort": {
+                    "type": "integer"
+                },
+                "androidFragment": {
+                    "anyOf": [
+                        {
+                            "type": "null"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
+                },
+                "isNoto": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "androidFragment",
+                "axes",
+                "category",
+                "dateAdded",
+                "defaultSort",
+                "designers",
+                "displayName",
+                "family",
+                "fonts",
+                "isNoto",
+                "lastModified",
+                "popularity",
+                "size",
+                "subsets",
+                "trending",
+                "unsupportedAxes"
+            ],
+            "title": "FontSchemaValue"
+        },
+        "Axe": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "tag": {
+                    "$ref": "#/definitions/Tag"
+                },
+                "min": {
+                    "type": "number"
+                },
+                "max": {
+                    "type": "integer"
+                },
+                "defaultValue": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "defaultValue",
+                "max",
+                "min",
+                "tag"
+            ],
+            "title": "Axe"
+        },
+        "Font": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "thickness": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "slant": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "width": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "lineHeight": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "lineHeight",
+                "slant",
+                "thickness",
+                "width"
+            ],
+            "title": "Font"
+        },
+        "Tag": {
+            "type": "string",
+            "enum": [
+                "wght",
+                "wdth",
+                "opsz",
+                "SOFT",
+                "WONK",
+                "slnt",
+                "CASL",
+                "CRSV",
+                "MONO"
+            ],
+            "title": "Tag"
+        },
+        "Category": {
+            "type": "string",
+            "enum": [
+                "Sans Serif",
+                "Serif",
+                "Display",
+                "Handwriting",
+                "Monospace"
+            ],
+            "title": "Category"
+        }
+    }
+}

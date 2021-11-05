@@ -17,7 +17,8 @@
     "lint": "tsdx lint",
     "prepare": "tsdx build",
     "size": "size-limit",
-    "analyze": "size-limit --why"
+    "analyze": "size-limit --why",
+    "generate-fonts": "node generate-font-types"
   },
   "husky": {
     "hooks": {
@@ -45,11 +46,16 @@
   ],
   "devDependencies": {
     "@size-limit/preset-small-lib": "^6.0.4",
+    "@types/google.fonts": "^1.0.3",
     "@types/lodash": "^4.14.176",
     "@types/node": "^16.11.6",
+    "@types/tailwindcss": "^2.2.3",
     "husky": "^7.0.4",
+    "jsonfile": "^6.1.0",
+    "quicktype": "^15.0.260",
     "size-limit": "^6.0.4",
     "tailwindcss": "^2.2.19",
+    "ts-node": "^10.4.0",
     "tsdx": "^0.14.1",
     "tslib": "^2.3.1",
     "typescript": "^4.4.4"

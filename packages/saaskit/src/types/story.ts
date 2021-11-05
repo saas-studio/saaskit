@@ -1,4 +1,4 @@
-import { Adjective, Noun } from './types/word'
+import { Adjective, Noun } from './word'
 
 export interface Story {
     persona?: string,
