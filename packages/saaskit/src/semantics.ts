@@ -10,6 +10,7 @@ export interface Noun<T = void> {
     createdBy?: User
     is?: Noun
     partOfSpeech?: 'noun'
+    plan?: string
     get?: (id: string | number, ctx: Context) => T
     onCreate?: (instance: T, ctx: Context) => void | T
     onUpdate?: (instance: T, ctx: Context) => void | T

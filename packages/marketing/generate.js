@@ -3,7 +3,28 @@ const fs = require('fs')
 const { capitalCase } = require('capital-case')
 const camelCase = require('camelcase')
 
-const integrations = {
+const integrations = [
+    'adlearn-open-platform',
+    'adobe-analytics',
+    'adobe-target',
+    'adometry',
+    'adroll',
+    'adwords',
+    'alexa',
+    'ambassador',
+    'amplitude',
+    'appboy',
+    'appcues',
+    'appnexus',
+    'aptrinsic',
+    'asayer',
+    'atatus',
+    'auryc',
+    'awesm',
+    'bing-ads'
+]
+
+const packages = {
     'adroll': '@segment/analytics.js-integration-adroll',
     'adwords': '@segment/analytics.js-integration-adwords',
     'alexa': '@segment/analytics.js-integration-alexa',

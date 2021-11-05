@@ -8,7 +8,7 @@ import { Icon, LandingPage, Website } from '.';
 // export colors
 
 export interface SaaS extends Product {
-    callToAction?: {
+    plans?: {
         [key: string]: { 
           [key: string]: any, 
           annualPrice?: number, 
