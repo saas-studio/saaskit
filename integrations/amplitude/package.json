@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/amplitude",
-  "version": "0.2.10",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Amplitude",
   "repository": "saas-studio/saaskit/integrations/amplitude",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "amplitude": "@segment/analytics.js-integration-amplitude",
+    "@segment/analytics.js-integration-amplitude": "latest",
     "saaskit": "latest"
   }
 }

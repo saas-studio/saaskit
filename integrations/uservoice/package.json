@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/uservoice",
-  "version": "0.2.10",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Uservoice",
   "repository": "saas-studio/saaskit/integrations/uservoice",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "saaskit": "latest",
-    "uservoice": "@segment/analytics.js-integration-uservoice"
+    "@segment/analytics.js-integration-uservoice": "latest",
+    "saaskit": "latest"
   }
 }

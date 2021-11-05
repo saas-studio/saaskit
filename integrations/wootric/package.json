@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/wootric",
-  "version": "0.2.10",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Wootric",
   "repository": "saas-studio/saaskit/integrations/wootric",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "saaskit": "latest",
-    "wootric": "@segment/analytics.js-integration-wootric"
+    "@segment/analytics.js-integration-wootric": "latest",
+    "saaskit": "latest"
   }
 }

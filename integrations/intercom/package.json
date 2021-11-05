@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/intercom",
-  "version": "0.2.10",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Intercom",
   "repository": "saas-studio/saaskit/integrations/intercom",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "intercom": "@segment/analytics.js-integration-intercom",
+    "@segment/analytics.js-integration-intercom": "latest",
     "saaskit": "latest"
   }
 }

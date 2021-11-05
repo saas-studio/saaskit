@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/pingdom",
-  "version": "0.2.10",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Pingdom",
   "repository": "saas-studio/saaskit/integrations/pingdom",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "pingdom": "@segment/analytics.js-integration-pingdom",
+    "@segment/analytics.js-integration-pingdom": "latest",
     "saaskit": "latest"
   }
 }

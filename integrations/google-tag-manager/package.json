@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/google-tag-manager",
-  "version": "0.2.10",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Google Tag Manager",
   "repository": "saas-studio/saaskit/integrations/google-tag-manager",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "google-tag-manager": "@segment/analytics.js-integration-google-tag-manager",
+    "@segment/analytics.js-integration-google-tag-manager": "latest",
     "saaskit": "latest"
   }
 }

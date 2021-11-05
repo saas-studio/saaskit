@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/foxmetrics",
-  "version": "0.2.10",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Foxmetrics",
   "repository": "saas-studio/saaskit/integrations/foxmetrics",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "foxmetrics": "@segment/analytics.js-integration-foxmetrics",
+    "@segment/analytics.js-integration-foxmetrics": "latest",
     "saaskit": "latest"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/extole",
-  "version": "0.2.10",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Extole",
   "repository": "saas-studio/saaskit/integrations/extole",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "extole": "@segment/analytics.js-integration-extole",
+    "@segment/analytics.js-integration-extole": "latest",
     "saaskit": "latest"
   }
 }

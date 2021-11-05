@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/woopra",
-  "version": "0.2.10",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Woopra",
   "repository": "saas-studio/saaskit/integrations/woopra",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "saaskit": "latest",
-    "woopra": "@segment/analytics.js-integration-woopra"
+    "@segment/analytics.js-integration-woopra": "latest",
+    "saaskit": "latest"
   }
 }

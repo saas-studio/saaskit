@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/drip",
-  "version": "0.2.10",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Drip",
   "repository": "saas-studio/saaskit/integrations/drip",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "drip": "@segment/analytics.js-integration-drip",
+    "@segment/analytics.js-integration-drip": "latest",
     "saaskit": "latest"
   }
 }

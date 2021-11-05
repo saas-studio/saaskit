@@ -106,7 +106,7 @@ function package(name, package) {
         "license": "MIT",
         "main": "index.js",
         "dependencies": {
-          [name]: package,
+          [package]: "latest",
           "saaskit": "latest"
         }
     }

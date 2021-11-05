@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/customerio",
-  "version": "0.2.10",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Customerio",
   "repository": "saas-studio/saaskit/integrations/customerio",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "customerio": "@segment/analytics.js-integration-customerio",
+    "@segment/analytics.js-integration-customerio": "latest",
     "saaskit": "latest"
   }
 }

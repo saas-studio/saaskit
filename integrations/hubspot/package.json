@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/hubspot",
-  "version": "0.2.10",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Hubspot",
   "repository": "saas-studio/saaskit/integrations/hubspot",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "hubspot": "@segment/analytics.js-integration-hubspot",
+    "@segment/analytics.js-integration-hubspot": "latest",
     "saaskit": "latest"
   }
 }
