@@ -1,5 +1,5 @@
 import { Story } from './story'
-import { Noun } from './semantics'
+import { Noun } from './types/semantics'
 import { Logo, Color, Font } from './marketing'
 import { Icon, LandingPage, Website } from '.';
 
