@@ -17,3 +17,5 @@ export type Resource = {
     documentation?: string
     schema?: Schema
 }
+
+export type Schema = string
