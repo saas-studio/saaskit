@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/twitter-ads",
-  "version": "0.2.0",
+  "version": "0.2.10",
   "private": false,
   "description": "SaaSkit integration with Twitter Ads",
   "repository": "saas-studio/saaskit/integrations/twitter-ads",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "twitter-ads": "@segment/analytics.js-integration-twitter-ads",
-    "saaskit": "latest"
+    "saaskit": "latest",
+    "twitter-ads": "@segment/analytics.js-integration-twitter-ads"
   }
 }

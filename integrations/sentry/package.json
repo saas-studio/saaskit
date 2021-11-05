@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/sentry",
-  "version": "0.2.0",
+  "version": "0.2.10",
   "private": false,
   "description": "SaaSkit integration with Sentry",
   "repository": "saas-studio/saaskit/integrations/sentry",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "sentry": "@segment/analytics.js-integration-sentry",
-    "saaskit": "latest"
+    "saaskit": "latest",
+    "sentry": "@segment/analytics.js-integration-sentry"
   }
 }

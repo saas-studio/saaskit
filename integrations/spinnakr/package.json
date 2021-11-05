@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/spinnakr",
-  "version": "0.2.0",
+  "version": "0.2.10",
   "private": false,
   "description": "SaaSkit integration with Spinnakr",
   "repository": "saas-studio/saaskit/integrations/spinnakr",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "spinnakr": "@segment/analytics.js-integration-spinnakr",
-    "saaskit": "latest"
+    "saaskit": "latest",
+    "spinnakr": "@segment/analytics.js-integration-spinnakr"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/chameleon",
-  "version": "0.2.0",
+  "version": "0.2.10",
   "private": false,
   "description": "SaaSkit integration with Chameleon",
   "repository": "saas-studio/saaskit/integrations/chameleon",

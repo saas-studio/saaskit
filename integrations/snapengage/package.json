@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/snapengage",
-  "version": "0.2.0",
+  "version": "0.2.10",
   "private": false,
   "description": "SaaSkit integration with Snapengage",
   "repository": "saas-studio/saaskit/integrations/snapengage",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "snapengage": "@segment/analytics.js-integration-snapengage",
-    "saaskit": "latest"
+    "saaskit": "latest",
+    "snapengage": "@segment/analytics.js-integration-snapengage"
   }
 }
