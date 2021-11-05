@@ -1,7 +1,9 @@
 
-    import olark from 'analytics.js-integration-olark'
+    import olark from '@segment/analytics.js-integration-olark'
 
     export default {
-        olark
+        analytics: {
+            olark
+        }
     }
     

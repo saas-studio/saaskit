@@ -1,7 +1,9 @@
 
-    import clicky from 'analytics.js-integration-clicky'
+    import clicky from '@segment/analytics.js-integration-clicky'
 
     export default {
-        clicky
+        analytics: {
+            clicky
+        }
     }
     

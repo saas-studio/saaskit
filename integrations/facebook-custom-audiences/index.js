@@ -1,7 +1,9 @@
 
-    import facebookCustomAudiences from 'analytics.js-integration-facebook-custom-audiences'
+    import facebookCustomAudiences from '@segment/analytics.js-integration-facebook-custom-audiences'
 
     export default {
-        facebookCustomAudiences
+        analytics: {
+            facebookCustomAudiences
+        }
     }
     

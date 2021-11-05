@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/livechat",
-  "version": "0.2.9",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Livechat",
   "repository": "saas-studio/saaskit/integrations/livechat",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "livechat": "analytics.js-integration-livechat",
+    "livechat": "@segment/analytics.js-integration-livechat",
     "saaskit": "latest"
   }
 }

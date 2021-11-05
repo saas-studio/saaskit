@@ -1,7 +1,9 @@
 
-    import yandexMetrica from 'analytics.js-integration-yandex-metrica'
+    import yandexMetrica from '@segment/analytics.js-integration-yandex-metrica'
 
     export default {
-        yandexMetrica
+        analytics: {
+            yandexMetrica
+        }
     }
     

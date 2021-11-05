@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/adwords",
-  "version": "0.2.9",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Adwords",
   "repository": "saas-studio/saaskit/integrations/adwords",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "adwords": "analytics.js-integration-adwords",
+    "adwords": "@segment/analytics.js-integration-adwords",
     "saaskit": "latest"
   }
 }

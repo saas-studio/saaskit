@@ -1,7 +1,9 @@
 
-    import optimizely from 'analytics.js-integration-optimizely'
+    import optimizely from '@segment/analytics.js-integration-optimizely'
 
     export default {
-        optimizely
+        analytics: {
+            optimizely
+        }
     }
     

@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/comscore",
-  "version": "0.2.9",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Comscore",
   "repository": "saas-studio/saaskit/integrations/comscore",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "comscore": "analytics.js-integration-comscore",
+    "comscore": "@segment/analytics.js-integration-comscore",
     "saaskit": "latest"
   }
 }

@@ -1,7 +1,9 @@
 
-    import appcues from 'analytics.js-integration-appcues'
+    import appcues from '@segment/analytics.js-integration-appcues'
 
     export default {
-        appcues
+        analytics: {
+            appcues
+        }
     }
     

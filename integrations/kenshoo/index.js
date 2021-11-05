@@ -1,7 +1,9 @@
 
-    import kenshoo from 'analytics.js-integration-kenshoo'
+    import kenshoo from '@segment/analytics.js-integration-kenshoo'
 
     export default {
-        kenshoo
+        analytics: {
+            kenshoo
+        }
     }
     

@@ -1,7 +1,9 @@
 
-    import getSatisfaction from 'analytics.js-integration-get-satisfaction'
+    import getSatisfaction from '@segment/analytics.js-integration-get-satisfaction'
 
     export default {
-        getSatisfaction
+        analytics: {
+            getSatisfaction
+        }
     }
     

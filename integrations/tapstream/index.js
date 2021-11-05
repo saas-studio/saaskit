@@ -1,7 +1,9 @@
 
-    import tapstream from 'analytics.js-integration-tapstream'
+    import tapstream from '@segment/analytics.js-integration-tapstream'
 
     export default {
-        tapstream
+        analytics: {
+            tapstream
+        }
     }
     

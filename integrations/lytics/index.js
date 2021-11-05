@@ -1,7 +1,9 @@
 
-    import lytics from 'analytics.js-integration-lytics'
+    import lytics from '@segment/analytics.js-integration-lytics'
 
     export default {
-        lytics
+        analytics: {
+            lytics
+        }
     }
     

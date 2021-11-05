@@ -1,7 +1,9 @@
 
-    import alexa from 'analytics.js-integration-alexa'
+    import alexa from '@segment/analytics.js-integration-alexa'
 
     export default {
-        alexa
+        analytics: {
+            alexa
+        }
     }
     

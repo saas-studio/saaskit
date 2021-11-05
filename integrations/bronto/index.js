@@ -1,7 +1,9 @@
 
-    import bronto from 'analytics.js-integration-bronto'
+    import bronto from '@segment/analytics.js-integration-bronto'
 
     export default {
-        bronto
+        analytics: {
+            bronto
+        }
     }
     

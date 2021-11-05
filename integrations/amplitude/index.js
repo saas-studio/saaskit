@@ -1,7 +1,9 @@
 
-    import amplitude from 'analytics.js-integration-amplitude'
+    import amplitude from '@segment/analytics.js-integration-amplitude'
 
     export default {
-        amplitude
+        analytics: {
+            amplitude
+        }
     }
     

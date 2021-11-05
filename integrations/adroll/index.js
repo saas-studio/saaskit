@@ -1,7 +1,9 @@
 
-    import adroll from 'analytics.js-integration-adroll'
+    import adroll from '@segment/analytics.js-integration-adroll'
 
     export default {
-        adroll
+        analytics: {
+            adroll
+        }
     }
     

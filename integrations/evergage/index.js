@@ -1,7 +1,9 @@
 
-    import evergage from 'analytics.js-integration-evergage'
+    import evergage from '@segment/analytics.js-integration-evergage'
 
     export default {
-        evergage
+        analytics: {
+            evergage
+        }
     }
     

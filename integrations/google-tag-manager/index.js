@@ -1,7 +1,9 @@
 
-    import googleTagManager from 'analytics.js-integration-google-tag-manager'
+    import googleTagManager from '@segment/analytics.js-integration-google-tag-manager'
 
     export default {
-        googleTagManager
+        analytics: {
+            googleTagManager
+        }
     }
     

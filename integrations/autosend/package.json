@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/autosend",
-  "version": "0.2.9",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Autosend",
   "repository": "saas-studio/saaskit/integrations/autosend",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "autosend": "analytics.js-integration-autosend",
+    "autosend": "@segment/analytics.js-integration-autosend",
     "saaskit": "latest"
   }
 }

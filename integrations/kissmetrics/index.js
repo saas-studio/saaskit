@@ -1,7 +1,9 @@
 
-    import kissmetrics from 'analytics.js-integration-kissmetrics'
+    import kissmetrics from '@segment/analytics.js-integration-kissmetrics'
 
     export default {
-        kissmetrics
+        analytics: {
+            kissmetrics
+        }
     }
     

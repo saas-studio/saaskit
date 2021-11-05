@@ -1,7 +1,9 @@
 
-    import saasquatch from 'analytics.js-integration-saasquatch'
+    import saasquatch from '@segment/analytics.js-integration-saasquatch'
 
     export default {
-        saasquatch
+        analytics: {
+            saasquatch
+        }
     }
     

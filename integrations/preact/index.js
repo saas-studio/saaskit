@@ -1,7 +1,9 @@
 
-    import preact from 'analytics.js-integration-preact'
+    import preact from '@segment/analytics.js-integration-preact'
 
     export default {
-        preact
+        analytics: {
+            preact
+        }
     }
     

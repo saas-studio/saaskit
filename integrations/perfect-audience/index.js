@@ -1,7 +1,9 @@
 
-    import perfectAudience from 'analytics.js-integration-perfect-audience'
+    import perfectAudience from '@segment/analytics.js-integration-perfect-audience'
 
     export default {
-        perfectAudience
+        analytics: {
+            perfectAudience
+        }
     }
     

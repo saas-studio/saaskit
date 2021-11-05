@@ -1,7 +1,9 @@
 
-    import wootric from 'analytics.js-integration-wootric'
+    import wootric from '@segment/analytics.js-integration-wootric'
 
     export default {
-        wootric
+        analytics: {
+            wootric
+        }
     }
     

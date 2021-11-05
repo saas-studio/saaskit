@@ -1,7 +1,9 @@
 
-    import luckyOrange from 'analytics.js-integration-lucky-orange'
+    import luckyOrange from '@segment/analytics.js-integration-lucky-orange'
 
     export default {
-        luckyOrange
+        analytics: {
+            luckyOrange
+        }
     }
     

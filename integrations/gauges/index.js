@@ -1,7 +1,9 @@
 
-    import gauges from 'analytics.js-integration-gauges'
+    import gauges from '@segment/analytics.js-integration-gauges'
 
     export default {
-        gauges
+        analytics: {
+            gauges
+        }
     }
     

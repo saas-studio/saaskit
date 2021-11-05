@@ -1,7 +1,9 @@
 
-    import navilytics from 'analytics.js-integration-navilytics'
+    import navilytics from '@segment/analytics.js-integration-navilytics'
 
     export default {
-        navilytics
+        analytics: {
+            navilytics
+        }
     }
     

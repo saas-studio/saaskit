@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/chameleon",
-  "version": "0.2.9",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Chameleon",
   "repository": "saas-studio/saaskit/integrations/chameleon",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "chameleon": "analytics.js-integration-chameleon",
+    "chameleon": "@segment/analytics.js-integration-chameleon",
     "saaskit": "latest"
   }
 }

@@ -1,7 +1,9 @@
 
-    import hubspot from 'analytics.js-integration-hubspot'
+    import hubspot from '@segment/analytics.js-integration-hubspot'
 
     export default {
-        hubspot
+        analytics: {
+            hubspot
+        }
     }
     

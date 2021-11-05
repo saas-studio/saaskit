@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/elevio",
-  "version": "0.2.9",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Elevio",
   "repository": "saas-studio/saaskit/integrations/elevio",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "elevio": "analytics.js-integration-elevio",
+    "elevio": "@segment/analytics.js-integration-elevio",
     "saaskit": "latest"
   }
 }

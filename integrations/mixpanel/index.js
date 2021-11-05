@@ -1,7 +1,9 @@
 
-    import mixpanel from 'analytics.js-integration-mixpanel'
+    import mixpanel from '@segment/analytics.js-integration-mixpanel'
 
     export default {
-        mixpanel
+        analytics: {
+            mixpanel
+        }
     }
     

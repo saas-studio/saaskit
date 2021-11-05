@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/webengage",
-  "version": "0.2.9",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Webengage",
   "repository": "saas-studio/saaskit/integrations/webengage",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "saaskit": "latest",
-    "webengage": "analytics.js-integration-webengage"
+    "webengage": "@segment/analytics.js-integration-webengage",
+    "saaskit": "latest"
   }
 }

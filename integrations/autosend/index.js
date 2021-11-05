@@ -1,7 +1,9 @@
 
-    import autosend from 'analytics.js-integration-autosend'
+    import autosend from '@segment/analytics.js-integration-autosend'
 
     export default {
-        autosend
+        analytics: {
+            autosend
+        }
     }
     

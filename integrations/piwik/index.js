@@ -1,7 +1,9 @@
 
-    import piwik from 'analytics.js-integration-piwik'
+    import piwik from '@segment/analytics.js-integration-piwik'
 
     export default {
-        piwik
+        analytics: {
+            piwik
+        }
     }
     

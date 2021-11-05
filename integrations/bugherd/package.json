@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/bugherd",
-  "version": "0.2.9",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Bugherd",
   "repository": "saas-studio/saaskit/integrations/bugherd",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "bugherd": "analytics.js-integration-bugherd",
+    "bugherd": "@segment/analytics.js-integration-bugherd",
     "saaskit": "latest"
   }
 }

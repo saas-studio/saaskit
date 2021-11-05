@@ -1,7 +1,9 @@
 
-    import atatus from 'analytics.js-integration-atatus'
+    import atatus from '@segment/analytics.js-integration-atatus'
 
     export default {
-        atatus
+        analytics: {
+            atatus
+        }
     }
     

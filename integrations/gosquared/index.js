@@ -1,7 +1,9 @@
 
-    import gosquared from 'analytics.js-integration-gosquared'
+    import gosquared from '@segment/analytics.js-integration-gosquared'
 
     export default {
-        gosquared
+        analytics: {
+            gosquared
+        }
     }
     

@@ -1,7 +1,9 @@
 
-    import bugsnag from 'analytics.js-integration-bugsnag'
+    import bugsnag from '@segment/analytics.js-integration-bugsnag'
 
     export default {
-        bugsnag
+        analytics: {
+            bugsnag
+        }
     }
     

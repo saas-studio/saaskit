@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/mouseflow",
-  "version": "0.2.9",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Mouseflow",
   "repository": "saas-studio/saaskit/integrations/mouseflow",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "mouseflow": "analytics.js-integration-mouseflow",
+    "mouseflow": "@segment/analytics.js-integration-mouseflow",
     "saaskit": "latest"
   }
 }

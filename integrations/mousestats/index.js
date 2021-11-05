@@ -1,7 +1,9 @@
 
-    import mousestats from 'analytics.js-integration-mousestats'
+    import mousestats from '@segment/analytics.js-integration-mousestats'
 
     export default {
-        mousestats
+        analytics: {
+            mousestats
+        }
     }
     

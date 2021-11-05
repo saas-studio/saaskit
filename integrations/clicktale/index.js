@@ -1,7 +1,9 @@
 
-    import clicktale from 'analytics.js-integration-clicktale'
+    import clicktale from '@segment/analytics.js-integration-clicktale'
 
     export default {
-        clicktale
+        analytics: {
+            clicktale
+        }
     }
     

@@ -1,7 +1,9 @@
 
-    import heap from 'analytics.js-integration-heap'
+    import heap from '@segment/analytics.js-integration-heap'
 
     export default {
-        heap
+        analytics: {
+            heap
+        }
     }
     

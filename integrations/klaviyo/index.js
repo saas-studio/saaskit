@@ -1,7 +1,9 @@
 
-    import klaviyo from 'analytics.js-integration-klaviyo'
+    import klaviyo from '@segment/analytics.js-integration-klaviyo'
 
     export default {
-        klaviyo
+        analytics: {
+            klaviyo
+        }
     }
     

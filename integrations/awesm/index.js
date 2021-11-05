@@ -1,7 +1,9 @@
 
-    import awesm from 'analytics.js-integration-awesm'
+    import awesm from '@segment/analytics.js-integration-awesm'
 
     export default {
-        awesm
+        analytics: {
+            awesm
+        }
     }
     

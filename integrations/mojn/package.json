@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/mojn",
-  "version": "0.2.9",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Mojn",
   "repository": "saas-studio/saaskit/integrations/mojn",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "mojn": "analytics.js-integration-mojn",
+    "mojn": "@segment/analytics.js-integration-mojn",
     "saaskit": "latest"
   }
 }

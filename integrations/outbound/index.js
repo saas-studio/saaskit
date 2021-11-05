@@ -1,7 +1,9 @@
 
-    import outbound from 'analytics.js-integration-outbound'
+    import outbound from '@segment/analytics.js-integration-outbound'
 
     export default {
-        outbound
+        analytics: {
+            outbound
+        }
     }
     

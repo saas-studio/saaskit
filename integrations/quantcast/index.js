@@ -1,7 +1,9 @@
 
-    import quantcast from 'analytics.js-integration-quantcast'
+    import quantcast from '@segment/analytics.js-integration-quantcast'
 
     export default {
-        quantcast
+        analytics: {
+            quantcast
+        }
     }
     

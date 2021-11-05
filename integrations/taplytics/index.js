@@ -1,7 +1,9 @@
 
-    import taplytics from 'analytics.js-integration-taplytics'
+    import taplytics from '@segment/analytics.js-integration-taplytics'
 
     export default {
-        taplytics
+        analytics: {
+            taplytics
+        }
     }
     

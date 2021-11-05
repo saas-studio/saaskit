@@ -1,7 +1,9 @@
 
-    import drip from 'analytics.js-integration-drip'
+    import drip from '@segment/analytics.js-integration-drip'
 
     export default {
-        drip
+        analytics: {
+            drip
+        }
     }
     

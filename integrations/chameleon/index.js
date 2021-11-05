@@ -1,7 +1,9 @@
 
-    import chameleon from 'analytics.js-integration-chameleon'
+    import chameleon from '@segment/analytics.js-integration-chameleon'
 
     export default {
-        chameleon
+        analytics: {
+            chameleon
+        }
     }
     

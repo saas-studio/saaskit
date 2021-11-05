@@ -1,7 +1,9 @@
 
-    import keenIo from 'analytics.js-integration-keen-io'
+    import keenIo from '@segment/analytics.js-integration-keen-io'
 
     export default {
-        keenIo
+        analytics: {
+            keenIo
+        }
     }
     

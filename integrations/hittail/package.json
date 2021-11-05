@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/hittail",
-  "version": "0.2.9",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Hittail",
   "repository": "saas-studio/saaskit/integrations/hittail",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "hittail": "analytics.js-integration-hittail",
+    "hittail": "@segment/analytics.js-integration-hittail",
     "saaskit": "latest"
   }
 }

@@ -1,7 +1,9 @@
 
-    import bugherd from 'analytics.js-integration-bugherd'
+    import bugherd from '@segment/analytics.js-integration-bugherd'
 
     export default {
-        bugherd
+        analytics: {
+            bugherd
+        }
     }
     

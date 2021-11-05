@@ -1,7 +1,9 @@
 
-    import comscore from 'analytics.js-integration-comscore'
+    import comscore from '@segment/analytics.js-integration-comscore'
 
     export default {
-        comscore
+        analytics: {
+            comscore
+        }
     }
     

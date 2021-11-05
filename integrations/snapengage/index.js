@@ -1,7 +1,9 @@
 
-    import snapengage from 'analytics.js-integration-snapengage'
+    import snapengage from '@segment/analytics.js-integration-snapengage'
 
     export default {
-        snapengage
+        analytics: {
+            snapengage
+        }
     }
     

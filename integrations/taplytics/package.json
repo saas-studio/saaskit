@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/taplytics",
-  "version": "0.2.9",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Taplytics",
   "repository": "saas-studio/saaskit/integrations/taplytics",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "saaskit": "latest",
-    "taplytics": "analytics.js-integration-taplytics"
+    "taplytics": "@segment/analytics.js-integration-taplytics",
+    "saaskit": "latest"
   }
 }

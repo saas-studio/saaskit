@@ -1,7 +1,9 @@
 
-    import curebit from 'analytics.js-integration-curebit'
+    import curebit from '@segment/analytics.js-integration-curebit'
 
     export default {
-        curebit
+        analytics: {
+            curebit
+        }
     }
     

@@ -1,7 +1,9 @@
 
-    import adwords from 'analytics.js-integration-adwords'
+    import adwords from '@segment/analytics.js-integration-adwords'
 
     export default {
-        adwords
+        analytics: {
+            adwords
+        }
     }
     

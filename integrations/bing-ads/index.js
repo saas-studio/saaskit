@@ -1,7 +1,9 @@
 
-    import bingAds from 'analytics.js-integration-bing-ads'
+    import bingAds from '@segment/analytics.js-integration-bing-ads'
 
     export default {
-        bingAds
+        analytics: {
+            bingAds
+        }
     }
     

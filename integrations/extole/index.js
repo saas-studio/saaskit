@@ -1,7 +1,9 @@
 
-    import extole from 'analytics.js-integration-extole'
+    import extole from '@segment/analytics.js-integration-extole'
 
     export default {
-        extole
+        analytics: {
+            extole
+        }
     }
     

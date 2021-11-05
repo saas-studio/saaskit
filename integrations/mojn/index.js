@@ -1,7 +1,9 @@
 
-    import mojn from 'analytics.js-integration-mojn'
+    import mojn from '@segment/analytics.js-integration-mojn'
 
     export default {
-        mojn
+        analytics: {
+            mojn
+        }
     }
     

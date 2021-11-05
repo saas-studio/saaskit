@@ -1,7 +1,9 @@
 
-    import hittail from 'analytics.js-integration-hittail'
+    import hittail from '@segment/analytics.js-integration-hittail'
 
     export default {
-        hittail
+        analytics: {
+            hittail
+        }
     }
     

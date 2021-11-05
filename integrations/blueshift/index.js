@@ -1,7 +1,9 @@
 
-    import blueshift from 'analytics.js-integration-blueshift'
+    import blueshift from '@segment/analytics.js-integration-blueshift'
 
     export default {
-        blueshift
+        analytics: {
+            blueshift
+        }
     }
     

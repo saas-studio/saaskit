@@ -1,7 +1,9 @@
 
-    import pingdom from 'analytics.js-integration-pingdom'
+    import pingdom from '@segment/analytics.js-integration-pingdom'
 
     export default {
-        pingdom
+        analytics: {
+            pingdom
+        }
     }
     

@@ -1,7 +1,9 @@
 
-    import segmentio from 'analytics.js-integration-segmentio'
+    import segmentio from '@segment/analytics.js-integration-segmentio'
 
     export default {
-        segmentio
+        analytics: {
+            segmentio
+        }
     }
     

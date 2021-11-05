@@ -1,7 +1,9 @@
 
-    import supporthero from 'analytics.js-integration-supporthero'
+    import supporthero from '@segment/analytics.js-integration-supporthero'
 
     export default {
-        supporthero
+        analytics: {
+            supporthero
+        }
     }
     

@@ -1,7 +1,9 @@
 
-    import route from 'analytics.js-integration-route'
+    import route from '@segment/analytics.js-integration-route'
 
     export default {
-        route
+        analytics: {
+            route
+        }
     }
     

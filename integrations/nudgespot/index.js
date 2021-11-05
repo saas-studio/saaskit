@@ -1,7 +1,9 @@
 
-    import nudgespot from 'analytics.js-integration-nudgespot'
+    import nudgespot from '@segment/analytics.js-integration-nudgespot'
 
     export default {
-        nudgespot
+        analytics: {
+            nudgespot
+        }
     }
     

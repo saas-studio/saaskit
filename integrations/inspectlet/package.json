@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/inspectlet",
-  "version": "0.2.9",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Inspectlet",
   "repository": "saas-studio/saaskit/integrations/inspectlet",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "inspectlet": "analytics.js-integration-inspectlet",
+    "inspectlet": "@segment/analytics.js-integration-inspectlet",
     "saaskit": "latest"
   }
 }

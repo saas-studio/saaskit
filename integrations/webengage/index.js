@@ -1,7 +1,9 @@
 
-    import webengage from 'analytics.js-integration-webengage'
+    import webengage from '@segment/analytics.js-integration-webengage'
 
     export default {
-        webengage
+        analytics: {
+            webengage
+        }
     }
     

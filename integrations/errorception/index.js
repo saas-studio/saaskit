@@ -1,7 +1,9 @@
 
-    import errorception from 'analytics.js-integration-errorception'
+    import errorception from '@segment/analytics.js-integration-errorception'
 
     export default {
-        errorception
+        analytics: {
+            errorception
+        }
     }
     

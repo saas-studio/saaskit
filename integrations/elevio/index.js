@@ -1,7 +1,9 @@
 
-    import elevio from 'analytics.js-integration-elevio'
+    import elevio from '@segment/analytics.js-integration-elevio'
 
     export default {
-        elevio
+        analytics: {
+            elevio
+        }
     }
     

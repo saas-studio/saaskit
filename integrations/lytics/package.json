@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/lytics",
-  "version": "0.2.9",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Lytics",
   "repository": "saas-studio/saaskit/integrations/lytics",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "lytics": "analytics.js-integration-lytics",
+    "lytics": "@segment/analytics.js-integration-lytics",
     "saaskit": "latest"
   }
 }

@@ -1,7 +1,9 @@
 
-    import userlike from 'analytics.js-integration-userlike'
+    import userlike from '@segment/analytics.js-integration-userlike'
 
     export default {
-        userlike
+        analytics: {
+            userlike
+        }
     }
     

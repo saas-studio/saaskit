@@ -1,7 +1,9 @@
 
-    import qualaroo from 'analytics.js-integration-qualaroo'
+    import qualaroo from '@segment/analytics.js-integration-qualaroo'
 
     export default {
-        qualaroo
+        analytics: {
+            qualaroo
+        }
     }
     

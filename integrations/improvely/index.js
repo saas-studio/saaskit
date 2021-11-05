@@ -1,7 +1,9 @@
 
-    import improvely from 'analytics.js-integration-improvely'
+    import improvely from '@segment/analytics.js-integration-improvely'
 
     export default {
-        improvely
+        analytics: {
+            improvely
+        }
     }
     

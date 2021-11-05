@@ -1,7 +1,9 @@
 
-    import hellobar from 'analytics.js-integration-hellobar'
+    import hellobar from '@segment/analytics.js-integration-hellobar'
 
     export default {
-        hellobar
+        analytics: {
+            hellobar
+        }
     }
     

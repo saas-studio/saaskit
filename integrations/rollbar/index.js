@@ -1,7 +1,9 @@
 
-    import rollbar from 'analytics.js-integration-rollbar'
+    import rollbar from '@segment/analytics.js-integration-rollbar'
 
     export default {
-        rollbar
+        analytics: {
+            rollbar
+        }
     }
     

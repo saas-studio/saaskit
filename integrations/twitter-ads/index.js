@@ -1,7 +1,9 @@
 
-    import twitterAds from 'analytics.js-integration-twitter-ads'
+    import twitterAds from '@segment/analytics.js-integration-twitter-ads'
 
     export default {
-        twitterAds
+        analytics: {
+            twitterAds
+        }
     }
     

@@ -1,7 +1,9 @@
 
-    import uservoice from 'analytics.js-integration-uservoice'
+    import uservoice from '@segment/analytics.js-integration-uservoice'
 
     export default {
-        uservoice
+        analytics: {
+            uservoice
+        }
     }
     

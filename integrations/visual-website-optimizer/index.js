@@ -1,7 +1,9 @@
 
-    import visualWebsiteOptimizer from 'analytics.js-integration-visual-website-optimizer'
+    import visualWebsiteOptimizer from '@segment/analytics.js-integration-visual-website-optimizer'
 
     export default {
-        visualWebsiteOptimizer
+        analytics: {
+            visualWebsiteOptimizer
+        }
     }
     

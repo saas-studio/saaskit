@@ -1,7 +1,9 @@
 
-    import mouseflow from 'analytics.js-integration-mouseflow'
+    import mouseflow from '@segment/analytics.js-integration-mouseflow'
 
     export default {
-        mouseflow
+        analytics: {
+            mouseflow
+        }
     }
     

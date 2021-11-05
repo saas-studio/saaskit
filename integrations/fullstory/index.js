@@ -1,7 +1,9 @@
 
-    import fullstory from 'analytics.js-integration-fullstory'
+    import fullstory from '@segment/analytics.js-integration-fullstory'
 
     export default {
-        fullstory
+        analytics: {
+            fullstory
+        }
     }
     

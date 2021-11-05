@@ -1,7 +1,9 @@
 
-    import customerio from 'analytics.js-integration-customerio'
+    import customerio from '@segment/analytics.js-integration-customerio'
 
     export default {
-        customerio
+        analytics: {
+            customerio
+        }
     }
     

@@ -1,7 +1,9 @@
 
-    import vero from 'analytics.js-integration-vero'
+    import vero from '@segment/analytics.js-integration-vero'
 
     export default {
-        vero
+        analytics: {
+            vero
+        }
     }
     

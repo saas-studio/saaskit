@@ -1,7 +1,9 @@
 
-    import woopra from 'analytics.js-integration-woopra'
+    import woopra from '@segment/analytics.js-integration-woopra'
 
     export default {
-        woopra
+        analytics: {
+            woopra
+        }
     }
     

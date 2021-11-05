@@ -1,7 +1,9 @@
 
-    import satismeter from 'analytics.js-integration-satismeter'
+    import satismeter from '@segment/analytics.js-integration-satismeter'
 
     export default {
-        satismeter
+        analytics: {
+            satismeter
+        }
     }
     

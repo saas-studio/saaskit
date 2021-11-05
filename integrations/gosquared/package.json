@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/gosquared",
-  "version": "0.2.9",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Gosquared",
   "repository": "saas-studio/saaskit/integrations/gosquared",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "gosquared": "analytics.js-integration-gosquared",
+    "gosquared": "@segment/analytics.js-integration-gosquared",
     "saaskit": "latest"
   }
 }

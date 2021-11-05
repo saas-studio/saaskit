@@ -1,7 +1,9 @@
 
-    import livechat from 'analytics.js-integration-livechat'
+    import livechat from '@segment/analytics.js-integration-livechat'
 
     export default {
-        livechat
+        analytics: {
+            livechat
+        }
     }
     

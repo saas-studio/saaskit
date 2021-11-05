@@ -1,7 +1,9 @@
 
-    import insidevault from 'analytics.js-integration-insidevault'
+    import insidevault from '@segment/analytics.js-integration-insidevault'
 
     export default {
-        insidevault
+        analytics: {
+            insidevault
+        }
     }
     

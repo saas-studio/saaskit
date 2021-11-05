@@ -1,7 +1,9 @@
 
-    import googleAnalytics from 'analytics.js-integration-google-analytics'
+    import googleAnalytics from '@segment/analytics.js-integration-google-analytics'
 
     export default {
-        googleAnalytics
+        analytics: {
+            googleAnalytics
+        }
     }
     

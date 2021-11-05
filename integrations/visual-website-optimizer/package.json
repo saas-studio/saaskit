@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/visual-website-optimizer",
-  "version": "0.2.9",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Visual Website Optimizer",
   "repository": "saas-studio/saaskit/integrations/visual-website-optimizer",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "saaskit": "latest",
-    "visual-website-optimizer": "analytics.js-integration-visual-website-optimizer"
+    "visual-website-optimizer": "@segment/analytics.js-integration-visual-website-optimizer",
+    "saaskit": "latest"
   }
 }

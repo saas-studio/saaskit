@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/vero",
-  "version": "0.2.9",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Vero",
   "repository": "saas-studio/saaskit/integrations/vero",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "saaskit": "latest",
-    "vero": "analytics.js-integration-vero"
+    "vero": "@segment/analytics.js-integration-vero",
+    "saaskit": "latest"
   }
 }

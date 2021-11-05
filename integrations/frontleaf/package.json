@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/frontleaf",
-  "version": "0.2.9",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Frontleaf",
   "repository": "saas-studio/saaskit/integrations/frontleaf",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "frontleaf": "analytics.js-integration-frontleaf",
+    "frontleaf": "@segment/analytics.js-integration-frontleaf",
     "saaskit": "latest"
   }
 }

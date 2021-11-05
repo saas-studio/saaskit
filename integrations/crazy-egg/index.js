@@ -1,7 +1,9 @@
 
-    import crazyEgg from 'analytics.js-integration-crazy-egg'
+    import crazyEgg from '@segment/analytics.js-integration-crazy-egg'
 
     export default {
-        crazyEgg
+        analytics: {
+            crazyEgg
+        }
     }
     

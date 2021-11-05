@@ -1,7 +1,9 @@
 
-    import sentry from 'analytics.js-integration-sentry'
+    import sentry from '@segment/analytics.js-integration-sentry'
 
     export default {
-        sentry
+        analytics: {
+            sentry
+        }
     }
     

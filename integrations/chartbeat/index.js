@@ -1,7 +1,9 @@
 
-    import chartbeat from 'analytics.js-integration-chartbeat'
+    import chartbeat from '@segment/analytics.js-integration-chartbeat'
 
     export default {
-        chartbeat
+        analytics: {
+            chartbeat
+        }
     }
     

@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/klaviyo",
-  "version": "0.2.9",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Klaviyo",
   "repository": "saas-studio/saaskit/integrations/klaviyo",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "klaviyo": "analytics.js-integration-klaviyo",
+    "klaviyo": "@segment/analytics.js-integration-klaviyo",
     "saaskit": "latest"
   }
 }

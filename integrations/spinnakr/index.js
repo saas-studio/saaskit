@@ -1,7 +1,9 @@
 
-    import spinnakr from 'analytics.js-integration-spinnakr'
+    import spinnakr from '@segment/analytics.js-integration-spinnakr'
 
     export default {
-        spinnakr
+        analytics: {
+            spinnakr
+        }
     }
     
