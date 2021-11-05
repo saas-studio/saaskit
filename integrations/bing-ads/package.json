@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/bing-ads",
-  "version": "0.2.0",
+  "version": "0.2.11",
   "private": false,
   "description": "SaaSkit integration with Bing Ads",
   "repository": "saas-studio/saaskit/integrations/bing-ads",

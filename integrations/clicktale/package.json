@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/clicktale",
-  "version": "0.2.0",
+  "version": "0.2.11",
   "private": false,
   "description": "SaaSkit integration with Clicktale",
   "repository": "saas-studio/saaskit/integrations/clicktale",

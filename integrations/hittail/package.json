@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/hittail",
-  "version": "0.2.0",
+  "version": "0.2.11",
   "private": false,
   "description": "SaaSkit integration with Hittail",
   "repository": "saas-studio/saaskit/integrations/hittail",
