@@ -50,8 +50,17 @@ export type SaaS = Product & {
       [key: string]: Action
     }
     website?: Website | LandingPage
+    documentation?: string | Documentation | Documentation[] | {
+        user?: string | Documentation
+        api?: string | Documentation
+    }
     experiments?: [] | SaaS[] | Experiment[],
     integrations?: [] | Integration[],
     plugins?: [] | Plugin[],
     state?: 'loading' | 'loaded' | 'generated' | 'failed'
+  }
+
+  export type Documentation = {
+      name?: string
+      url?: string
   }
