@@ -1,7 +1,7 @@
 import { Story } from './story'
 import { Noun } from './types/word'
-import { Logo, Color, Font } from './marketing'
-import { Icon, LandingPage, Website } from '.';
+import { Color, Font } from './marketing'
+import { Icon, LandingPage, Logo, Website } from '.';
 
 // import colors from './colors'
 
@@ -247,9 +247,9 @@ export interface SaaS extends Product {
     },
     theme: {
       logo: {
-        font: 'Roboto',
-        color: 'gray-900',
-        icon: 'cube',
+        // font: 'Roboto',
+        // color: 'gray-900',
+        // icon: 'cube',
       },
       primaryColor: '',
       accentColor: '',

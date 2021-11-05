@@ -14,7 +14,10 @@ export type Logo = {
     name?: string
     icon?: Icon
     iconPosition?: 'above' | 'left' | 'right'
-    wordmark: Wordmark
+    wordmark?: Wordmark
+    color?: TailwindValuesColor
+    background?: 'square' | 'rounded' | 'circle' | 'triangle' | 'diamond'
+    backgroundColor?: TailwindValuesColor
 }
 
 
@@ -27,4 +30,15 @@ export type Wordmark = {
         left: FontFamily
         right: FontFamily
     }
+    fontWeight: FontWeight | {
+        left: FontWeight
+        right: FontWeight
+    }
+    fontColor: TailwindValuesColor | {
+        left: TailwindValuesColor
+        right: TailwindValuesColor
+    }
 }
+
+export type FontWeight = 'hairline' | 'thin' | 'light' | 'normal' | 'medium' | 'bold' | 'extraBold' | 'black'
+export type FontSize = 'xs' | 'sm' | 'base' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl'

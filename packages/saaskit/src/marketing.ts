@@ -1,4 +1,5 @@
 import { SeoProps } from './seo'
+import { Logo, Wordmark } from './types/brand';
 
 export interface Website {
     name: string
@@ -157,17 +158,6 @@ export interface Image {
     height?: number | string
     width?: number | string
     link?: string | Link
-}
-
-export interface Logo extends Wordmark {
-    icon?: string | Icon
-}
-
-export interface Wordmark {
-    name?: string
-    wordmark?: string
-    font?: string
-    color?: string
 }
 
 export interface SocialAccounts {
