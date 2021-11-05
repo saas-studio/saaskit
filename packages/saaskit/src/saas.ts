@@ -3,7 +3,9 @@ import { Noun } from './semantics'
 import { Logo, Color, Font } from './marketing'
 import { Icon, LandingPage, Website } from '.';
 
-import colors from './colors'
+// import colors from './colors'
+
+// export colors
 
 export interface SaaS extends Product {
     callToAction?: {
@@ -122,6 +124,21 @@ export interface SaaS extends Product {
     pros?: string[];
     cons?: string[];
   };
+
+  export type KPI = {
+    
+  }
+
+  export type Goals = {
+    visitor: 'registers',
+    user: 'activates',
+    customer: 'subscribes',
+    advocate: 'shares',
+  }
+
+  export type Registers = {
+    visitors: KPI
+  }
   
 
 
