@@ -95,3 +95,8 @@ export const personas = {
 const { coder } = personas
 
 coder.launches.app
+
+export type EmailLocaleIDs = "welcome_email" | "email_heading"
+export type FooterLocaleIDs = "footer_title" | "footer_sendoff"
+ 
+export type AllLocaleIDs = `${EmailLocaleIDs | FooterLocaleIDs}_id`

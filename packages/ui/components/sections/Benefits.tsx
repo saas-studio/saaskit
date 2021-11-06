@@ -1,11 +1,10 @@
-import React from 'react'
 import { InboxIcon, SparklesIcon } from '@heroicons/react/outline'
 
 export interface Props {
     //benefits: string[] //Benefit[]
 }
 
-export function Benefits({title = 'Features'}) {
+export function Benefits() {
   return (
     <div className="relative bg-white pt-16 pb-32 overflow-hidden">
       <div className="relative">

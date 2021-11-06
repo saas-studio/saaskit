@@ -1,5 +1,3 @@
-import React from 'react'
-  
   export default function Blog({
       title = 'From the blog', 
       description = 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa libero labore natus atque, ducimus sed.', 

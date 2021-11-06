@@ -1,4 +1,3 @@
-import React from 'react'
 import { BsFillSquareFill } from 'react-icons/bs'
 import { GrCubes } from 'react-icons/gr'
 

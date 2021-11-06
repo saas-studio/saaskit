@@ -1,4 +1,3 @@
-import React from 'react'
 import { useGoogleFonts, GoogleFontsStatus } from "@flayyer/use-googlefonts";
 
 

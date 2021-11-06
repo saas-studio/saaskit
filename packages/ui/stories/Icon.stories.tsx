@@ -1,6 +1,6 @@
 import React from 'react';
 import { Meta, Story } from '@storybook/react';
-import { Icon, Props } from './Icon';
+import { Icon, Props } from '../components/assets/Icon';
 
 const meta: Meta = {
   title: 'Wordmark',

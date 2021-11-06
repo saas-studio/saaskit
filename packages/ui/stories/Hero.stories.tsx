@@ -1,5 +1,5 @@
 import React from "react"
-import { Hero } from "./Hero"
+import { Hero } from "../components/sections/Hero"
 import saaskit from "saaskit"
 
 import "../tailwind.css"

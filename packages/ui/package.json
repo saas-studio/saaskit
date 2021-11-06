@@ -13,8 +13,9 @@
     "node": ">=10"
   },
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
     "tsdx-start": "tsdx watch",
     "tsdx-build": "tsdx build",
     "test": "tsdx test --passWithNoTests",
@@ -77,6 +78,7 @@
     "typescript": "^4.4.4"
   },
   "dependencies": {
+    "@auth0/auth0-react": "^1.8.0",
     "@craco/craco": "^6.4.0",
     "@flayyer/use-googlefonts": "^0.3.0",
     "@headlessui/react": "^1.4.1",

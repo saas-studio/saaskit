@@ -1,5 +1,5 @@
 import React from "react"
-import { CodePage, Props } from "./CodePage"
+import { CodePage, Props } from "../components/pages/CodePage"
 
 import "../tailwind.css"
 

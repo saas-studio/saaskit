@@ -1,14 +1,12 @@
 import { ChevronRightIcon } from '@heroicons/react/solid'
-import React from 'react'
-
-import saaskit from 'saaskit'
+import {Hero} from 'saaskit'
 
 export function Hero({
     headerBadge = `What's New`,
-    headerLink = 'Join us on Product Hunt!',
+    headerText = 'Join us on Product Hunt!',
     title = 'Headless SaaS Platform',
     description = 'With a simple abstraction layer and a little bit of AI, you can create fully functional Apps and APIs including a marketing website and both user & developer documention in minutes. '
-}: saaskit.Hero) {
+}: Hero) {
   return (
     <div className="bg-white pb-8 sm:pb-12 lg:pb-12">
       <div className="pt-8 overflow-hidden sm:pt-12 lg:relative lg:py-48">
@@ -28,7 +26,7 @@ export function Hero({
                     {headerBadge}
                   </span>
                   <span className="inline-flex items-center text-sm font-medium text-primary-600 space-x-1">
-                    <span>{headerLink}</span>
+                    <span>{headerText}</span>
                     <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
                   </span>
                 </a>

@@ -1,2 +1,2 @@
-export * from "./Logo"
+export * from './Logo'
 export * from "./Wordmark"
