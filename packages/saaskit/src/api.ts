@@ -38,7 +38,7 @@ export interface JsonProxy {
 }
 
 export interface Transformation {
-
+  [key: string]: string | Function | Transformation
 }
 
 export interface Resource<Data = unknown> {
