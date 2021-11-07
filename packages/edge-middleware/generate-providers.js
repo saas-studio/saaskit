@@ -4,7 +4,7 @@ const { capitalCase } = require('capital-case')
 const camelCase = require('camelcase')
 
 const providers = {
-    analyticsProviders: {
+    analytics: {
     'adroll': { 
         packages: [{'@segment/analytics.js-integration-adroll': 'latest'}],
     },
@@ -359,7 +359,7 @@ const providers = {
         packages: [{'@upstash/upstash-redis': 'latest'}],
     },
   },
-  hosting = {
+  hosting: {
     'aws': { 
         packages: [{'aws-sdk': 'latest'}],
     },
@@ -445,6 +445,7 @@ const providers = {
 }
 
 function package(name, category, packages) {
+    const saaskit = { "saaskit": "latest" }
     return {
         "name": `@saaskit/${name}`,
         "version": "0.2.0",
@@ -458,7 +459,7 @@ function package(name, category, packages) {
         "main": "index.js",
         "dependencies": {
           ...packages,  
-          "saaskit": "latest",
+          ...saaskit,
         }
     }
 }
@@ -484,14 +485,16 @@ function readme(name) {
 }
 
 for (provider in providers) {
-    for (integration in provider) {
+    console.log(provider)
+    for (integration in providers[provider]) {
+        console.log(providers[provider][integration])
         console.log(`${capitalCase(integration)},${integration},${camelCase(integration)},${`@saaskit/${integration}`}`)
         if (!fs.existsSync(`../../integrations/${integration}`)) {
             fs.mkdirSync(`../../integrations/${integration}`)
         }
-        jsonfile.writeFileSync(`../../integrations/${integration}/package.json`, package(integration, integrations[integration]), { spaces: 2, EOL: '\r\n' })
-        fs.writeFileSync(`../../integrations/${integration}/index.js`, index(integration, integrations[integration]))
-        fs.writeFileSync(`../../integrations/${integration}/README.md`, readme(integration, integrations[integration]))
+        jsonfile.writeFileSync(`../../integrations/${integration}/package.json`, package(integration, provider, Object.values(providers[provider][integration].packages)), { spaces: 2, EOL: '\r\n' })
+        fs.writeFileSync(`../../integrations/${integration}/index.js`, index(integration, provider[integration]))
+        fs.writeFileSync(`../../integrations/${integration}/README.md`, readme(integration, provider[integration]))
     }
 }
   
