@@ -12,9 +12,11 @@
   "author": "SaaS.Dev",
   "license": "MIT",
   "dependencies": {
+    "@auth0/auth0-react": "^1.8.0",
     "@tailwindcss/aspect-ratio": "^0.3.0",
     "add": "^2.0.6",
     "next": "^11.0.1",
+    "next-images": "^1.8.2",
     "nextra": "^1.1.0",
     "nextra-theme-docs": "^1.2.2",
     "react": "^17.0.1",
@@ -24,7 +26,10 @@
     "yarn": "^1.22.17"
   },
   "devDependencies": {
-    "prettier": "^2.0.5"
+    "autoprefixer": "^10.4.0",
+    "postcss": "^8.3.11",
+    "prettier": "^2.0.5",
+    "tailwindcss": "^2.2.19"
   },
   "prettier": {
     "semi": false,
