@@ -6,446 +6,737 @@ const camelCase = require('camelcase')
 const providers = {
     analytics: {
     'adroll': { 
-        packages: [{'@segment/analytics.js-integration-adroll': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-adroll': 'latest',
+        }
     },
     'adwords': { 
-        packages: [{'@segment/analytics.js-integration-adwords': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-adwords': 'latest',
+        }     
     },
     'alexa': { 
-        packages: [{'@segment/analytics.js-integration-alexa': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-alexa': 'latest',
+        }     
     },
     'amplitude': { 
-        packages: [{'@segment/analytics.js-integration-amplitude': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-amplitude': 'latest',
+        }     
     },
     'appcues': { 
-        packages: [{'@segment/analytics.js-integration-appcues': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-appcues': 'latest',
+        }     
     },
     'atatus': { 
-        packages: [{'@segment/analytics.js-integration-atatus': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-atatus': 'latest',
+        }     
     },
     'autosend': { 
-        packages: [{'@segment/analytics.js-integration-autosend': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-autosend': 'latest',
+        }     
     },
     'awesm': { 
-        packages: [{'@segment/analytics.js-integration-awesm': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-awesm': 'latest',
+        }     
     },
     'bing-ads': { 
-        packages: [{'@segment/analytics.js-integration-bing-ads': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-bing-ads': 'latest',
+        }     
     },
     'blueshift': { 
-        packages: [{'@segment/analytics.js-integration-blueshift': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-blueshift': 'latest',
+        }     
     },
     'bronto': { 
-        packages: [{'@segment/analytics.js-integration-bronto': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-bronto': 'latest',
+        }     
     },
     'bugherd': { 
-        packages: [{'@segment/analytics.js-integration-bugherd': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-bugherd': 'latest',
+        }     
     },
     'bugsnag': { 
-        packages: [{'@segment/analytics.js-integration-bugsnag': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-bugsnag': 'latest',
+        }     
     },
     'chameleon': { 
-        packages: [{'@segment/analytics.js-integration-chameleon': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-chameleon': 'latest',
+        }     
     },
     'chartbeat': { 
-        packages: [{'@segment/analytics.js-integration-chartbeat': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-chartbeat': 'latest',
+        }     
     },
     'clicktale': { 
-        packages: [{'@segment/analytics.js-integration-clicktale': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-clicktale': 'latest',
+        }     
     },
     'clicky': { 
-        packages: [{'@segment/analytics.js-integration-clicky': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-clicky': 'latest',
+        }     
     },
     'comscore': { 
-        packages: [{'@segment/analytics.js-integration-comscore': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-comscore': 'latest',
+        }     
     },
     'crazy-egg': { 
-        packages: [{'@segment/analytics.js-integration-crazy-egg': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-crazy-egg': 'latest',
+        }     
     },
     'curebit': { 
-        packages: [{'@segment/analytics.js-integration-curebit': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-curebit': 'latest',
+        }     
     },
     'customerio': { 
-        packages: [{'@segment/analytics.js-integration-customerio': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-customerio': 'latest',
+        }     
     },
     'drip': { 
-        packages: [{'@segment/analytics.js-integration-drip': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-drip': 'latest',
+        }     
     },
     'elevio': { 
-        packages: [{'@segment/analytics.js-integration-elevio': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-elevio': 'latest',
+        }     
     },
     'errorception': { 
-        packages: [{'@segment/analytics.js-integration-errorception': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-errorception': 'latest',
+        }     
     },
     'evergage': { 
-        packages: [{'@segment/analytics.js-integration-evergage': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-evergage': 'latest',
+        }     
     },
     'extole': { 
-        packages: [{'@segment/analytics.js-integration-extole': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-extole': 'latest',
+        }     
     },
     'facebook-conversion-tracking': { 
-        packages: [{'@segment/analytics.js-integration-facebook-conversion-tracking': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-facebook-conversion-tracking': 'latest',
+        }     
     },
     'facebook-custom-audiences': { 
-        packages: [{'@segment/analytics.js-integration-facebook-custom-audiences': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-facebook-custom-audiences': 'latest',
+        }     
     },
     'foxmetrics': { 
-        packages: [{'@segment/analytics.js-integration-foxmetrics': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-foxmetrics': 'latest',
+        }     
     },
     'frontleaf': { 
-        packages: [{'@segment/analytics.js-integration-frontleaf': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-frontleaf': 'latest',
+        }     
     },
     'fullstory': { 
-        packages: [{'@segment/analytics.js-integration-fullstory': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-fullstory': 'latest',
+        }     
     },
     'gauges': { 
-        packages: [{'@segment/analytics.js-integration-gauges': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-gauges': 'latest',
+        }     
     },
     'get-satisfaction': { 
-        packages: [{'@segment/analytics.js-integration-get-satisfaction': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-get-satisfaction': 'latest',
+        }     
     },
     'google-analytics': { 
-        packages: [{'@segment/analytics.js-integration-google-analytics': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-google-analytics': 'latest',
+        }     
     },
     'google-tag-manager': { 
-        packages: [{'@segment/analytics.js-integration-google-tag-manager': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-google-tag-manager': 'latest',
+        }     
     },
     'gosquared': { 
-        packages: [{'@segment/analytics.js-integration-gosquared': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-gosquared': 'latest',
+        }     
     },
     'heap': { 
-        packages: [{'@segment/analytics.js-integration-heap': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-heap': 'latest',
+        }     
     },
     'hellobar': { 
-        packages: [{'@segment/analytics.js-integration-hellobar': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-hellobar': 'latest',
+        }     
     },
     'hittail': { 
-        packages: [{'@segment/analytics.js-integration-hittail': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-hittail': 'latest',
+        }     
     },
     'hubspot': { 
-        packages: [{'@segment/analytics.js-integration-hubspot': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-hubspot': 'latest',
+        }     
     },
     'improvely': { 
-        packages: [{'@segment/analytics.js-integration-improvely': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-improvely': 'latest',
+        }     
     },
     'insidevault': { 
-        packages: [{'@segment/analytics.js-integration-insidevault': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-insidevault': 'latest',
+        }     
     },
     'inspectlet': { 
-        packages: [{'@segment/analytics.js-integration-inspectlet': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-inspectlet': 'latest',
+        }     
     },
     'intercom': { 
-        packages: [{'@segment/analytics.js-integration-intercom': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-intercom': 'latest',
+        }     
     },
     'keen-io': { 
-        packages: [{'@segment/analytics.js-integration-keen-io': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-keen-io': 'latest',
+        }     
     },
     'kenshoo': { 
-        packages: [{'@segment/analytics.js-integration-kenshoo': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-kenshoo': 'latest',
+        }     
     },
     'kissmetrics': { 
-        packages: [{'@segment/analytics.js-integration-kissmetrics': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-kissmetrics': 'latest',
+        }     
     },
     'klaviyo': { 
-        packages: [{'@segment/analytics.js-integration-klaviyo': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-klaviyo': 'latest',
+        }     
     },
     'livechat': { 
-        packages: [{'@segment/analytics.js-integration-livechat': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-livechat': 'latest',
+        }     
     },
     'lucky-orange': { 
-        packages: [{'@segment/analytics.js-integration-lucky-orange': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-lucky-orange': 'latest',
+        }     
     },
     'lytics': { 
-        packages: [{'@segment/analytics.js-integration-lytics': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-lytics': 'latest',
+        }     
     },
     'mixpanel': { 
-        packages: [{'@segment/analytics.js-integration-mixpanel': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-mixpanel': 'latest',
+        }     
     },
     'mojn': { 
-        packages: [{'@segment/analytics.js-integration-mojn': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-mojn': 'latest',
+        }     
     },
     'mouseflow': { 
-        packages: [{'@segment/analytics.js-integration-mouseflow': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-mouseflow': 'latest',
+        }     
     },
     'mousestats': { 
-        packages: [{'@segment/analytics.js-integration-mousestats': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-mousestats': 'latest',
+        }     
     },
     'navilytics': { 
-        packages: [{'@segment/analytics.js-integration-navilytics': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-navilytics': 'latest',
+        }     
     },
     'nudgespot': { 
-        packages: [{'@segment/analytics.js-integration-nudgespot': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-nudgespot': 'latest',
+        }     
     },
     'olark': { 
-        packages: [{'@segment/analytics.js-integration-olark': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-olark': 'latest',
+        }     
     },
     'optimizely': { 
-        packages: [{'@segment/analytics.js-integration-optimizely': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-optimizely': 'latest',
+        }     
     },
     'outbound': { 
-        packages: [{'@segment/analytics.js-integration-outbound': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-outbound': 'latest',
+        }     
     },
     'perfect-audience': { 
-        packages: [{'@segment/analytics.js-integration-perfect-audience': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-perfect-audience': 'latest',
+        }     
     },
     'pingdom': { 
-        packages: [{'@segment/analytics.js-integration-pingdom': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-pingdom': 'latest',
+        }     
     },
     'piwik': { 
-        packages: [{'@segment/analytics.js-integration-piwik': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-piwik': 'latest',
+        }     
     },
     'preact': { 
-        packages: [{'@segment/analytics.js-integration-preact': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-preact': 'latest',
+        }     
     },
     'qualaroo': { 
-        packages: [{'@segment/analytics.js-integration-qualaroo': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-qualaroo': 'latest',
+        }     
     },
     'quantcast': { 
-        packages: [{'@segment/analytics.js-integration-quantcast': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-quantcast': 'latest',
+        }     
     },
     'rollbar': { 
-        packages: [{'@segment/analytics.js-integration-rollbar': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-rollbar': 'latest',
+        }     
     },
     'route': { 
-        packages: [{'@segment/analytics.js-integration-route': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-route': 'latest',
+        }     
     },
     'saas.dev': { 
-        packages: [{'firebase': 'latest'}],
+        packages: {
+            'firebase': 'latest',
+        }     
     },
     'saasquatch': { 
-        packages: [{'@segment/analytics.js-integration-saasquatch': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-saasquatch': 'latest',
+        }     
     },
     'satismeter': { 
-        packages: [{'@segment/analytics.js-integration-satismeter': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-satismeter': 'latest',
+        }     
     },
     'segmentio': { 
-        packages: [{'@segment/analytics.js-integration-segmentio': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-segmentio': 'latest',
+        }     
     },
     'sentry': { 
-        packages: [{'@segment/analytics.js-integration-sentry': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-sentry': 'latest',
+        }     
     },
     'snapengage': { 
-        packages: [{'@segment/analytics.js-integration-snapengage': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-snapengage': 'latest',
+        }     
     },
     'spinnakr': { 
-        packages: [{'@segment/analytics.js-integration-spinnakr': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-spinnakr': 'latest',
+        }     
     },
     'supporthero': { 
-        packages: [{'@segment/analytics.js-integration-supporthero': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-supporthero': 'latest',
+        }     
     },
     'taplytics': { 
-        packages: [{'@segment/analytics.js-integration-taplytics': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-taplytics': 'latest',
+        }     
     },
     'tapstream': { 
-        packages: [{'@segment/analytics.js-integration-tapstream': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-tapstream': 'latest',
+        }     
     },
     'trakio': { 
-        packages: [{'@segment/analytics.js-integration-trakio': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-trakio': 'latest',
+        }     
     },
     'twitter-ads': { 
-        packages: [{'@segment/analytics.js-integration-twitter-ads': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-twitter-ads': 'latest',
+        }     
     },
     'userlike': { 
-        packages: [{'@segment/analytics.js-integration-userlike': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-userlike': 'latest',
+        }     
     },
     'uservoice': { 
-        packages: [{'@segment/analytics.js-integration-uservoice': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-uservoice': 'latest',
+        }     
     },
     'vero': { 
-        packages: [{'@segment/analytics.js-integration-vero': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-vero': 'latest',
+        }     
     },
     'visual-website-optimizer': { 
-        packages: [{'@segment/analytics.js-integration-visual-website-optimizer': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-visual-website-optimizer': 'latest',
+        }     
     },
     'webengage': { 
-        packages: [{'@segment/analytics.js-integration-webengage': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-webengage': 'latest',
+        }     
     },
     'woopra': { 
-        packages: [{'@segment/analytics.js-integration-woopra': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-woopra': 'latest',
+        }     
     },
     'wootric': { 
-        packages: [{'@segment/analytics.js-integration-wootric': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-wootric': 'latest',
+        }     
     },
     'yandex-metrica': { 
-        packages: [{'@segment/analytics.js-integration-yandex-metrica': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-yandex-metrica': 'latest',
+        }     
     }
   },
   api: {
     'twilio': { 
-        packages: [{'twilio': 'latest'}],
+        packages: {
+            'twilio': 'latest',
+        }     
     },
     'github': { 
-        packages: [{'twilio': 'latest'}],
+        packages: {
+            'twilio': 'latest',
+        }     
     },
     'sendgrid': { 
-        packages: [{'@sendgrid/client': 'latest'}],
+        packages: {
+            '@sendgrid/client': 'latest',
+        }     
     },
     'saas.dev': { 
-        packages: [{'firebase': 'latest'}],
+        packages: {
+            'firebase': 'latest',
+        }     
     },
     'slack': { 
-        packages: [{'slack': 'latest'}],
+        packages: {
+            'slack': 'latest',
+        }     
     },
     'zapier': { 
-        packages: [{'zapier': 'latest'}],
+        packages: {
+            'zapier': 'latest',
+        }     
     },
   },
   auth: {
     'auth0': { 
-        packages: [{'@segment/analytics.js-integration-adroll': 'nextjs-auth0'},{'auth0-react': 'latest'}],
+        packages: {
+            '@segment/analytics.js-integration-adroll': 'nextjs-auth0',
+            'auth0-react': 'latest',
+        }     
     },
     'clerk': { 
-        packages: [{'@clerk/clerk-js': 'latest'}],
+        packages: {
+            '@clerk/clerk-js': 'latest',
+        }     
     },
     'firebase': { 
-        packages: [{'firebase': 'latest'}],
+        packages: {
+            'firebase': 'latest',
+        }     
     },
     'next-auth': { 
-        packages: [{'next-auth': 'beta'}],
+        packages: {
+            'next-auth': 'beta',
+        }     
     },
     'saas.dev': { 
-        packages: [{'saas.dev': 'latest'}],
+        packages: {
+            'saas.dev': 'latest',
+        }     
     },
     'supabase': { 
-        packages: [{'@supabase/supabase-js': 'latest'}],
+        packages: {
+            '@supabase/supabase-js': 'latest',
+        }     
     },
   },
   cms: {
     'formspree': { 
-        packages: [{'@formspree/core': 'latest'},{'@formspree/react': 'latest'}],
+        packages: {
+            '@formspree/core': 'latest',
+            '@formspree/react': 'latest',
+        }     
     },
     'editmode': { 
-        packages: [{'editmode-react': 'latest'},{'editmode-standalone': 'latest'}],
+        packages: {
+            'editmode-react': 'latest',
+            'editmode-standalone': 'latest',
+        }     
     },
     'contentful': { 
-        packages: [{'contentful': 'latest'}],
+        packages: {
+            'contentful': 'latest',
+        }     
     },
     'sanity': { 
-        packages: [{'sanity': 'latest'},{'@sanity/client': 'latest'}],
+        packages: {
+            'sanity': 'latest',
+            '@sanity/client': 'latest',
+        }     
     },
     'saas.dev': { 
-        packages: [{'saas.dev': 'latest'}],
+        packages: {
+            'saas.dev': 'latest',
+        }     
     },
     'datocms': { 
-        packages: [{'react-datocms': 'latest'},{'datocms-client': 'latest'}],
+        packages: {
+            'react-datocms': 'latest',
+            'datocms-client': 'latest',
+        }     
     },
     'headlessly': { 
-        packages: [{'headless.ly': 'latest'}],
+        packages: {
+            'headless.ly': 'latest',
+        }     
     },
     'buttercms': { 
-        packages: [{'buttercms': 'latest'}],
+        packages: {
+            'buttercms': 'latest',
+        }     
     },
     'graphcms': { 
-        packages: [{'@graphcms/management': 'latest'},{'@graphcms/uix-react-sdk': 'latest'}],
+        packages: {
+            '@graphcms/management': 'latest',
+            '@graphcms/uix-react-sdk': 'latest',
+        }     
     },
   },
   data: {
     'airtable': { 
-        packages: [{'firebase': 'latest'}],
+        packages: {
+            'firebase': 'latest',
+        }     
     },
     'fauna': { 
         packages: [],
     },
     'firebase': { 
-        packages: [{'firebase': 'latest'}],
+        packages: {
+            'firebase': 'latest',
+        }     
     },
     'planetscale': { 
-        packages: [{'planetscale-node': 'latest'}],
+        packages: {
+            'planetscale-node': 'latest',
+        }     
     },
     'saas.dev': { 
-        packages: [{'saas.dev': 'latest'}],
+        packages: {
+            'saas.dev': 'latest',
+        }     
     },
     'upstash': { 
-        packages: [{'@upstash/upstash-redis': 'latest'}],
+        packages: {
+            '@upstash/upstash-redis': 'latest',
+        }     
     },
   },
   hosting: {
     'aws': { 
-        packages: [{'aws-sdk': 'latest'}],
+        packages: {
+            'aws-sdk': 'latest',
+        }     
     },
     'azure': { 
-        packages: [{'azure': 'latest'}],
+        packages: {
+            'azure': 'latest',
+        }     
     },
     'cloudflare': { 
-        packages: [{'cloudflare': 'latest'}],
+        packages: {
+            'cloudflare': 'latest',
+        }     
     },
     'netlify': { 
-        packages: [{'netlify': 'latest'}],
+        packages: {
+            'netlify': 'latest',
+        }     
     },
     'saas.dev': { 
-        packages: [{'saas.dev': 'latest'}],
+        packages: {
+            'saas.dev': 'latest',
+        }     
     },
     'vercel': { 
-        packages: [{'vercel': 'latest'}],
+        packages: {
+            'vercel': 'latest',
+        }     
     },
   },
   logging: {
     'datadog': { 
-        packages: [{'@datadog/browser-core': 'latest'},{'@datadog/datadog-api-client': 'latest'}],
+        packages: {
+            '@datadog/browser-core': 'latest',
+            '@datadog/datadog-api-client': 'latest',
+        }     
     },
     'logtail': { 
-        packages: [{'@logtail/js': 'latest'},{'@logtail/node': 'latest'}],
+        packages: {
+            '@logtail/js': 'latest',
+            '@logtail/node': 'latest',
+        }     
     },
     'logalert': { 
-        packages: [{'logalert': 'latest'}],
+        packages: {
+            'logalert': 'latest',
+        }     
     },
     'logg.ng': { 
-        packages: [{'logg.ng': 'latest'}],
+        packages: {
+            'logg.ng': 'latest',
+        }     
     },
     'logrocket': { 
-        packages: [{'logrocket': 'latest'}],
+        packages: {
+            'logrocket': 'latest',
+        }     
     },
     'sematext': { 
-        packages: [{'@sematext/sematext-api-client': 'latest'},{'@sematext/logagent': 'latest'}],
+        packages: {
+            '@sematext/sematext-api-client': 'latest',
+            '@sematext/logagent': 'latest',
+        }     
     },
     'logflare': { 
-        packages: [{'pino-logflare': 'latest'}],
+        packages: {
+            'pino-logflare': 'latest',
+        }     
     },
     'saas.dev': { 
-        packages: [{'saas.dev': 'latest'}],
+        packages: {
+            'saas.dev': 'latest',
+        }     
     },
     'logdna': { 
-        packages: [{'logdna': 'latest'}],
+        packages: {
+            'logdna': 'latest',
+        }     
     },
   },
   monitoring: {
     'checkly': { 
-        packages: [{'checkly': 'latest'}],
+        packages: {
+            'checkly': 'latest',
+        }     
     },
     'datadog': { 
-        packages: [{'@datadog/browser-core': 'latest'},{'@datadog/datadog-api-client': 'latest'}],
+        packages: {
+            '@datadog/browser-core': 'latest',
+            '@datadog/datadog-api-client': 'latest',
+        }     
     },
     'debugbear': { 
-        packages: [{'debugbear': 'latest'}],
+        packages: {
+            'debugbear': 'latest',
+        }     
     },
     'logrocket': { 
-        packages: [{'logrocket': 'latest'}],
+        packages: {
+            'logrocket': 'latest',
+        }     
     },
     'saas.dev': { 
-        packages: [{'saas.dev': 'latest'}],
+        packages: {
+            'saas.dev': 'latest',
+        }     
     },
     'sentry': { 
-        packages: [{'@sentry/browser': 'latest'},{'@sentry/nextjs': 'latest'}],
+        packages: {
+            '@sentry/browser': 'latest',
+            '@sentry/nextjs': 'latest',
+        }     
     },
     'rollbar': { 
-        packages: [{'rollbar': 'latest'}],
+        packages: {
+            'rollbar': 'latest',
+        }     
     },
   },
   repoProviders: {
     'bitbucket': { 
-        packages: [{'bitbucket': 'latest'}],
+        packages: {
+            'bitbucket': 'latest',
+        }     
     },
     'github': { 
-        packages: [{'twilio': 'latest'}],
+        packages: {
+            'twilio': 'latest',
+        }     
     },
     'gitlab': { 
-        packages: [{'@gitbeaker/node': 'latest'}],
+        packages: {
+            '@gitbeaker/node': 'latest',
+        }     
     },
   }
 }
 
 function package(name, category, packages) {
     const saaskit = { "saaskit": "latest" }
+    console.log(packages)
+    const dependencies = packages
     return {
         "name": `@saaskit/${name}`,
         "version": "0.2.0",
@@ -453,7 +744,7 @@ function package(name, category, packages) {
         "description": `SaaSkit integration with ${capitalCase(name)}`,
         "repository": `saas-studio/saaskit/integrations/${name}`,
         "homepage": `https://saaskit.js.org/integrations/${name}`,
-        "keywords": ["saas","analytics","saaskit",`saaskit-${name}`, name, category],
+        "keywords": ["saas","saaskit",`saaskit-${name}`, name, category],
         "author": "SaaS.Dev",
         "license": "MIT",
         "main": "index.js",
@@ -488,13 +779,15 @@ for (provider in providers) {
     console.log(provider)
     for (integration in providers[provider]) {
         console.log(providers[provider][integration])
-        console.log(`${capitalCase(integration)},${integration},${camelCase(integration)},${`@saaskit/${integration}`}`)
+        // console.log(`${capitalCase(integration)},${integration},${camelCase(integration)},${`@saaskit/${integration}`}`)
+        const packages = providers[provider][integration].packages
+        console.log(packages)
         if (!fs.existsSync(`../../integrations/${integration}`)) {
             fs.mkdirSync(`../../integrations/${integration}`)
         }
-        jsonfile.writeFileSync(`../../integrations/${integration}/package.json`, package(integration, provider, Object.values(providers[provider][integration].packages)), { spaces: 2, EOL: '\r\n' })
+        jsonfile.writeFileSync(`../../integrations/${integration}/package.json`, package(integration, provider, packages), { spaces: 2, EOL: '\r\n' })
         fs.writeFileSync(`../../integrations/${integration}/index.js`, index(integration, provider[integration]))
-        fs.writeFileSync(`../../integrations/${integration}/README.md`, readme(integration, provider[integration]))
+        fs.writeFileSync(`../../integrations/${integration}/README.md`, readme(integration, packages))
     }
 }
   
