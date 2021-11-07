@@ -1,0 +1,22 @@
+{
+  "name": "@saaskit/vercel",
+  "version": "0.2.0",
+  "private": false,
+  "description": "SaaSkit integration with Vercel",
+  "repository": "saas-studio/saaskit/integrations/vercel",
+  "homepage": "https://saaskit.js.org/integrations/vercel",
+  "keywords": [
+    "saas",
+    "saaskit",
+    "saaskit-vercel",
+    "vercel",
+    "hosting"
+  ],
+  "author": "SaaS.Dev",
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {
+    "vercel": "latest",
+    "saaskit": "latest"
+  }
+}

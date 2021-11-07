@@ -1,16 +1,16 @@
 {
   "name": "@saaskit/amplitude",
-  "version": "0.2.11",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Amplitude",
   "repository": "saas-studio/saaskit/integrations/amplitude",
   "homepage": "https://saaskit.js.org/integrations/amplitude",
   "keywords": [
     "saas",
-    "analytics",
     "saaskit",
     "saaskit-amplitude",
-    "amplitude"
+    "amplitude",
+    "analytics"
   ],
   "author": "SaaS.Dev",
   "license": "MIT",

@@ -1,0 +1,22 @@
+{
+  "name": "@saaskit/clerk",
+  "version": "0.2.0",
+  "private": false,
+  "description": "SaaSkit integration with Clerk",
+  "repository": "saas-studio/saaskit/integrations/clerk",
+  "homepage": "https://saaskit.js.org/integrations/clerk",
+  "keywords": [
+    "saas",
+    "saaskit",
+    "saaskit-clerk",
+    "clerk",
+    "auth"
+  ],
+  "author": "SaaS.Dev",
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {
+    "@clerk/clerk-js": "latest",
+    "saaskit": "latest"
+  }
+}

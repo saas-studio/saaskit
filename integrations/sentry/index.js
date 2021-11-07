@@ -1,8 +1,8 @@
 
-    import sentry from '@segment/analytics.js-integration-sentry'
+    import sentry from '@sentry/browser'
 
     export default {
-        analytics: {
+        monitoring: {
             sentry
         }
     }

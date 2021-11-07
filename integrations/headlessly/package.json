@@ -1,0 +1,22 @@
+{
+  "name": "@saaskit/headlessly",
+  "version": "0.2.0",
+  "private": false,
+  "description": "SaaSkit integration with Headlessly",
+  "repository": "saas-studio/saaskit/integrations/headlessly",
+  "homepage": "https://saaskit.js.org/integrations/headlessly",
+  "keywords": [
+    "saas",
+    "saaskit",
+    "saaskit-headlessly",
+    "headlessly",
+    "cms"
+  ],
+  "author": "SaaS.Dev",
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {
+    "headless.ly": "latest",
+    "saaskit": "latest"
+  }
+}

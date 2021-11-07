@@ -1,16 +1,16 @@
 {
   "name": "@saaskit/klaviyo",
-  "version": "0.2.11",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Klaviyo",
   "repository": "saas-studio/saaskit/integrations/klaviyo",
   "homepage": "https://saaskit.js.org/integrations/klaviyo",
   "keywords": [
     "saas",
-    "analytics",
     "saaskit",
     "saaskit-klaviyo",
-    "klaviyo"
+    "klaviyo",
+    "analytics"
   ],
   "author": "SaaS.Dev",
   "license": "MIT",

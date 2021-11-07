@@ -1,16 +1,16 @@
 {
   "name": "@saaskit/mojn",
-  "version": "0.2.11",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Mojn",
   "repository": "saas-studio/saaskit/integrations/mojn",
   "homepage": "https://saaskit.js.org/integrations/mojn",
   "keywords": [
     "saas",
-    "analytics",
     "saaskit",
     "saaskit-mojn",
-    "mojn"
+    "mojn",
+    "analytics"
   ],
   "author": "SaaS.Dev",
   "license": "MIT",

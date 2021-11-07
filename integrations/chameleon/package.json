@@ -1,16 +1,16 @@
 {
   "name": "@saaskit/chameleon",
-  "version": "0.2.11",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Chameleon",
   "repository": "saas-studio/saaskit/integrations/chameleon",
   "homepage": "https://saaskit.js.org/integrations/chameleon",
   "keywords": [
     "saas",
-    "analytics",
     "saaskit",
     "saaskit-chameleon",
-    "chameleon"
+    "chameleon",
+    "analytics"
   ],
   "author": "SaaS.Dev",
   "license": "MIT",

@@ -1,16 +1,16 @@
 {
   "name": "@saaskit/route",
-  "version": "0.2.11",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Route",
   "repository": "saas-studio/saaskit/integrations/route",
   "homepage": "https://saaskit.js.org/integrations/route",
   "keywords": [
     "saas",
-    "analytics",
     "saaskit",
     "saaskit-route",
-    "route"
+    "route",
+    "analytics"
   ],
   "author": "SaaS.Dev",
   "license": "MIT",

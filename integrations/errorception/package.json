@@ -1,16 +1,16 @@
 {
   "name": "@saaskit/errorception",
-  "version": "0.2.11",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Errorception",
   "repository": "saas-studio/saaskit/integrations/errorception",
   "homepage": "https://saaskit.js.org/integrations/errorception",
   "keywords": [
     "saas",
-    "analytics",
     "saaskit",
     "saaskit-errorception",
-    "errorception"
+    "errorception",
+    "analytics"
   ],
   "author": "SaaS.Dev",
   "license": "MIT",

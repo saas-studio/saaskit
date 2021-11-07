@@ -1,16 +1,16 @@
 {
   "name": "@saaskit/snapengage",
-  "version": "0.2.11",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Snapengage",
   "repository": "saas-studio/saaskit/integrations/snapengage",
   "homepage": "https://saaskit.js.org/integrations/snapengage",
   "keywords": [
     "saas",
-    "analytics",
     "saaskit",
     "saaskit-snapengage",
-    "snapengage"
+    "snapengage",
+    "analytics"
   ],
   "author": "SaaS.Dev",
   "license": "MIT",

@@ -1,16 +1,16 @@
 {
   "name": "@saaskit/trakio",
-  "version": "0.2.11",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Trakio",
   "repository": "saas-studio/saaskit/integrations/trakio",
   "homepage": "https://saaskit.js.org/integrations/trakio",
   "keywords": [
     "saas",
-    "analytics",
     "saaskit",
     "saaskit-trakio",
-    "trakio"
+    "trakio",
+    "analytics"
   ],
   "author": "SaaS.Dev",
   "license": "MIT",

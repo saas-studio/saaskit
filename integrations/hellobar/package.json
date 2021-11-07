@@ -1,16 +1,16 @@
 {
   "name": "@saaskit/hellobar",
-  "version": "0.2.11",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Hellobar",
   "repository": "saas-studio/saaskit/integrations/hellobar",
   "homepage": "https://saaskit.js.org/integrations/hellobar",
   "keywords": [
     "saas",
-    "analytics",
     "saaskit",
     "saaskit-hellobar",
-    "hellobar"
+    "hellobar",
+    "analytics"
   ],
   "author": "SaaS.Dev",
   "license": "MIT",

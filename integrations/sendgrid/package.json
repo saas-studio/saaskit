@@ -1,0 +1,22 @@
+{
+  "name": "@saaskit/sendgrid",
+  "version": "0.2.0",
+  "private": false,
+  "description": "SaaSkit integration with Sendgrid",
+  "repository": "saas-studio/saaskit/integrations/sendgrid",
+  "homepage": "https://saaskit.js.org/integrations/sendgrid",
+  "keywords": [
+    "saas",
+    "saaskit",
+    "saaskit-sendgrid",
+    "sendgrid",
+    "api"
+  ],
+  "author": "SaaS.Dev",
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {
+    "@sendgrid/client": "latest",
+    "saaskit": "latest"
+  }
+}

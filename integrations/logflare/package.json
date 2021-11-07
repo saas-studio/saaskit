@@ -1,0 +1,22 @@
+{
+  "name": "@saaskit/logflare",
+  "version": "0.2.0",
+  "private": false,
+  "description": "SaaSkit integration with Logflare",
+  "repository": "saas-studio/saaskit/integrations/logflare",
+  "homepage": "https://saaskit.js.org/integrations/logflare",
+  "keywords": [
+    "saas",
+    "saaskit",
+    "saaskit-logflare",
+    "logflare",
+    "logging"
+  ],
+  "author": "SaaS.Dev",
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {
+    "pino-logflare": "latest",
+    "saaskit": "latest"
+  }
+}

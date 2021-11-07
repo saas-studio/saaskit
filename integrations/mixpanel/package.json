@@ -1,16 +1,16 @@
 {
   "name": "@saaskit/mixpanel",
-  "version": "0.2.11",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Mixpanel",
   "repository": "saas-studio/saaskit/integrations/mixpanel",
   "homepage": "https://saaskit.js.org/integrations/mixpanel",
   "keywords": [
     "saas",
-    "analytics",
     "saaskit",
     "saaskit-mixpanel",
-    "mixpanel"
+    "mixpanel",
+    "analytics"
   ],
   "author": "SaaS.Dev",
   "license": "MIT",

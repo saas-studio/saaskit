@@ -1,0 +1,22 @@
+{
+  "name": "@saaskit/logg.ng",
+  "version": "0.2.0",
+  "private": false,
+  "description": "SaaSkit integration with Logg Ng",
+  "repository": "saas-studio/saaskit/integrations/logg.ng",
+  "homepage": "https://saaskit.js.org/integrations/logg.ng",
+  "keywords": [
+    "saas",
+    "saaskit",
+    "saaskit-logg.ng",
+    "logg.ng",
+    "logging"
+  ],
+  "author": "SaaS.Dev",
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {
+    "logg.ng": "latest",
+    "saaskit": "latest"
+  }
+}

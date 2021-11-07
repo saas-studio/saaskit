@@ -1,16 +1,16 @@
 {
   "name": "@saaskit/hubspot",
-  "version": "0.2.11",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Hubspot",
   "repository": "saas-studio/saaskit/integrations/hubspot",
   "homepage": "https://saaskit.js.org/integrations/hubspot",
   "keywords": [
     "saas",
-    "analytics",
     "saaskit",
     "saaskit-hubspot",
-    "hubspot"
+    "hubspot",
+    "analytics"
   ],
   "author": "SaaS.Dev",
   "license": "MIT",

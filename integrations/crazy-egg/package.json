@@ -1,16 +1,16 @@
 {
   "name": "@saaskit/crazy-egg",
-  "version": "0.2.11",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Crazy Egg",
   "repository": "saas-studio/saaskit/integrations/crazy-egg",
   "homepage": "https://saaskit.js.org/integrations/crazy-egg",
   "keywords": [
     "saas",
-    "analytics",
     "saaskit",
     "saaskit-crazy-egg",
-    "crazy-egg"
+    "crazy-egg",
+    "analytics"
   ],
   "author": "SaaS.Dev",
   "license": "MIT",

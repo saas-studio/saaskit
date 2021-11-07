@@ -1,16 +1,16 @@
 {
   "name": "@saaskit/lucky-orange",
-  "version": "0.2.11",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Lucky Orange",
   "repository": "saas-studio/saaskit/integrations/lucky-orange",
   "homepage": "https://saaskit.js.org/integrations/lucky-orange",
   "keywords": [
     "saas",
-    "analytics",
     "saaskit",
     "saaskit-lucky-orange",
-    "lucky-orange"
+    "lucky-orange",
+    "analytics"
   ],
   "author": "SaaS.Dev",
   "license": "MIT",

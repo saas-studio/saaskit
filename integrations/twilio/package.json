@@ -1,0 +1,22 @@
+{
+  "name": "@saaskit/twilio",
+  "version": "0.2.0",
+  "private": false,
+  "description": "SaaSkit integration with Twilio",
+  "repository": "saas-studio/saaskit/integrations/twilio",
+  "homepage": "https://saaskit.js.org/integrations/twilio",
+  "keywords": [
+    "saas",
+    "saaskit",
+    "saaskit-twilio",
+    "twilio",
+    "api"
+  ],
+  "author": "SaaS.Dev",
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {
+    "twilio": "latest",
+    "saaskit": "latest"
+  }
+}

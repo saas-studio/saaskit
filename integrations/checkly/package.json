@@ -1,0 +1,22 @@
+{
+  "name": "@saaskit/checkly",
+  "version": "0.2.0",
+  "private": false,
+  "description": "SaaSkit integration with Checkly",
+  "repository": "saas-studio/saaskit/integrations/checkly",
+  "homepage": "https://saaskit.js.org/integrations/checkly",
+  "keywords": [
+    "saas",
+    "saaskit",
+    "saaskit-checkly",
+    "checkly",
+    "monitoring"
+  ],
+  "author": "SaaS.Dev",
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {
+    "checkly": "latest",
+    "saaskit": "latest"
+  }
+}

@@ -1,16 +1,16 @@
 {
   "name": "@saaskit/fullstory",
-  "version": "0.2.11",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Fullstory",
   "repository": "saas-studio/saaskit/integrations/fullstory",
   "homepage": "https://saaskit.js.org/integrations/fullstory",
   "keywords": [
     "saas",
-    "analytics",
     "saaskit",
     "saaskit-fullstory",
-    "fullstory"
+    "fullstory",
+    "analytics"
   ],
   "author": "SaaS.Dev",
   "license": "MIT",

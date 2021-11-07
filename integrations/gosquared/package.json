@@ -1,16 +1,16 @@
 {
   "name": "@saaskit/gosquared",
-  "version": "0.2.11",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Gosquared",
   "repository": "saas-studio/saaskit/integrations/gosquared",
   "homepage": "https://saaskit.js.org/integrations/gosquared",
   "keywords": [
     "saas",
-    "analytics",
     "saaskit",
     "saaskit-gosquared",
-    "gosquared"
+    "gosquared",
+    "analytics"
   ],
   "author": "SaaS.Dev",
   "license": "MIT",

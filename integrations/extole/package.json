@@ -1,16 +1,16 @@
 {
   "name": "@saaskit/extole",
-  "version": "0.2.11",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Extole",
   "repository": "saas-studio/saaskit/integrations/extole",
   "homepage": "https://saaskit.js.org/integrations/extole",
   "keywords": [
     "saas",
-    "analytics",
     "saaskit",
     "saaskit-extole",
-    "extole"
+    "extole",
+    "analytics"
   ],
   "author": "SaaS.Dev",
   "license": "MIT",

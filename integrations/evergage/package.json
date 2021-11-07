@@ -1,16 +1,16 @@
 {
   "name": "@saaskit/evergage",
-  "version": "0.2.11",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Evergage",
   "repository": "saas-studio/saaskit/integrations/evergage",
   "homepage": "https://saaskit.js.org/integrations/evergage",
   "keywords": [
     "saas",
-    "analytics",
     "saaskit",
     "saaskit-evergage",
-    "evergage"
+    "evergage",
+    "analytics"
   ],
   "author": "SaaS.Dev",
   "license": "MIT",

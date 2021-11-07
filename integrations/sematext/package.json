@@ -1,0 +1,23 @@
+{
+  "name": "@saaskit/sematext",
+  "version": "0.2.0",
+  "private": false,
+  "description": "SaaSkit integration with Sematext",
+  "repository": "saas-studio/saaskit/integrations/sematext",
+  "homepage": "https://saaskit.js.org/integrations/sematext",
+  "keywords": [
+    "saas",
+    "saaskit",
+    "saaskit-sematext",
+    "sematext",
+    "logging"
+  ],
+  "author": "SaaS.Dev",
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {
+    "@sematext/sematext-api-client": "latest",
+    "@sematext/logagent": "latest",
+    "saaskit": "latest"
+  }
+}

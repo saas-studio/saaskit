@@ -1,0 +1,23 @@
+{
+  "name": "@saaskit/auth0",
+  "version": "0.2.0",
+  "private": false,
+  "description": "SaaSkit integration with Auth0",
+  "repository": "saas-studio/saaskit/integrations/auth0",
+  "homepage": "https://saaskit.js.org/integrations/auth0",
+  "keywords": [
+    "saas",
+    "saaskit",
+    "saaskit-auth0",
+    "auth0",
+    "auth"
+  ],
+  "author": "SaaS.Dev",
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {
+    "@segment/analytics.js-integration-adroll": "nextjs-auth0",
+    "auth0-react": "latest",
+    "saaskit": "latest"
+  }
+}

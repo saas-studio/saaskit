@@ -1,8 +1,8 @@
 
-    import rollbar from '@segment/analytics.js-integration-rollbar'
+    import rollbar from 'rollbar'
 
     export default {
-        analytics: {
+        monitoring: {
             rollbar
         }
     }

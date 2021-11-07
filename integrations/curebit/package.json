@@ -1,16 +1,16 @@
 {
   "name": "@saaskit/curebit",
-  "version": "0.2.11",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Curebit",
   "repository": "saas-studio/saaskit/integrations/curebit",
   "homepage": "https://saaskit.js.org/integrations/curebit",
   "keywords": [
     "saas",
-    "analytics",
     "saaskit",
     "saaskit-curebit",
-    "curebit"
+    "curebit",
+    "analytics"
   ],
   "author": "SaaS.Dev",
   "license": "MIT",

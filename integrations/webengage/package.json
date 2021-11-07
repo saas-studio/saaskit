@@ -1,16 +1,16 @@
 {
   "name": "@saaskit/webengage",
-  "version": "0.2.11",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Webengage",
   "repository": "saas-studio/saaskit/integrations/webengage",
   "homepage": "https://saaskit.js.org/integrations/webengage",
   "keywords": [
     "saas",
-    "analytics",
     "saaskit",
     "saaskit-webengage",
-    "webengage"
+    "webengage",
+    "analytics"
   ],
   "author": "SaaS.Dev",
   "license": "MIT",

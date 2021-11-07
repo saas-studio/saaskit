@@ -1,16 +1,16 @@
 {
   "name": "@saaskit/google-analytics",
-  "version": "0.2.11",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Google Analytics",
   "repository": "saas-studio/saaskit/integrations/google-analytics",
   "homepage": "https://saaskit.js.org/integrations/google-analytics",
   "keywords": [
     "saas",
-    "analytics",
     "saaskit",
     "saaskit-google-analytics",
-    "google-analytics"
+    "google-analytics",
+    "analytics"
   ],
   "author": "SaaS.Dev",
   "license": "MIT",

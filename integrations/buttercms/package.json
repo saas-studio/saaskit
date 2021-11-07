@@ -1,0 +1,22 @@
+{
+  "name": "@saaskit/buttercms",
+  "version": "0.2.0",
+  "private": false,
+  "description": "SaaSkit integration with Buttercms",
+  "repository": "saas-studio/saaskit/integrations/buttercms",
+  "homepage": "https://saaskit.js.org/integrations/buttercms",
+  "keywords": [
+    "saas",
+    "saaskit",
+    "saaskit-buttercms",
+    "buttercms",
+    "cms"
+  ],
+  "author": "SaaS.Dev",
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {
+    "buttercms": "latest",
+    "saaskit": "latest"
+  }
+}

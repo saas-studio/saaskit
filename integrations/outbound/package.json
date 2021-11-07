@@ -1,16 +1,16 @@
 {
   "name": "@saaskit/outbound",
-  "version": "0.2.11",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Outbound",
   "repository": "saas-studio/saaskit/integrations/outbound",
   "homepage": "https://saaskit.js.org/integrations/outbound",
   "keywords": [
     "saas",
-    "analytics",
     "saaskit",
     "saaskit-outbound",
-    "outbound"
+    "outbound",
+    "analytics"
   ],
   "author": "SaaS.Dev",
   "license": "MIT",

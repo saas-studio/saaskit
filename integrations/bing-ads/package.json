@@ -1,16 +1,16 @@
 {
   "name": "@saaskit/bing-ads",
-  "version": "0.2.11",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Bing Ads",
   "repository": "saas-studio/saaskit/integrations/bing-ads",
   "homepage": "https://saaskit.js.org/integrations/bing-ads",
   "keywords": [
     "saas",
-    "analytics",
     "saaskit",
     "saaskit-bing-ads",
-    "bing-ads"
+    "bing-ads",
+    "analytics"
   ],
   "author": "SaaS.Dev",
   "license": "MIT",

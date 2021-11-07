@@ -1,16 +1,16 @@
 {
   "name": "@saaskit/nudgespot",
-  "version": "0.2.11",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Nudgespot",
   "repository": "saas-studio/saaskit/integrations/nudgespot",
   "homepage": "https://saaskit.js.org/integrations/nudgespot",
   "keywords": [
     "saas",
-    "analytics",
     "saaskit",
     "saaskit-nudgespot",
-    "nudgespot"
+    "nudgespot",
+    "analytics"
   ],
   "author": "SaaS.Dev",
   "license": "MIT",

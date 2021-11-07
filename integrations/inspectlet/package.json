@@ -1,16 +1,16 @@
 {
   "name": "@saaskit/inspectlet",
-  "version": "0.2.11",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Inspectlet",
   "repository": "saas-studio/saaskit/integrations/inspectlet",
   "homepage": "https://saaskit.js.org/integrations/inspectlet",
   "keywords": [
     "saas",
-    "analytics",
     "saaskit",
     "saaskit-inspectlet",
-    "inspectlet"
+    "inspectlet",
+    "analytics"
   ],
   "author": "SaaS.Dev",
   "license": "MIT",

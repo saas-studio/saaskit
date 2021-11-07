@@ -1,0 +1,23 @@
+{
+  "name": "@saaskit/datadog",
+  "version": "0.2.0",
+  "private": false,
+  "description": "SaaSkit integration with Datadog",
+  "repository": "saas-studio/saaskit/integrations/datadog",
+  "homepage": "https://saaskit.js.org/integrations/datadog",
+  "keywords": [
+    "saas",
+    "saaskit",
+    "saaskit-datadog",
+    "datadog",
+    "monitoring"
+  ],
+  "author": "SaaS.Dev",
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {
+    "@datadog/browser-core": "latest",
+    "@datadog/datadog-api-client": "latest",
+    "saaskit": "latest"
+  }
+}

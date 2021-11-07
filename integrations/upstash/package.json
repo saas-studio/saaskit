@@ -1,0 +1,22 @@
+{
+  "name": "@saaskit/upstash",
+  "version": "0.2.0",
+  "private": false,
+  "description": "SaaSkit integration with Upstash",
+  "repository": "saas-studio/saaskit/integrations/upstash",
+  "homepage": "https://saaskit.js.org/integrations/upstash",
+  "keywords": [
+    "saas",
+    "saaskit",
+    "saaskit-upstash",
+    "upstash",
+    "data"
+  ],
+  "author": "SaaS.Dev",
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {
+    "@upstash/upstash-redis": "latest",
+    "saaskit": "latest"
+  }
+}

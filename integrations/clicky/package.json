@@ -1,16 +1,16 @@
 {
   "name": "@saaskit/clicky",
-  "version": "0.2.11",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Clicky",
   "repository": "saas-studio/saaskit/integrations/clicky",
   "homepage": "https://saaskit.js.org/integrations/clicky",
   "keywords": [
     "saas",
-    "analytics",
     "saaskit",
     "saaskit-clicky",
-    "clicky"
+    "clicky",
+    "analytics"
   ],
   "author": "SaaS.Dev",
   "license": "MIT",

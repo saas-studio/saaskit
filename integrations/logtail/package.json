@@ -1,0 +1,23 @@
+{
+  "name": "@saaskit/logtail",
+  "version": "0.2.0",
+  "private": false,
+  "description": "SaaSkit integration with Logtail",
+  "repository": "saas-studio/saaskit/integrations/logtail",
+  "homepage": "https://saaskit.js.org/integrations/logtail",
+  "keywords": [
+    "saas",
+    "saaskit",
+    "saaskit-logtail",
+    "logtail",
+    "logging"
+  ],
+  "author": "SaaS.Dev",
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {
+    "@logtail/js": "latest",
+    "@logtail/node": "latest",
+    "saaskit": "latest"
+  }
+}

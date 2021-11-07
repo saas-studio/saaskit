@@ -1,0 +1,22 @@
+{
+  "name": "@saaskit/bitbucket",
+  "version": "0.2.0",
+  "private": false,
+  "description": "SaaSkit integration with Bitbucket",
+  "repository": "saas-studio/saaskit/integrations/bitbucket",
+  "homepage": "https://saaskit.js.org/integrations/bitbucket",
+  "keywords": [
+    "saas",
+    "saaskit",
+    "saaskit-bitbucket",
+    "bitbucket",
+    "repoProviders"
+  ],
+  "author": "SaaS.Dev",
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {
+    "bitbucket": "latest",
+    "saaskit": "latest"
+  }
+}

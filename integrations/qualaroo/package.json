@@ -1,16 +1,16 @@
 {
   "name": "@saaskit/qualaroo",
-  "version": "0.2.11",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Qualaroo",
   "repository": "saas-studio/saaskit/integrations/qualaroo",
   "homepage": "https://saaskit.js.org/integrations/qualaroo",
   "keywords": [
     "saas",
-    "analytics",
     "saaskit",
     "saaskit-qualaroo",
-    "qualaroo"
+    "qualaroo",
+    "analytics"
   ],
   "author": "SaaS.Dev",
   "license": "MIT",

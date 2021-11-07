@@ -1,0 +1,22 @@
+{
+  "name": "@saaskit/airtable",
+  "version": "0.2.0",
+  "private": false,
+  "description": "SaaSkit integration with Airtable",
+  "repository": "saas-studio/saaskit/integrations/airtable",
+  "homepage": "https://saaskit.js.org/integrations/airtable",
+  "keywords": [
+    "saas",
+    "saaskit",
+    "saaskit-airtable",
+    "airtable",
+    "data"
+  ],
+  "author": "SaaS.Dev",
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {
+    "firebase": "latest",
+    "saaskit": "latest"
+  }
+}

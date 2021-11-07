@@ -1,16 +1,16 @@
 {
   "name": "@saaskit/chartbeat",
-  "version": "0.2.11",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Chartbeat",
   "repository": "saas-studio/saaskit/integrations/chartbeat",
   "homepage": "https://saaskit.js.org/integrations/chartbeat",
   "keywords": [
     "saas",
-    "analytics",
     "saaskit",
     "saaskit-chartbeat",
-    "chartbeat"
+    "chartbeat",
+    "analytics"
   ],
   "author": "SaaS.Dev",
   "license": "MIT",

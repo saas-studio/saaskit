@@ -1,0 +1,22 @@
+{
+  "name": "@saaskit/contentful",
+  "version": "0.2.0",
+  "private": false,
+  "description": "SaaSkit integration with Contentful",
+  "repository": "saas-studio/saaskit/integrations/contentful",
+  "homepage": "https://saaskit.js.org/integrations/contentful",
+  "keywords": [
+    "saas",
+    "saaskit",
+    "saaskit-contentful",
+    "contentful",
+    "cms"
+  ],
+  "author": "SaaS.Dev",
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {
+    "contentful": "latest",
+    "saaskit": "latest"
+  }
+}

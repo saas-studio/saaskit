@@ -1,0 +1,21 @@
+{
+  "name": "@saaskit/fauna",
+  "version": "0.2.0",
+  "private": false,
+  "description": "SaaSkit integration with Fauna",
+  "repository": "saas-studio/saaskit/integrations/fauna",
+  "homepage": "https://saaskit.js.org/integrations/fauna",
+  "keywords": [
+    "saas",
+    "saaskit",
+    "saaskit-fauna",
+    "fauna",
+    "data"
+  ],
+  "author": "SaaS.Dev",
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {
+    "saaskit": "latest"
+  }
+}

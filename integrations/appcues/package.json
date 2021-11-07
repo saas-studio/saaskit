@@ -1,16 +1,16 @@
 {
   "name": "@saaskit/appcues",
-  "version": "0.2.11",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Appcues",
   "repository": "saas-studio/saaskit/integrations/appcues",
   "homepage": "https://saaskit.js.org/integrations/appcues",
   "keywords": [
     "saas",
-    "analytics",
     "saaskit",
     "saaskit-appcues",
-    "appcues"
+    "appcues",
+    "analytics"
   ],
   "author": "SaaS.Dev",
   "license": "MIT",

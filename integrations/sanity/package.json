@@ -1,0 +1,23 @@
+{
+  "name": "@saaskit/sanity",
+  "version": "0.2.0",
+  "private": false,
+  "description": "SaaSkit integration with Sanity",
+  "repository": "saas-studio/saaskit/integrations/sanity",
+  "homepage": "https://saaskit.js.org/integrations/sanity",
+  "keywords": [
+    "saas",
+    "saaskit",
+    "saaskit-sanity",
+    "sanity",
+    "cms"
+  ],
+  "author": "SaaS.Dev",
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {
+    "sanity": "latest",
+    "@sanity/client": "latest",
+    "saaskit": "latest"
+  }
+}

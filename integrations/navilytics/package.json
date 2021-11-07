@@ -1,16 +1,16 @@
 {
   "name": "@saaskit/navilytics",
-  "version": "0.2.11",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Navilytics",
   "repository": "saas-studio/saaskit/integrations/navilytics",
   "homepage": "https://saaskit.js.org/integrations/navilytics",
   "keywords": [
     "saas",
-    "analytics",
     "saaskit",
     "saaskit-navilytics",
-    "navilytics"
+    "navilytics",
+    "analytics"
   ],
   "author": "SaaS.Dev",
   "license": "MIT",

@@ -755,12 +755,12 @@ function package(name, category, packages) {
     }
 }
 
-function index(name, packages) {
+function index(name, provider, packages) {
     return `
-    import ${camelCase(name)} from '${package}'
+    import ${camelCase(name)} from '${Object.keys(packages)[0]}'
 
     export default {
-        analytics: {
+        ${provider}: {
             ${camelCase(name)}
         }
     }
@@ -786,7 +786,7 @@ for (provider in providers) {
             fs.mkdirSync(`../../integrations/${integration}`)
         }
         jsonfile.writeFileSync(`../../integrations/${integration}/package.json`, package(integration, provider, packages), { spaces: 2, EOL: '\r\n' })
-        fs.writeFileSync(`../../integrations/${integration}/index.js`, index(integration, provider[integration]))
+        fs.writeFileSync(`../../integrations/${integration}/index.js`, index(integration,  provider, packages))
         fs.writeFileSync(`../../integrations/${integration}/README.md`, readme(integration, packages))
     }
 }

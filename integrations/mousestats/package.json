@@ -1,16 +1,16 @@
 {
   "name": "@saaskit/mousestats",
-  "version": "0.2.11",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Mousestats",
   "repository": "saas-studio/saaskit/integrations/mousestats",
   "homepage": "https://saaskit.js.org/integrations/mousestats",
   "keywords": [
     "saas",
-    "analytics",
     "saaskit",
     "saaskit-mousestats",
-    "mousestats"
+    "mousestats",
+    "analytics"
   ],
   "author": "SaaS.Dev",
   "license": "MIT",

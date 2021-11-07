@@ -1,16 +1,16 @@
 {
   "name": "@saaskit/adroll",
-  "version": "0.2.11",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Adroll",
   "repository": "saas-studio/saaskit/integrations/adroll",
   "homepage": "https://saaskit.js.org/integrations/adroll",
   "keywords": [
     "saas",
-    "analytics",
     "saaskit",
     "saaskit-adroll",
-    "adroll"
+    "adroll",
+    "analytics"
   ],
   "author": "SaaS.Dev",
   "license": "MIT",
