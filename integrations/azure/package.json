@@ -1,10 +1,11 @@
 {
   "name": "@saaskit/azure",
-  "version": "0.2.13",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Azure",
-  "repository": "saas-studio/saaskit/integrations/azure",
-  "homepage": "https://saaskit.js.org/integrations/azure",
+  "repository": "saas-studio/saaskit",
+  "bugs": "https://github.com/saas-studio/saaskit/issues",
+  "homepage": "https://saaskit.js.org",
   "keywords": [
     "saas",
     "saaskit",

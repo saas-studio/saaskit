@@ -1,10 +1,11 @@
 {
   "name": "@saaskit/awesm",
-  "version": "0.2.13",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Awesm",
-  "repository": "saas-studio/saaskit/integrations/awesm",
-  "homepage": "https://saaskit.js.org/integrations/awesm",
+  "repository": "saas-studio/saaskit",
+  "bugs": "https://github.com/saas-studio/saaskit/issues",
+  "homepage": "https://saaskit.js.org",
   "keywords": [
     "saas",
     "saaskit",

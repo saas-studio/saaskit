@@ -1,10 +1,11 @@
 {
   "name": "@saaskit/datocms",
-  "version": "0.2.13",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Datocms",
-  "repository": "saas-studio/saaskit/integrations/datocms",
-  "homepage": "https://saaskit.js.org/integrations/datocms",
+  "repository": "saas-studio/saaskit",
+  "bugs": "https://github.com/saas-studio/saaskit/issues",
+  "homepage": "https://saaskit.js.org",
   "keywords": [
     "saas",
     "saaskit",
@@ -16,8 +17,8 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "datocms-client": "latest",
     "react-datocms": "latest",
+    "datocms-client": "latest",
     "saaskit": "latest"
   }
 }

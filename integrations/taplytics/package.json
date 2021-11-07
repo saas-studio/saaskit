@@ -1,10 +1,11 @@
 {
   "name": "@saaskit/taplytics",
-  "version": "0.2.13",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Taplytics",
-  "repository": "saas-studio/saaskit/integrations/taplytics",
-  "homepage": "https://saaskit.js.org/integrations/taplytics",
+  "repository": "saas-studio/saaskit",
+  "bugs": "https://github.com/saas-studio/saaskit/issues",
+  "homepage": "https://saaskit.js.org",
   "keywords": [
     "saas",
     "saaskit",

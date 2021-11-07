@@ -1,10 +1,11 @@
 {
   "name": "@saaskit/tapstream",
-  "version": "0.2.13",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Tapstream",
-  "repository": "saas-studio/saaskit/integrations/tapstream",
-  "homepage": "https://saaskit.js.org/integrations/tapstream",
+  "repository": "saas-studio/saaskit",
+  "bugs": "https://github.com/saas-studio/saaskit/issues",
+  "homepage": "https://saaskit.js.org",
   "keywords": [
     "saas",
     "saaskit",

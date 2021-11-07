@@ -1,10 +1,11 @@
 {
   "name": "@saaskit/gitlab",
-  "version": "0.2.13",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Gitlab",
-  "repository": "saas-studio/saaskit/integrations/gitlab",
-  "homepage": "https://saaskit.js.org/integrations/gitlab",
+  "repository": "saas-studio/saaskit",
+  "bugs": "https://github.com/saas-studio/saaskit/issues",
+  "homepage": "https://saaskit.js.org",
   "keywords": [
     "saas",
     "saaskit",

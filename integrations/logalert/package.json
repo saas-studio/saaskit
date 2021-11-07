@@ -1,10 +1,11 @@
 {
   "name": "@saaskit/logalert",
-  "version": "0.2.13",
+  "version": "0.2.0",
   "private": false,
   "description": "SaaSkit integration with Logalert",
-  "repository": "saas-studio/saaskit/integrations/logalert",
-  "homepage": "https://saaskit.js.org/integrations/logalert",
+  "repository": "saas-studio/saaskit",
+  "bugs": "https://github.com/saas-studio/saaskit/issues",
+  "homepage": "https://saaskit.js.org",
   "keywords": [
     "saas",
     "saaskit",
