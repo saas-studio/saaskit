@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/livechat",
-  "version": "0.2.0",
+  "version": "0.2.14",
   "private": false,
   "description": "SaaSkit integration with Livechat",
   "repository": "saas-studio/saaskit",

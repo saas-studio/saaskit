@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/google-tag-manager",
-  "version": "0.2.0",
+  "version": "0.2.14",
   "private": false,
   "description": "SaaSkit integration with Google Tag Manager",
   "repository": "saas-studio/saaskit",

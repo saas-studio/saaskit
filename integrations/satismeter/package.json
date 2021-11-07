@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/satismeter",
-  "version": "0.2.0",
+  "version": "0.2.14",
   "private": false,
   "description": "SaaSkit integration with Satismeter",
   "repository": "saas-studio/saaskit",

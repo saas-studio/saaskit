@@ -2,7 +2,7 @@
   "name": "edge-middleware",
   "description": "Middleware & Abstraction Layer for Edge Functions that work for both Cloudflare Workers & Next.js Middleware with Edge Functions on Vercel",
   "author": "SaaS.Dev",
-  "version": "0.2.13",
+  "version": "0.2.14",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -58,7 +58,7 @@
   },
   "dependencies": {
     "next-auth": "^3.29.0",
-    "saaskit": "^0.2.13",
+    "saaskit": "^0.2.14",
     "ua-parser-js": "^1.0.2"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/outbound",
-  "version": "0.2.0",
+  "version": "0.2.14",
   "private": false,
   "description": "SaaSkit integration with Outbound",
   "repository": "saas-studio/saaskit",

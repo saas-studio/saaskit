@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/route",
-  "version": "0.2.0",
+  "version": "0.2.14",
   "private": false,
   "description": "SaaSkit integration with Route",
   "repository": "saas-studio/saaskit",

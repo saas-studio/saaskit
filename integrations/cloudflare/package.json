@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/cloudflare",
-  "version": "0.2.0",
+  "version": "0.2.14",
   "private": false,
   "description": "SaaSkit integration with Cloudflare",
   "repository": "saas-studio/saaskit",

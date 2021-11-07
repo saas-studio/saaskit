@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/facebook-conversion-tracking",
-  "version": "0.2.0",
+  "version": "0.2.14",
   "private": false,
   "description": "SaaSkit integration with Facebook Conversion Tracking",
   "repository": "saas-studio/saaskit",
