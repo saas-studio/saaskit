@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/datadog",
-  "version": "0.2.0",
+  "version": "0.2.13",
   "private": false,
   "description": "SaaSkit integration with Datadog",
   "repository": "saas-studio/saaskit/integrations/datadog",

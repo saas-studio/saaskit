@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/github",
-  "version": "0.2.0",
+  "version": "0.2.13",
   "private": false,
   "description": "SaaSkit integration with Github",
   "repository": "saas-studio/saaskit/integrations/github",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "twilio": "latest",
-    "saaskit": "latest"
+    "saaskit": "latest",
+    "twilio": "latest"
   }
 }

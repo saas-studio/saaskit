@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/sanity",
-  "version": "0.2.0",
+  "version": "0.2.13",
   "private": false,
   "description": "SaaSkit integration with Sanity",
   "repository": "saas-studio/saaskit/integrations/sanity",
@@ -16,8 +16,8 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "sanity": "latest",
     "@sanity/client": "latest",
-    "saaskit": "latest"
+    "saaskit": "latest",
+    "sanity": "latest"
   }
 }

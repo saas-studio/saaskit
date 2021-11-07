@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/planetscale",
-  "version": "0.2.0",
+  "version": "0.2.13",
   "private": false,
   "description": "SaaSkit integration with Planetscale",
   "repository": "saas-studio/saaskit/integrations/planetscale",

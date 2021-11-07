@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/lucky-orange",
-  "version": "0.2.0",
+  "version": "0.2.13",
   "private": false,
   "description": "SaaSkit integration with Lucky Orange",
   "repository": "saas-studio/saaskit/integrations/lucky-orange",

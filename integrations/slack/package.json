@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/slack",
-  "version": "0.2.0",
+  "version": "0.2.13",
   "private": false,
   "description": "SaaSkit integration with Slack",
   "repository": "saas-studio/saaskit/integrations/slack",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "slack": "latest",
-    "saaskit": "latest"
+    "saaskit": "latest",
+    "slack": "latest"
   }
 }

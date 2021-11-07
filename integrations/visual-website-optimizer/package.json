@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/visual-website-optimizer",
-  "version": "0.2.0",
+  "version": "0.2.13",
   "private": false,
   "description": "SaaSkit integration with Visual Website Optimizer",
   "repository": "saas-studio/saaskit/integrations/visual-website-optimizer",

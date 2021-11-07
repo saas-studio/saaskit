@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/sales-deck",
-  "version": "0.2.6",
+  "version": "0.2.13",
   "private": false,
   "description": "SaaSkit integration with Product Hunt",
   "repository": "saas-studio/saaskit/integrations/twitter",

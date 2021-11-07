@@ -1,7 +1,7 @@
 {
   "name": "@saaskit/integrations",
   "author": "SaaS.Dev",
-  "version": "0.2.10",
+  "version": "0.2.13",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",

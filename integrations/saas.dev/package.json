@@ -1,6 +1,6 @@
 {
   "name": "@saaskit/saas.dev",
-  "version": "0.2.0",
+  "version": "0.2.13",
   "private": false,
   "description": "SaaSkit integration with Saas Dev",
   "repository": "saas-studio/saaskit/integrations/saas.dev",
