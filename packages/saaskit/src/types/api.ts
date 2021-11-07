@@ -1,3 +1,4 @@
+import { ObjectOrArray, Schema } from '.'
 import { SaaS } from './saas'
 
 export type API = SaaS & {
@@ -10,6 +11,9 @@ export type Source = {
     nouns?: {
         [key: string]: Resource
     }
+    triggers?: {}
+    searches?: []
+    actions?: []
 }
 
 export type Resource = {
@@ -18,4 +22,8 @@ export type Resource = {
     schema?: Schema
 }
 
-export type Schema = string
+export type Proxy<T = ObjectOrArray> = (params: ObjectOrArray) => T
+
+export type Transformation<T = ObjectOrArray> =  (...args: any[]) => T
+
+export type Mashup<T = ObjectOrArray> = ([...objects]: ObjectOrArray[]) => T

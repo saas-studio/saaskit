@@ -23,7 +23,7 @@ export interface Fallback {
 export interface FamilyMetadataList {
     family?:          string;
     displayName?:     null | string;
-    category?:        Category;
+    category?:        FontCategory;
     size?:            number;
     subsets?:         string[];
     fonts?:           { [key: string]: Font };
@@ -58,7 +58,7 @@ export enum Tag {
     Wonk = "WONK",
 }
 
-export enum Category {
+export enum FontCategory {
     Display = "Display",
     Handwriting = "Handwriting",
     Monospace = "Monospace",

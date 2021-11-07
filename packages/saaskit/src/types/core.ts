@@ -22,4 +22,8 @@ export type Subdomain = string | string[] | {
     domain: Domain | Subdomain
 }
 
+export type ObjectOrArray = any[] | Record<string, any>
+
 export type HttpMethod = 'https' | 'http'
+
+export type Todo = any

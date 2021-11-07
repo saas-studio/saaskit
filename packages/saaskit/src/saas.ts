@@ -1,6 +1,6 @@
 import { Story } from './story'
 import { Noun } from './types/word'
-import { Color, Font } from './marketing'
+import { Color, Font } from './marketing.ts_'
 import { Icon, LandingPage, Logo, Website } from '.';
 
 // import colors from './colors'
