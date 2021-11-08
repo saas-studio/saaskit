@@ -34,7 +34,7 @@ export type Noun<T = object> = {
     functions?: Functions
     integrations?: Integration[]
     plugins?: Plugin[]
-    provider?: Provider<T>
+    provider?: Provider
     onCreate?: CreateTrigger<T>
     onUpdate?: UpdateTrigger<T>
     onDelete?: DeleteTrigger<T>
@@ -209,11 +209,11 @@ export type MultiTenantCRUD<T extends Noun> = CRUD<T> & HasMultiTenantScope
 
 export type Criteria = Object
 
-export type Provider<T extends Noun | Integration> = {
+export type Provider = Noun & {
     type: 'Provider'
 }
 
-export type User = {
+export type User = Noun & {
     type: 'User'
     name?: string | PersonName
     email?: string | string[]
@@ -273,9 +273,7 @@ export type Product = Noun & {
 export type JourneyStages = 'Beginning' | 'Middle' | 'End' | 'Build' | 'Grow' | 'Launch' | 'Scale' | 'Enterprise' | 'Discover'
 export type Journey = KeyValue<Stage>
 
-export type Stage = string | JourneyStages | {
-    type: 'Stage'
-}
+export type Stage = string | JourneyStages | Verb | Activity | KeyValue<Activity> & { type: 'Stage' }
 
 export type Story = {
     type: 'Story'
@@ -476,7 +474,10 @@ export type PlanObject = {
     type: 'Plan'
     price: number | Price
     description?: string
+    features?: Feature
 }
+
+export type Feature = Noun | Verb | Activity | Function | Integration | Trigger | Search | Action
 
 export type Price = 'Price' | PriceObject
 export type PriceObject = {
@@ -489,3 +490,4 @@ export type PriceObject = {
     pricePerUnit?: number
     currency?: string
 }
+
