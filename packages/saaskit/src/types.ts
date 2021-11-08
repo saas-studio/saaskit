@@ -2,9 +2,11 @@ import { Analytics } from "@segment/analytics-next"
 import { NextFetchEvent, NextRequest, NextResponse } from "next/server"
 import { DateTime, Thing } from "schema-dts"
 
-export type KeyValue<T extends string | object | any[]> = {
+export type KeyValue<T = string> = {
     [key: string]: T
 }
+
+export type Schema = 'Thing' | 'Action' | 'Whatever'
 
 export type Noun<T = object> = {
     type: string
@@ -14,11 +16,13 @@ export type Noun<T = object> = {
     icon?: string | Icon 
     image?: string | string[] | Image | Image[]
     schema?: Thing
+    schemaType?: Schema
     url?: string 
     app?: App
     api?: API
     is?: Noun | Noun[]
     has?: Props
+    sameAs?: Noun | Noun[]
     isInstance?: Instance | Instance[]
     hasInstances?: Instance[]
     scope?: Scope
@@ -31,10 +35,10 @@ export type Noun<T = object> = {
     integrations?: Integration[]
     plugins?: Plugin[]
     provider?: Provider<T>
-    onCreate?: Trigger<T>
-    onUpdate?: Trigger<T>
-    onDelete?: Trigger<T>
-    onChange?: Trigger<T>
+    onCreate?: CreateTrigger<T>
+    onUpdate?: UpdateTrigger<T>
+    onDelete?: DeleteTrigger<T>
+    onChange?: ChangeTrigger<T>
     list?: List<T>
     search?: Search<T>
     create?: Create<T>
@@ -42,6 +46,16 @@ export type Noun<T = object> = {
     update?: Update<T>
     delete?: Delete<T>
 }
+
+export type CreateTrigger<T> = Trigger<T>
+export type UpdateTrigger<T> = Trigger<T>
+export type DeleteTrigger<T> = Trigger<T>
+export type ChangeTrigger<T> = Trigger<T>
+
+export type WebhookTrigger<T> = Trigger<T>
+export type CRONTrigger<T> = Trigger<T>
+export type WebsocketTrigger<T> = Trigger<T>
+export type EmailTrigger<T> = Trigger<T>
 
 export type Props = KeyValue<Prop>
 
@@ -96,8 +110,10 @@ export type HasRollup = {
     filter?: Criteria
 }
 
+export type DurationPeriod = 'milliseconds' | 'seconds' | 'minutes' | 'hours' | 'days' | 'weeks' | 'months' | 'years'
+
 export type HasDuration = {
-    format?: 'milliseconds' | 'seconds' | 'minutes' | 'hours' | 'days' | 'weeks' | 'months' | 'years'
+    format?: DurationPeriod
 }
 
 export type HasMany = {
@@ -247,24 +263,93 @@ export type EdgeRequest = NextRequest & {
 export type IsInstance = { isInstance: true, name: string }
 
 export type Product = Noun & {
+    type: 'Product'
     name: string
     price?: Price
     domain?: string
     url?: string
 }
 
+export type JourneyStages = 'Beginning' | 'Middle' | 'End' | 'Build' | 'Grow' | 'Launch' | 'Scale' | 'Enterprise' | 'Discover'
+export type Journey = KeyValue<Stage>
+
+export type Stage = string | JourneyStages | {
+    type: 'Stage'
+}
+
 export type Story = {
+    type: 'Story'
     persona: string | Persona
     wants?: string | Wants
     needs?: string | Needs
     problem: string | Problem
     solution: string | Solution
-    journey: string | Journey
+    journey: string | Journey 
     callToAction: string | CallToAction
     failure: string | Failure
     success: string | Success
-    transformation: string | Transformation
+    transformation: string | BeforeAfter | Transformation<Persona, Persona>
 }
+
+export type Success = {
+    type: 'Success'
+    metric: Metric
+}
+
+export type MetricValue = Number | Percentage | Currency | Checkbox
+export type MetricType = ''
+export type MetricValueTime = { 
+    type: 'MetricValueTime'
+    value: MetricValue
+    metric: KPI
+    time: DurationPeriod
+ }
+
+
+
+export type KPI = 'Visitors Registered' | 'Users Activated' | 'Users Subscribed' | 'Customers Churned' | 'Advocates Shared'
+
+export type Metric = {
+    type: 'Metric'
+    target: MetricValue
+    metric: KPI
+    now: MetricValue
+    past: MetricValueTime
+}
+
+export type BeforeAfter = {
+    type: 'Before'
+
+}
+
+export type Failure = {
+    type: 'Failure'
+    means?: string | string[]
+    fears?: string | string[]
+}
+
+export type CallToAction = string | Activities
+
+export type Wants = KeyValue & { type: 'Wants' }
+export type Needs = KeyValue & { type: 'Needs' }
+export type Problem = {
+    type: 'Problem'
+    villian?: string | string[] 
+    internal: string | string[] 
+    external: string | string[] 
+    philosophical: string | string[] 
+}
+export type Solution = {
+    type: 'Solution'
+    modifier?: string | string[] | Modifier
+    noun: string | string[] | Noun | Noun[]
+    solution: string | string[] | Solution | Solution[]
+}
+
+export type Modifier = 'Startup' | 'Headless' | 'Low-Code' | 'No-Code'
+export type SolutionType = 'App' | 'Marketplace' | 'Platform' | 'Framework' | 'SaaS' | 'Management Platform' | 'Management App'
+
+export type Solutions = `${Modifier} ${Nouns} ${SolutionType}`
 
 
 export type SaaS<T = Activity> = Noun & Product & Story & {
@@ -344,14 +429,19 @@ export type Activity<V = Verb, N = Noun> = {
     noun: N 
 }
 
+export type Activities = `${Verbs} ${Nouns}`
+
+export type FounderActivities = `${FounderVerbs} ${FounderNouns}`
+
 export type NounVerbs = 'List' | 'Search' | 'Get' | 'Create' | 'Update' | 'Delete'
 export type ProductVerbs = 'Create' | 'Build' | 'Design' | 'Define' | 'Develop' | 'Manage' | 'Launch'
+export type FounderVerbs = 'Start' | 'Define' | 'Plan' | 'Build' | 'Grow' | 'Scale'
 
 export type FounderNouns = 'Company' | 'Startup' | 'Business' | 'OKRs' | 'KPIs'
 export type CoderNouns = 'App' | 'API' | 'Code' | 'Language' | 'Platform'
 
 
-
+export type Nouns = FounderNouns | CoderNouns
 export type Verbs = NounVerbs | ProductVerbs
 
 export type Verb<T = object> = {
@@ -360,7 +450,6 @@ export type Verb<T = object> = {
 
 export type Name<T = object> = {}
 export type Word<T = object> = {}
-export type Modifier<T = object> = {}
 export type Adjective<T = object> = {}
 export type Adverb<T = object> = {}
 export type Sentence<T = object> = {}
