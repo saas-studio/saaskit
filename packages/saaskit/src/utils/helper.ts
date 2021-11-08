@@ -11,6 +11,7 @@ export const OBJECT = Object
 export const isUndefined = (v: any): v is undefined => v === UNDEFINED
 export const isFunction = (v: any): v is Function => typeof v == 'function'
 export const isObject = (v: any): v is Object => typeof v == 'object'
+export const isNumber = (v: any): v is number => typeof v == 'number'
 export const mergeObjects = (a: any, b: any) => OBJECT.assign({}, a, b)
 
 const STR_UNDEFINED = 'undefined'
