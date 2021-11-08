@@ -13,6 +13,7 @@ export type Schema = 'Thing' | 'Action' | 'Whatever'
 export type Noun<T = object> = {
     type: string
     name?: string
+    partOfSpeech?: 'Noun'
     plural?: string
     description?: string
     icon?: string | Icon 
@@ -357,7 +358,7 @@ export type SolutionType = 'App' | 'Marketplace' | 'Platform' | 'Framework' | 'S
 export type Solutions = `${Modifier} ${Nouns} ${SolutionType}`
 
 
-export type SaaS<T = Activity> = Noun & Product & Story & {
+export type SaaS<T = Activity> = Noun<T> & Product & Story & {
     type: 'SaaS'
 
 }
@@ -370,8 +371,8 @@ export type APIConfig = Noun & {
     type: 'APIConfig'
 }
 
-export type EdgeResponse = NextResponse & {
-    json: (obj: any, options: { camelCase: boolean, pretty: boolean }) => void
+export type EdgeResponse<T> = NextResponse & {
+    json: (obj: T, options: { camelCase: boolean, pretty: boolean }) => void
     text: (message: string) => void
     rewrite: (args: {source: string, destination: string, rewriter: HTMLRewriter}) => void
     experiment: (experiment: Experiment) => void
@@ -382,14 +383,18 @@ export type EdgeFetchEvent = NextFetchEvent
 
 export type JWT = {}
 
-export type Proxy<T> = (req: EdgeRequest, event: EdgeFetchEvent) => EdgeResponse
+export type Proxy<T> = (req: EdgeRequest, event: EdgeFetchEvent) => EdgeResponse<T>
 export type Transformation<I, O> = (input: I) => O
 export type Mashup<I extends [], O> = (input: I) => O
 
-export type APIProxy<T> = (req: EdgeRequest, event: EdgeFetchEvent) => EdgeResponse & {
+export type APIProxy<T> = (req: EdgeRequest, event: EdgeFetchEvent) => EdgeResponse<T> & {
     type: 'APIProxy'
     source: Source
+    // resource: Resource<T | S>
+    // transformation: Transformation<
 }
+
+export type Resource<T> = Noun<T>
 
 export type DurableObject<T> = {
     id: string
@@ -415,30 +420,52 @@ export type Visibility = {}
 export type Scope = {}
 export type Authorization = {}
 
-export type Persona<T = object> = {}
+export type Persona = Noun & { type: 'Persona' }
 
-export type Trigger<T = object> = {}
-export type Search<T = object> = {}
-export type Action<T = object> = {}
+export type Trigger<T = object> = Noun & { 
+    type: 'Trigger' 
+    trigger: (instance: T, ctx: Context) => any
+}
+export type Search<T = object> = Noun & { 
+    type: 'Search' 
+    search: (criteria: Criteria, ctx: Context) => SearchResults<T>
+}
+export type Action<T = object> = Noun & { 
+    type: 'Action' 
+    trigger: (instance: T, ctx: Context) => any
+}
 
-export type Triggers<T = object> = KeyValue<Trigger>
-export type Searches<T = object> = KeyValue<Search>
-export type Actions<T = object> = KeyValue<Action>
+export type SearchResults<T = object> = {
+    type: 'SearchResults'
+    results: T[]
+    count: number
+    total: number
+}
+
+export type Triggers<T = object> = KeyValue<Trigger<T>>
+export type Searches<T = object> = KeyValue<Search<T>>
+export type Actions<T = object> = KeyValue<Action<T>>
 
 export type Experiment = Noun & {
     type: 'Experiment'
 }
 
-export type List<T = object> = {}
-export type Create<T = object> = {}
-export type Get<T = object> = {}
-export type Update<T = object> = {}
-export type Delete<T = object> = {}
+export type List<T = object> = (criteria: Criteria) => { 
+    type: 'List' 
+    criteria?: Criteria
+    items: T[]
+    count: number
+    total: number
+}
+export type Create<T = object> = T
+export type Get<T = object> = T
+export type Update<T = object> = T
+export type Delete<T = object> = T
 
 export type Function<P = any, O = any> = (props: P) => O
 export type Functions = KeyValue<Function>
-export type Integration<T = object> = {}
-export type Plugin<T = object> = {}
+export type Integration<T = object> = T
+export type Plugin<T = object> = T
 
 export type Context<T = object> = { type: 'Context', context: T }
 
@@ -473,14 +500,36 @@ export type Nouns = FounderNouns | CoderNouns
 export type Verbs = NounVerbs | ProductVerbs
 
 export type Verb<T = object> = {
-
+    type: 'Verb'
+    actions: T
 }
 
-export type Name<T = object> = {}
-export type Word<T = object> = {}
-export type Adjective<T = object> = {}
-export type Adverb<T = object> = {}
-export type Sentence<T = object> = {}
+export type Name<T = object> = Noun<T> & {
+    type: 'Name'
+    name: string
+} 
+
+export type PartOfSpeech = 'Noun' | 'Verb' | 'Adjective' | 'Adverb' | 'Preposition'
+
+export type Word<T> = {
+    type: 'Word'
+    partOfSpeech?: PartOfSpeech
+    word: T
+}
+export type Adjective<T = object> = {
+    type: 'Adjective'
+    partOfSpeech: Adjective
+    adjective: T
+}
+export type Adverb<T = object> = {
+    type: 'Adverb'
+    partOfSpeech: Adverb
+    adverb: T
+}
+export type Sentence<T = object> = {
+    type: 'Sentence'
+    sentence: T
+}
 
 
 export type Icon = string
