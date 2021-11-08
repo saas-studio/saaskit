@@ -1,4 +1,4 @@
-interface BasicImageTransformations {
+export interface BasicImageTransformations {
     /**
      * Maximum width in image pixels. The value must be an integer.
      */
@@ -57,7 +57,7 @@ interface BasicImageTransformations {
     rotate?: 0 | 90 | 180 | 270 | 360;
   }
   
-  interface BasicImageTransformationsGravityCoordinates {
+  export interface BasicImageTransformationsGravityCoordinates {
     x: number;
     y: number;
   }
@@ -70,7 +70,7 @@ interface BasicImageTransformations {
  * Note: Currently, settings in the cf object cannot be accessed in the
  * playground.
  */
- interface IncomingRequestCfProperties {
+ export interface IncomingRequestCfProperties {
     /**
      * (e.g. 395747)
      */
@@ -124,13 +124,13 @@ interface BasicImageTransformations {
     tlsClientAuth: IncomingRequestCfPropertiesTLSClientAuth;
   }
   
-  interface IncomingRequestCfPropertiesBotManagement {
+  export interface IncomingRequestCfPropertiesBotManagement {
     score: number;
     staticResource: boolean;
     verifiedBot: boolean;
   }
   
-  interface IncomingRequestCfPropertiesTLSClientAuth {
+  export interface IncomingRequestCfPropertiesTLSClientAuth {
     certIssuerDNLegacy: string;
     certIssuerDN: string;
     certPresented: "0" | "1";
@@ -156,7 +156,7 @@ interface BasicImageTransformations {
  * Workers KV is a global, low-latency, key-value data store. It supports exceptionally high read volumes with low-latency,
  * making it possible to build highly dynamic APIs and websites which respond as quickly as a cached static file would.
  */
-interface KVNamespace {
+export interface KVNamespace {
     get(key: string, options?: Partial<KVNamespaceGetOptions<undefined>>): Promise<string | null>;
     get(key: string, type: "text"): Promise<string | null>;
     get<ExpectedValue = unknown>(key: string, type: "json"): Promise<ExpectedValue | null>;
@@ -188,41 +188,41 @@ interface KVNamespace {
     delete(name: string): Promise<void>;
   }
   
-  interface KVNamespaceGetOptions<Type> {
+  export interface KVNamespaceGetOptions<Type> {
     type: Type;
     cacheTtl?: number;
   }
   
-  interface KVNamespaceGetWithMetadataResult<Value, Metadata> {
+  export interface KVNamespaceGetWithMetadataResult<Value, Metadata> {
     value: Value | null;
     metadata: Metadata | null;
   }
   
-  interface KVNamespaceListKey<Metadata> {
+  export interface KVNamespaceListKey<Metadata> {
     name: string;
     expiration?: number;
     metadata?: Metadata;
   }
   
-  interface KVNamespaceListOptions {
+  export interface KVNamespaceListOptions {
     limit?: number;
     prefix?: string | null;
     cursor?: string | null;
   }
   
-  interface KVNamespaceListResult<Metadata> {
+  export interface KVNamespaceListResult<Metadata> {
     keys: KVNamespaceListKey<Metadata>[];
     list_complete: boolean;
     cursor?: string;
   }
   
-  interface KVNamespacePutOptions {
+  export interface KVNamespacePutOptions {
     expiration?: number;
     expirationTtl?: number;
     metadata?: any | null;
   }
   
-  interface RequestInit {
+  export interface RequestInit {
     cf?: IncomingRequestCfProperties | RequestInitCfProperties;
   }
 
@@ -235,7 +235,7 @@ interface KVNamespace {
  * Note: Currently, these properties cannot be tested in the
  * playground.
  */
-interface RequestInitCfProperties {
+export interface RequestInitCfProperties {
     cacheEverything?: boolean;
     /**
      * A request's cache key is what determines if two requests are
@@ -277,7 +277,7 @@ interface RequestInitCfProperties {
     resolveOverride?: string;
   }
   
-  interface RequestInitCfPropertiesImage extends BasicImageTransformations {
+  export interface RequestInitCfPropertiesImage extends BasicImageTransformations {
     /**
      * Device Pixel Ratio. Default 1. Multiplier for width/height that makes it
      * easier to specify higher-DPI sizes in <img srcset>.
@@ -320,7 +320,7 @@ interface RequestInitCfProperties {
     draw?: RequestInitCfPropertiesImageDraw[];
   }
   
-  interface RequestInitCfPropertiesImageDraw extends BasicImageTransformations {
+  export interface RequestInitCfPropertiesImageDraw extends BasicImageTransformations {
     /**
      * Absolute URL of the image file to use for the drawing. It can be any of
      * the supported file formats. For drawing of watermarks or non-rectangular
@@ -358,7 +358,7 @@ interface RequestInitCfProperties {
     right?: number;
   }
   
-  interface RequestInitCfPropertiesImageMinify {
+  export interface RequestInitCfPropertiesImageMinify {
     javascript?: boolean;
     css?: boolean;
     html?: boolean;

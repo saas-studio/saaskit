@@ -1,5 +1,3 @@
-import { SeoProps } from './seo'
-import { Logo, Wordmark } from './types/brand';
 
 export interface Website {
     name: string

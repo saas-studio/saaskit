@@ -7698,10 +7698,10 @@ rxjs@^6.6.0:
   dependencies:
     tslib "^1.9.0"
 
-saaskit@^0.2.12:
-  version "0.2.12"
-  resolved "https://registry.yarnpkg.com/saaskit/-/saaskit-0.2.12.tgz#697f141e06bc4e9daeb59cdf85ba23510c4aa4fb"
-  integrity sha512-M/tRDqB4M6YVhoAmdOwq084OyoZKywcM8+JE2ZeY6WhyS8m5d4uFu9fJKrnSzEgQu15/BaKkRWUFR8Etoz8pbw==
+saaskit@^0.2.14:
+  version "0.2.14"
+  resolved "https://registry.yarnpkg.com/saaskit/-/saaskit-0.2.14.tgz#3cf93610d1bbc0978a9a5c011e3ddcb9ca28e412"
+  integrity sha512-9f6GuiPg8qxV65hDECjJcJ6Xr63a8EWR1ibd5dr3w9UHUeXYly+ryAOpA2rAI2e0+X8TsbPKInj0UAZ8hZ0mwg==
   dependencies:
     isomorphic-fetch "^3.0.0"
     lodash "^4.17.21"

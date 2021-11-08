@@ -45,6 +45,7 @@
     }
   ],
   "devDependencies": {
+    "@cloudflare/workers-types": "^3.1.1",
     "@size-limit/preset-small-lib": "^6.0.4",
     "@types/google.fonts": "^1.0.3",
     "@types/lodash": "^4.14.176",
@@ -52,6 +53,7 @@
     "@types/tailwindcss": "^2.2.3",
     "husky": "^7.0.4",
     "jsonfile": "^6.1.0",
+    "next": "^12.0.3",
     "quicktype": "^15.0.260",
     "size-limit": "^6.0.4",
     "tailwindcss": "^2.2.19",
@@ -61,6 +63,7 @@
     "typescript": "^4.4.4"
   },
   "dependencies": {
+    "@segment/analytics-next": "^1.31.0",
     "camelcase-keys": "^7.0.1",
     "isomorphic-fetch": "^3.0.0",
     "lodash": "^4.17.21",

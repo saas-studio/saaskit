@@ -1,4 +1,3 @@
-const {version} = require('../../package.json')
 
 export default function fetchJSON(url = 'https://saas.dev/api',{
     base,
@@ -40,5 +39,5 @@ export type GraphQL = {
 
 const userAgent = {
     browser: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/603.3.8 (KHTML, like Gecko)',
-    saaskit: `saaskit@${version}`
+    saaskit: `saaskit@1.0.1`
 }
