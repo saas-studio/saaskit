@@ -156,15 +156,15 @@ export type Markdown = string | {
     type: 'Markdown'
 }
 
-export type MDX = {
-    type = 'MDX'
-    components?: Component[]
-    packages?: Package[]
-}
+// export type MDX = {
+//     type = 'MDX'
+//     components?: Component[]
+//     packages?: Package[]
+// }
 
-export type Component = {
-    type = 'Component'
-}
+// export type Component = {
+//     type = 'Component'
+// }
 
 export type Package = {
     name: string
@@ -246,7 +246,28 @@ export type EdgeRequest = NextRequest & {
 
 export type IsInstance = { isInstance: true, name: string }
 
-export type SaaS<T extends Activity> = Noun & Product & Story & {
+export type Product = Noun & {
+    name: string
+    price?: Price
+    domain?: string
+    url?: string
+}
+
+export type Story = {
+    persona: string | Persona
+    wants?: string | Wants
+    needs?: string | Needs
+    problem: string | Problem
+    solution: string | Solution
+    journey: string | Journey
+    callToAction: string | CallToAction
+    failure: string | Failure
+    success: string | Success
+    transformation: string | Transformation
+}
+
+
+export type SaaS<T = Activity> = Noun & Product & Story & {
     type: 'SaaS'
 
 }
@@ -262,9 +283,9 @@ export type APIConfig = Noun & {
 export type EdgeResponse = NextResponse & {
     json: (obj: any, options: { camelCase: boolean, pretty: boolean }) => void
     text: (message: string) => void
-    rewriteHTML: (rewriter: HTMLRewriter) => void
-    performExperiments: (experiments: Experiment) => void
-    trackEvent: 
+    rewrite: (args: {source: string, destination: string, rewriter: HTMLRewriter}) => void
+    experiment: (experiment: Experiment) => void
+    track: (activity: Activity) => void
 }
 
 export type EdgeFetchEvent = NextFetchEvent
@@ -316,9 +337,9 @@ export type IntegrationContext = Context<Integration> & { type: 'IntegrationCont
 
 export type IsPhrase = { phrase: string }
 
-export type Activity<V extends Verb, N extends Noun> = { 
+export type Activity<V = Verb, N = Noun> = { 
     type: 'Activity', 
-    name: string, 
+    // name: `${V.verb} ${N.noun}`, 
     verb: V, 
     noun: N 
 }
