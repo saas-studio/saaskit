@@ -1,10 +1,12 @@
 import { Analytics } from "@segment/analytics-next"
 import { NextFetchEvent, NextRequest, NextResponse } from "next/server"
-import { DateTime, Thing } from "schema-dts"
+import { Thing } from "schema-dts"
 
 export type KeyValue<T = string> = {
     [key: string]: T
 }
+
+export type ObjectOrArray = object | any[]
 
 export type Schema = 'Thing' | 'Action' | 'Whatever'
 
@@ -131,10 +133,10 @@ export type Checkbox = 'Checkbox' | Prop<boolean> & { type: 'Checkbox' }
 export type MultiSelect = 'MultiSelect' | HasSelectOptions & Prop<string[]> & { type: 'MultiSelect' }
 export type SingleSelect = 'SingleSelect' | HasSelectOptions & Prop<string> & { type: 'SingleSelect' }
 export type DatePicker = 'Date' | Prop<Date> & { type: 'Date' }
-export type DateTimePicker = 'DateTime' | Prop<DateTime> & { type: 'DateTime' }
-export type TimePicker = 'Time' | Prop<DateTime> & { type: 'Time' }
-export type CreatedDate = 'Created' | IsReadOnly & Prop<DateTime> & { type: 'Created' }
-export type ModifiedDate = 'Modified' | IsReadOnly & Prop<DateTime> & { type: 'Modified' }
+export type DateTimePicker = 'DateTime' | Prop<Date> & { type: 'DateTime' }
+export type TimePicker = 'Time' | Prop<Date> & { type: 'Time' }
+export type CreatedDate = 'Created' | IsReadOnly & Prop<Date> & { type: 'Created' }
+export type ModifiedDate = 'Modified' | IsReadOnly & Prop<Date> & { type: 'Modified' }
 export type CreatedBy = 'CreatedBy' | IsReadOnly & Prop<User> & { type: 'CreatedBy' }
 export type ModifiedBy = 'ModifiedBy' | IsReadOnly & Prop<User> & { type: 'ModifiedBy' }
 export type Duration = 'Duration' | IsReadOnly & Prop<number> & { type: 'Duration' }
@@ -277,7 +279,7 @@ export type Stage = string | JourneyStages | Verb | Activity | KeyValue<Activity
 
 export type Story = {
     type: 'Story'
-    persona: string | Persona
+    persona: string | Persona | Hero
     wants?: string | Wants
     needs?: string | Needs
     problem: string | Problem
@@ -328,6 +330,11 @@ export type Failure = {
 
 export type CallToAction = string | Activities
 
+export type FeaturesAndBenefits = {
+    features?: Features
+    benefits?: Benefits
+}
+
 export type Wants = KeyValue & { type: 'Wants' }
 export type Needs = KeyValue & { type: 'Needs' }
 export type Problem = {
@@ -377,6 +384,29 @@ export type JWT = {}
 
 export type Proxy<T> = (req: EdgeRequest, event: EdgeFetchEvent) => EdgeResponse
 export type Transformation<I, O> = (input: I) => O
+export type Mashup<I extends [], O> = (input: I) => O
+
+export type APIProxy<T> = (req: EdgeRequest, event: EdgeFetchEvent) => EdgeResponse & {
+    type: 'APIProxy'
+    source: Source
+}
+
+export type DurableObject<T> = {
+    id: string
+    storage: DurableObjectStorage<T> 
+}
+
+export type DurableObjectStorage<T> = {
+    get: (key: string | string[]) => Promise<T> | Promise<Map<string, any>>
+    // get: (key: string | string[], options: DurableObjectsStorageOptions) => Promise<T> | Promise<Map<string, any>>
+    //put: (obj: string | object)
+}
+
+export type DurableObjectsStorageGetOptions = { allowConcurrency: Boolean, noCache: boolean}
+
+export type Source = Noun & {
+    type: 'Source'
+}
 
 export type Marketing = {} 
 export type Launch = {}
@@ -454,11 +484,11 @@ export type Sentence<T = object> = {}
 
 
 export type Icon = string
-export type Image = string
+// export type Image = string
 export type Logo = string
 export type Wordmark = string
 export type Brand = string
-export type Color = string
+// export type Color = string
 export type Theme = string
 export type Style = string
 
@@ -491,3 +521,198 @@ export type PriceObject = {
     currency?: string
 }
 
+export type Website = Noun & {
+    type: 'Website'
+    title: string
+    home: Page
+    domain: Domain
+    pages?: Page[]
+    header?: Header
+    footer?: Footer
+    login?: string | URL
+    privacy?: string | URL
+    terms?: string | URL
+}
+
+
+export type Domain = Noun & Name & {
+    type: 'Domain'
+    name: string
+    isInstance: true
+    subdomains: SubDomain[]
+}
+
+//export type DomainName = `${name}.${tld}`
+
+
+
+export type OwnedDomains = 'SaaS.Dev' | 'SaaS.Studio' | 'Blogs.sh' | 'APIs.dev'
+export type AvailableSubDomains = `${Nouns}.${OwnedDomains}`
+
+export type SubDomain = `${Nouns}.${OwnedDomains}`
+
+export type Path = string
+
+// export type 
+
+export type LandingPage = Website & Page & {
+    type: 'LandingPage'
+    hero: Hero | Section | Section[]
+    features?: Features | Section | Section[]
+    benefits?: Benefits | Section | Section[]
+    callToAction?: CallToAction | Section | Section[]
+    blog?: Blog | Section | Section[]
+}
+
+export type Page = Noun & {
+    type: 'Page'
+    title: string
+    header: Header
+    sections: Section[]
+    footer: Footer
+}
+
+export type Header = {
+    type: 'Header'
+    logo?: string | Image
+    menu?: Link[] | MenuItem[] | Menu | Menu[]
+}
+
+export interface Menu {
+    type: 'Menu'
+    name: string
+    items: Link[] | MenuItem
+}
+
+export interface MenuItem {
+    type: 'MenuItem'
+    name: string
+    href?: string
+    onClick?: Function
+    icon?: string | Icon
+}
+
+export interface Section {
+    type: 'Section'
+    title?: string
+    subtitle?: string
+    description?: string
+    headerBadge?: string
+    headerText?: string
+    icon?: string | Image
+    image?: string | Image
+    screenshot?: string | Image
+    callToAction?: string | CallToAction | CallToAction[]
+}
+
+export interface ListItem {
+    type: 'ListItem'
+    text?: string
+    subtext?: string
+    icon?: string | Image
+    callToAction?: string | CallToAction | CallToAction[]
+}
+
+// export type CallToAction = CallToAction & {
+//     type: 'CallToAction'
+    // name?: string
+    // href?: string
+    // onClick?: Function
+// }
+
+export type Hero = Section & Persona & {
+    type: 'HeroSection'
+    logo?: string | Image
+    image?: string
+}
+
+export type Features = Section & {
+    type: 'FeaturesSection'
+    features?: ListItem[]
+}
+
+export type Benefits = Section & {
+    type: 'BenefitsSection'
+    benefits?: ListItem[]
+}
+
+export interface Pricing extends Section {
+    annualBilling?: boolean 
+    prices?: Price | Price[]
+}
+
+export interface FAQs extends Section {
+    questions: {
+        question: string,
+        answer: string,
+        icon?: string | Image
+        callToAction: string | CallToAction
+        link?: string | Link
+    }[]
+}
+
+export interface Newsletter extends Section {
+    emailBoxLabel?: string
+    signupButtonText?: string
+}
+
+export interface Blog extends Section {
+    posts: BlogPost[] 
+}
+
+export interface BlogPost {
+    title: string
+    subtitle?: string
+    description?: Text
+    image?: string | Image
+    icon?: string | Icon
+}
+
+export interface Logos extends Section {
+    logos: string[] | Image[]
+}
+
+export interface Link {
+    text: string
+    href: string
+}
+
+export interface Font {
+    family?: string
+    name?: string
+}
+
+export interface Color {
+    name?: string
+    rgb?: string
+    rgba?: string
+    red?: string | number
+    green?: string | number
+    blue?: string | number
+    alpha?: string | number
+}
+export interface Image {
+    src?: string
+    layout?: 'intrinsic' | 'fixed' | 'responsive' | 'fill'
+    height?: number | string
+    width?: number | string
+    link?: string | Link
+}
+
+export type SocialAccounts = Noun & {
+    twitter?: string
+    facebook?: string
+    instagram?: string
+    github?: string
+    producthunt?: string
+}
+
+export type Footer = Section & {
+    type: 'Footer'
+    logo?: string | Logo | Wordmark | Image
+    copyright?: string
+    companyName?: string
+    socialAccounts?: string[] | Link[] | SocialAccounts
+    links?: string[] | Link[]
+    menu?: Link[] | MenuItem[] | Menu | Menu[]
+}
