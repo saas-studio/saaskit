@@ -1,4 +1,4 @@
-import { Thing } from "schema-dts"
+import { DateTime, Thing } from "schema-dts"
 
 export type KeyValue<T extends string | object | any[]> = {
     [key: string]: T
@@ -28,6 +28,7 @@ export type Noun<T = object> = {
     functions?: Functions
     integrations?: Integration[]
     plugins?: Plugin[]
+    provider?: Provider<T>
     onCreate?: Trigger<T>
     onUpdate?: Trigger<T>
     onDelete?: Trigger<T>
@@ -42,30 +43,164 @@ export type Noun<T = object> = {
 
 export type Props = KeyValue<Prop>
 
-export type Prop = {
+export type Prop<T = any> = {
     type: string
-    unique: boolean
+    value: T
+    description?: string
+    readOnly?: boolean
+    unique?: boolean
     hideLabel?: boolean
     optional?: boolean
+    displayOnList?: boolean
+    primaryOnList?: boolean
+    default?: T
+    example?: T | T[]
 }
 
-export type OptionalProp = Prop & {
+export type Optional = {
     optional: true
 }
 
-export type TextProp = 'Text' | {
-    type: 'Text'
-    text: string
+export type HasNumericFormat = {
+    format?: 'integer' | 'decimal'
 }
 
-
-
-export type OptionalTextProp = 'Text?' | TextProp & {
-    optional: true
+export type HasPrecision = {
+    precision?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8
 }
 
-export type LongTextProp = 'Text' | {
-    type: 'Text'
+export type HasURL = {
+    url: string
+}
+
+export type IsReadOnly = {
+    readonly: true
+}
+
+export type HasFormula = {
+    formula: Formula
+}
+
+export type HasSelectOptions = {
+    options: string[] | KeyValue<string>
+}
+
+export type HasRelationship = {
+    relationship: Noun
+}
+
+export type HasRollup = {
+    type: 'min' | 'max' | 'sum' | 'avg' 
+    filter?: Criteria
+}
+
+export type HasDuration = {
+    format?: 'milliseconds' | 'seconds' | 'minutes' | 'hours' | 'days' | 'weeks' | 'months' | 'years'
+}
+
+export type HasMany = {
+    many: true
+}
+
+export type Text = 'Text' | Prop<string> & { type: 'Text' }
+export type LongText = 'LongText' | Prop<string> & { type: 'LongText' }
+export type RichText = 'RichText' | Prop<Markdown> & { type: 'LongText' }
+export type Number = 'Number' | HasNumericFormat & HasPrecision & Prop<number> & { type: 'Number' } 
+export type Percentage = 'Percentage' | HasPrecision & Prop<number> & { type: 'Percentage' }
+export type Currency = 'Currency' | HasPrecision & Prop<number> & { type: 'Currency' }
+export type Attachment = 'Attachment' | HasURL & Prop<string | string[]> & { type: 'Attachment' }
+export type Checkbox = 'Checkbox' | Prop<boolean> & { type: 'Checkbox' }
+export type MultiSelect = 'MultiSelect' | HasSelectOptions & Prop<string[]> & { type: 'MultiSelect' }
+export type SingleSelect = 'SingleSelect' | HasSelectOptions & Prop<string> & { type: 'SingleSelect' }
+export type DatePicker = 'Date' | Prop<Date> & { type: 'Date' }
+export type DateTimePicker = 'DateTime' | Prop<DateTime> & { type: 'DateTime' }
+export type TimePicker = 'Time' | Prop<DateTime> & { type: 'Time' }
+export type CreatedDate = 'Created' | IsReadOnly & Prop<DateTime> & { type: 'Created' }
+export type ModifiedDate = 'Modified' | IsReadOnly & Prop<DateTime> & { type: 'Modified' }
+export type CreatedBy = 'CreatedBy' | IsReadOnly & Prop<User> & { type: 'CreatedBy' }
+export type ModifiedBy = 'ModifiedBy' | IsReadOnly & Prop<User> & { type: 'ModifiedBy' }
+export type Duration = 'Duration' | IsReadOnly & Prop<number> & { type: 'Duration' }
+export type Formula = 'Formula' | HasFormula & Prop<string | number> & { type: 'Formula' }
+export type Lookup = 'Lookup' | HasRelationship & Prop<string> & { type: 'Lookup' }
+export type Rollup = 'Relationship' | HasRollup & HasRelationship & Prop<string> & { type: 'Relationship' }
+export type Relationship = 'Relationship' | HasRelationship & Prop<Noun> & { type: 'Relationship' }
+export type Relationships = 'Relationships' | HasMany & HasRelationship & Prop<Noun> & { type: 'Relationships' }
+
+export type OptionalText = 'Text?' | Optional & Text
+export type OptionalLongText = 'LongText?' | Optional & LongText
+export type OptionalRichText = 'RichText?' | Optional & RichText
+export type OptionalNumber = 'Number?' | Optional & Number
+export type OptionalPercentage = 'Percentage?' | Optional & Percentage
+export type OptionalCurrency = 'Currency?' | Optional & Currency
+export type OptionalAttachment = 'Attachment?' | Optional & Attachment
+export type OptionalCheckbox = 'Checkbox?' | Optional & Checkbox
+export type OptionalMultiSelect = 'MultiSelect?' | Optional & MultiSelect
+export type OptionalSingleSelect = 'SingleSelect?' | Optional & SingleSelect
+export type OptionalDatePicker = 'DatePicker?' | Optional & DatePicker
+export type OptionalDateTimePicker = 'DateTimePicker?' | Optional & DateTimePicker
+export type OptionalTimePicker = 'TimePicker?' | Optional & TimePicker
+export type OptionalCreatedDate = 'CreatedDate?' | Optional & CreatedDate
+export type OptionalModifiedDate = 'ModifiedDate?' | Optional & ModifiedDate
+export type OptionalCreatedBy = 'CreatedBy?' | Optional & CreatedBy
+export type OptionalModifiedBy = 'ModifiedBy?' | Optional & ModifiedBy
+export type OptionalDuration = 'Duration?' | Optional & Duration
+export type OptionalFormula = 'Formula?' | Optional & Formula
+export type OptionalLookup = 'OptionalLookup?' | Optional & Lookup
+export type OptionalRollup = 'Rollup?' | Optional & Rollup
+export type OptionalRelationship = 'Relationship?' | Optional & Relationship
+export type OptionalRelationships = 'Relationships?' | Optional & Relationships
+
+export type Markdown = string | {
+    type: 'Markdown'
+}
+
+export type CRUD<T extends Noun> = { 
+    onCreate: Trigger<T>
+    onUpdate: Trigger<T>
+    onDelete: Trigger<T>
+    onChange: Trigger<T>
+    list: List<T>
+    search: Search<T>
+    create: Create<T>
+    get: Get<T>
+    update: Update<T>
+    delete: Delete<T>
+}
+
+export type HasGlobalScope = { scope: 'global' }
+export type HasMultiTenantScope = { scope: 'tenant' }
+
+export type GlobalCRUD<T extends Noun> = CRUD<T> & HasGlobalScope
+export type MultiTenantCRUD<T extends Noun> = CRUD<T> & HasMultiTenantScope
+
+
+export type Criteria = Object
+
+export type Provider<T extends Noun | Integration> = {
+    type: 'Provider'
+}
+
+export type User = {
+    type: 'User'
+    name?: string | PersonName
+    email?: string | string[]
+    image?: string | Image
+    userId?: string
+    anonymousId?: string
+    auth?: AuthAccount[]
+}
+
+export type PersonName = {
+    prefix?: string
+    firstName: string
+    middleName?: string
+    lastName: string
+    suffix?: string
+}
+
+export type AuthAccount = {
+    provider: string
+    metadata: object
 }
 
 export type SaaS<T = object> = {
