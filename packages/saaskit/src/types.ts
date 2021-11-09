@@ -10,8 +10,28 @@ export type ObjectOrArray = object | any[]
 
 export type Schema = 'Thing' | 'Action' | 'Whatever'
 
-export type Noun<T = object> = {
-    type: string
+export type Instances = ''
+export type NounTypes = 'Name' | 'PartOfSpeech' | 'Plural' | 'Description' | 'Icon' | 'Image' | 'Schema' | 'SchemaType' 
+export type VerbTypes = 'Create' | 'Update' | 'Delete' | 'List' | 'Search' | 'Trigger' | 'Build' | 'Launch'
+
+export type Personas = 'Founder' | 'Builder' | 'Maker' | 'Coder' | 'Seller' 
+
+export type Heros = 'Founder' | 'Buil'
+
+export type Pains = `Doesn't like to` | 'Has issues with' | 'Struggles'
+export type InternalProblems = ''
+                 
+
+
+// export type SaaS = {
+//     persona: `${Personas} ${Verbs} ${Nouns}`
+//     problem: ``
+// }
+
+export type Noun<O = object, I = Instances, N = Nouns, V = Verbs> = {
+    _type: string
+    _key?: string
+    _rev?: string
     name?: string
     partOfSpeech?: 'Noun'
     plural?: string
@@ -24,10 +44,12 @@ export type Noun<T = object> = {
     app?: App
     api?: API
     is?: Noun | Noun[]
-    has?: Props
+    has?: N
+    can?: V
     sameAs?: Noun | Noun[]
-    isInstance?: Instance | Instance[]
-    hasInstances?: Instance[]
+    hasTypes?: N
+    isInstance?: Instances
+    hasInstances?: I
     scope?: Scope
     visibility?: Visibility
     auth?: Authorization
@@ -38,17 +60,37 @@ export type Noun<T = object> = {
     integrations?: Integration[]
     plugins?: Plugin[]
     provider?: Provider
-    onCreate?: CreateTrigger<T>
-    onUpdate?: UpdateTrigger<T>
-    onDelete?: DeleteTrigger<T>
-    onChange?: ChangeTrigger<T>
-    list?: List<T>
-    search?: Search<T>
-    create?: Create<T>
-    get?: Get<T>
-    update?: Update<T>
-    delete?: Delete<T>
+    onCreate?: CreateTrigger<O>
+    onUpdate?: UpdateTrigger<O>
+    onDelete?: DeleteTrigger<O>
+    onChange?: ChangeTrigger<O>
+    list?: List<O>
+    search?: Search<O>
+    create?: Create<O>
+    get?: Get<O>
+    update?: Update<O>
+    delete?: Delete<O>
 }
+
+export type Relationship<F extends Nouns, T extends Nouns> = Noun & {
+    _type: 'Relationship'
+    _id: `${F}/${T}`
+    _key: string
+    name: string
+    relationship: string
+}
+
+// export type Is = Relationship<Noun, Noun>
+// export type Has = Relationship<Noun, Noun>
+// export type HasInstances = Relationship<Nouns, Nouns>
+
+export type HasRelationship = {
+    relationship: Noun
+}
+// export type Relationship = 'Relationship' | HasRelationship & Prop<Noun> & { _type: 'Relationship' }
+// export type Relationships = 'Relationships' | HasMany & HasRelationship & Prop<Noun> & { _type: 'Relationships' }
+// export type OptionalRelationship = 'Relationship?' | Optional & Relationship
+// export type OptionalRelationships = 'Relationships?' | Optional & Relationships
 
 export type CreateTrigger<T> = Trigger<T>
 export type UpdateTrigger<T> = Trigger<T>
@@ -63,7 +105,7 @@ export type EmailTrigger<T> = Trigger<T>
 export type Props = KeyValue<Prop>
 
 export type Prop<T = any> = {
-    type: string
+    _type: string
     value: T
     description?: string
     readOnly?: boolean
@@ -104,12 +146,8 @@ export type HasSelectOptions = {
     options: string[] | KeyValue<string>
 }
 
-export type HasRelationship = {
-    relationship: Noun
-}
-
 export type HasRollup = {
-    type: 'min' | 'max' | 'sum' | 'avg' 
+    _type: 'min' | 'max' | 'sum' | 'avg' 
     filter?: Criteria
 }
 
@@ -123,29 +161,29 @@ export type HasMany = {
     many: true
 }
 
-export type Text = 'Text' | Prop<string> & { type: 'Text' }
-export type LongText = 'LongText' | Prop<string> & { type: 'LongText' }
-export type RichText = 'RichText' | Prop<Markdown> & { type: 'LongText' }
-export type Number = 'Number' | HasNumericFormat & HasPrecision & Prop<number> & { type: 'Number' } 
-export type Percentage = 'Percentage' | HasPrecision & Prop<number> & { type: 'Percentage' }
-export type Currency = 'Currency' | HasPrecision & Prop<number> & { type: 'Currency' }
-export type Attachment = 'Attachment' | HasURL & Prop<string | string[]> & { type: 'Attachment' }
-export type Checkbox = 'Checkbox' | Prop<boolean> & { type: 'Checkbox' }
-export type MultiSelect = 'MultiSelect' | HasSelectOptions & Prop<string[]> & { type: 'MultiSelect' }
-export type SingleSelect = 'SingleSelect' | HasSelectOptions & Prop<string> & { type: 'SingleSelect' }
-export type DatePicker = 'Date' | Prop<Date> & { type: 'Date' }
-export type DateTimePicker = 'DateTime' | Prop<Date> & { type: 'DateTime' }
-export type TimePicker = 'Time' | Prop<Date> & { type: 'Time' }
-export type CreatedDate = 'Created' | IsReadOnly & Prop<Date> & { type: 'Created' }
-export type ModifiedDate = 'Modified' | IsReadOnly & Prop<Date> & { type: 'Modified' }
-export type CreatedBy = 'CreatedBy' | IsReadOnly & Prop<User> & { type: 'CreatedBy' }
-export type ModifiedBy = 'ModifiedBy' | IsReadOnly & Prop<User> & { type: 'ModifiedBy' }
-export type Duration = 'Duration' | IsReadOnly & Prop<number> & { type: 'Duration' }
-export type Formula = 'Formula' | HasFormula & Prop<string | number> & { type: 'Formula' }
-export type Lookup = 'Lookup' | HasRelationship & Prop<string> & { type: 'Lookup' }
-export type Rollup = 'Relationship' | HasRollup & HasRelationship & Prop<string> & { type: 'Relationship' }
-export type Relationship = 'Relationship' | HasRelationship & Prop<Noun> & { type: 'Relationship' }
-export type Relationships = 'Relationships' | HasMany & HasRelationship & Prop<Noun> & { type: 'Relationships' }
+export type Properties = 'Text' | 'LongText' | 'RichText' | 'Number' | 'Percentage' // ToDo
+
+export type Text = 'Text' | Prop<string> & { _type: 'Text' }
+export type LongText = 'LongText' | Prop<string> & { _type: 'LongText' }
+export type RichText = 'RichText' | Prop<Markdown> & { _type: 'LongText' }
+export type Number = 'Number' | HasNumericFormat & HasPrecision & Prop<number> & { _type: 'Number' } 
+export type Percentage = 'Percentage' | HasPrecision & Prop<number> & { _type: 'Percentage' }
+export type Currency = 'Currency' | HasPrecision & Prop<number> & { _type: 'Currency' }
+export type Attachment = 'Attachment' | HasURL & Prop<string | string[]> & { _type: 'Attachment' }
+export type Checkbox = 'Checkbox' | Prop<boolean> & { _type: 'Checkbox' }
+export type MultiSelect = 'MultiSelect' | HasSelectOptions & Prop<string[]> & { _type: 'MultiSelect' }
+export type SingleSelect = 'SingleSelect' | HasSelectOptions & Prop<string> & { _type: 'SingleSelect' }
+export type DatePicker = 'Date' | Prop<Date> & { _type: 'Date' }
+export type DateTimePicker = 'DateTime' | Prop<Date> & { _type: 'DateTime' }
+export type TimePicker = 'Time' | Prop<Date> & { _type: 'Time' }
+export type CreatedDate = 'Created' | IsReadOnly & Prop<Date> & { _type: 'Created' }
+export type ModifiedDate = 'Modified' | IsReadOnly & Prop<Date> & { _type: 'Modified' }
+export type CreatedBy = 'CreatedBy' | IsReadOnly & Prop<User> & { _type: 'CreatedBy' }
+export type ModifiedBy = 'ModifiedBy' | IsReadOnly & Prop<User> & { _type: 'ModifiedBy' }
+export type Duration = 'Duration' | IsReadOnly & Prop<number> & { _type: 'Duration' }
+export type Formula = 'Formula' | HasFormula & Prop<string | number> & { _type: 'Formula' }
+export type Lookup = 'Lookup' | HasRelationship & Prop<string> & { _type: 'Lookup' }
+export type Rollup = 'Relationship' | HasRollup & HasRelationship & Prop<string> & { _type: 'Relationship' }
 
 export type OptionalText = 'Text?' | Optional & Text
 export type OptionalLongText = 'LongText?' | Optional & LongText
@@ -168,11 +206,9 @@ export type OptionalDuration = 'Duration?' | Optional & Duration
 export type OptionalFormula = 'Formula?' | Optional & Formula
 export type OptionalLookup = 'OptionalLookup?' | Optional & Lookup
 export type OptionalRollup = 'Rollup?' | Optional & Rollup
-export type OptionalRelationship = 'Relationship?' | Optional & Relationship
-export type OptionalRelationships = 'Relationships?' | Optional & Relationships
 
 export type Markdown = string | {
-    type: 'Markdown'
+    _type: 'Markdown'
 }
 
 // export type MDX = {
@@ -213,11 +249,11 @@ export type MultiTenantCRUD<T extends Noun> = CRUD<T> & HasMultiTenantScope
 export type Criteria = Object
 
 export type Provider = Noun & {
-    type: 'Provider'
+    _type: 'Provider'
 }
 
 export type User = Noun & {
-    type: 'User'
+    _type: 'User'
     name?: string | PersonName
     email?: string | string[]
     image?: string | Image
@@ -246,15 +282,15 @@ export type Instance = {
 }
 
 export type App = SaaS & {
-    type: 'App'
+    _type: 'App'
     app: AppConfig
 }
 export type API = SaaS & {
-    type: 'API'
+    _type: 'API'
     api: APIConfig
 }
 export type Marketplace = Noun & {
-    type: 'Marketplace'
+    _type: 'Marketplace'
 }
 
 export type EdgeRequest = NextRequest & {
@@ -266,7 +302,7 @@ export type EdgeRequest = NextRequest & {
 export type IsInstance = { isInstance: true, name: string }
 
 export type Product = Noun & {
-    type: 'Product'
+    _type: 'Product'
     name: string
     price?: Price
     domain?: string
@@ -276,10 +312,10 @@ export type Product = Noun & {
 export type JourneyStages = 'Beginning' | 'Middle' | 'End' | 'Build' | 'Grow' | 'Launch' | 'Scale' | 'Enterprise' | 'Discover'
 export type Journey = KeyValue<Stage>
 
-export type Stage = string | JourneyStages | Verb | Activity | KeyValue<Activity> & { type: 'Stage' }
+export type Stage = string | JourneyStages | Verb | Activity | KeyValue<Activity> & { _type: 'Stage' }
 
 export type Story = {
-    type: 'Story'
+    _type: 'Story'
     persona: string | Persona | Hero
     wants?: string | Wants
     needs?: string | Needs
@@ -293,14 +329,14 @@ export type Story = {
 }
 
 export type Success = {
-    type: 'Success'
+    _type: 'Success'
     metric: Metric
 }
 
 export type MetricValue = Number | Percentage | Currency | Checkbox
 export type MetricType = ''
 export type MetricValueTime = { 
-    type: 'MetricValueTime'
+    _type: 'MetricValueTime'
     value: MetricValue
     metric: KPI
     time: DurationPeriod
@@ -311,7 +347,7 @@ export type MetricValueTime = {
 export type KPI = 'Visitors Registered' | 'Users Activated' | 'Users Subscribed' | 'Customers Churned' | 'Advocates Shared'
 
 export type Metric = {
-    type: 'Metric'
+    _type: 'Metric'
     target: MetricValue
     metric: KPI
     now: MetricValue
@@ -319,12 +355,12 @@ export type Metric = {
 }
 
 export type BeforeAfter = {
-    type: 'Before'
+    _type: 'Before'
 
 }
 
 export type Failure = {
-    type: 'Failure'
+    _type: 'Failure'
     means?: string | string[]
     fears?: string | string[]
 }
@@ -336,17 +372,17 @@ export type FeaturesAndBenefits = {
     benefits?: Benefits
 }
 
-export type Wants = KeyValue & { type: 'Wants' }
-export type Needs = KeyValue & { type: 'Needs' }
+export type Wants = KeyValue & { _type: 'Wants' }
+export type Needs = KeyValue & { _type: 'Needs' }
 export type Problem = {
-    type: 'Problem'
+    _type: 'Problem'
     villian?: string | string[] 
     internal: string | string[] 
     external: string | string[] 
     philosophical: string | string[] 
 }
 export type Solution = {
-    type: 'Solution'
+    _type: 'Solution'
     modifier?: string | string[] | Modifier
     noun: string | string[] | Noun | Noun[]
     solution: string | string[] | Solution | Solution[]
@@ -359,16 +395,16 @@ export type Solutions = `${Modifier} ${Nouns} ${SolutionType}`
 
 
 export type SaaS<T = Activity> = Noun<T> & Product & Story & {
-    type: 'SaaS'
+    _type: 'SaaS'
 
 }
 
 
 export type AppConfig = Noun & {
-    type: 'AppConfig'
+    _type: 'AppConfig'
 }
 export type APIConfig = Noun & {
-    type: 'APIConfig'
+    _type: 'APIConfig'
 }
 
 export type EdgeResponse<T> = NextResponse & {
@@ -388,7 +424,7 @@ export type Transformation<I, O> = (input: I) => O
 export type Mashup<I extends [], O> = (input: I) => O
 
 export type APIProxy<T> = (req: EdgeRequest, event: EdgeFetchEvent) => EdgeResponse<T> & {
-    type: 'APIProxy'
+    _type: 'APIProxy'
     source: Source
     // resource: Resource<T | S>
     // transformation: Transformation<
@@ -410,7 +446,7 @@ export type DurableObjectStorage<T> = {
 export type DurableObjectsStorageGetOptions = { allowConcurrency: Boolean, noCache: boolean}
 
 export type Source = Noun & {
-    type: 'Source'
+    _type: 'Source'
 }
 
 export type Marketing = {} 
@@ -420,23 +456,23 @@ export type Visibility = {}
 export type Scope = {}
 export type Authorization = {}
 
-export type Persona = Noun & { type: 'Persona' }
+export type Persona = Noun & { _type: 'Persona' }
 
 export type Trigger<T = object> = Noun & { 
-    type: 'Trigger' 
+    _type: 'Trigger' 
     trigger: (instance: T, ctx: Context) => any
 }
 export type Search<T = object> = Noun & { 
-    type: 'Search' 
+    _type: 'Search' 
     search: (criteria: Criteria, ctx: Context) => SearchResults<T>
 }
 export type Action<T = object> = Noun & { 
-    type: 'Action' 
+    _type: 'Action' 
     trigger: (instance: T, ctx: Context) => any
 }
 
 export type SearchResults<T = object> = {
-    type: 'SearchResults'
+    _type: 'SearchResults'
     results: T[]
     count: number
     total: number
@@ -447,11 +483,11 @@ export type Searches<T = object> = KeyValue<Search<T>>
 export type Actions<T = object> = KeyValue<Action<T>>
 
 export type Experiment = Noun & {
-    type: 'Experiment'
+    _type: 'Experiment'
 }
 
 export type List<T = object> = (criteria: Criteria) => { 
-    type: 'List' 
+    _type: 'List' 
     criteria?: Criteria
     items: T[]
     count: number
@@ -467,18 +503,18 @@ export type Functions = KeyValue<Function>
 export type Integration<T = object> = T
 export type Plugin<T = object> = T
 
-export type Context<T = object> = { type: 'Context', context: T }
+export type Context<T = object> = { _type: 'Context', context: T }
 
-export type AppContext = Context<App> & { type: 'AppContext' }
-export type APIContext = Context<API> & { type: 'APIContext' }
-export type PluginContext = Context<Plugin> & { type: 'PluginContext' }
-export type IntegrationContext = Context<Integration> & { type: 'IntegrationContext' }
+export type AppContext = Context<App> & { _type: 'AppContext' }
+export type APIContext = Context<API> & { _type: 'APIContext' }
+export type PluginContext = Context<Plugin> & { _type: 'PluginContext' }
+export type IntegrationContext = Context<Integration> & { _type: 'IntegrationContext' }
 
 
 export type IsPhrase = { phrase: string }
 
 export type Activity<V = Verb, N = Noun> = { 
-    type: 'Activity', 
+    _type: 'Activity', 
     // name: `${V.verb} ${N.noun}`, 
     verb: V, 
     noun: N 
@@ -500,34 +536,34 @@ export type Nouns = FounderNouns | CoderNouns
 export type Verbs = NounVerbs | ProductVerbs
 
 export type Verb<T = object> = {
-    type: 'Verb'
+    _type: 'Verb'
     actions: T
 }
 
 export type Name<T = object> = Noun<T> & {
-    type: 'Name'
+    _type: 'Name'
     name: string
 } 
 
 export type PartOfSpeech = 'Noun' | 'Verb' | 'Adjective' | 'Adverb' | 'Preposition'
 
 export type Word<T> = {
-    type: 'Word'
+    _type: 'Word'
     partOfSpeech?: PartOfSpeech
     word: T
 }
 export type Adjective<T = object> = {
-    type: 'Adjective'
+    _type: 'Adjective'
     partOfSpeech: Adjective
     adjective: T
 }
 export type Adverb<T = object> = {
-    type: 'Adverb'
+    _type: 'Adverb'
     partOfSpeech: Adverb
     adverb: T
 }
 export type Sentence<T = object> = {
-    type: 'Sentence'
+    _type: 'Sentence'
     sentence: T
 }
 
@@ -544,13 +580,13 @@ export type Style = string
 
 export type Plans = 'Plans' | PlansObject
 export type PlansObject = {
-    type: 'Plans'
+    _type: 'Plans'
     [key: string]: 'Plans' | Plan
 }
 
 export type Plan = 'Plan' | PlanObject
 export type PlanObject = {
-    type: 'Plan'
+    _type: 'Plan'
     price: number | Price
     description?: string
     features?: Feature
@@ -560,7 +596,7 @@ export type Feature = Noun | Verb | Activity | Function | Integration | Trigger 
 
 export type Price = 'Price' | PriceObject
 export type PriceObject = {
-    type: 'Price'
+    _type: 'Price'
     price?: number
     monthlyPrice?: number
     annualPrice?: number
@@ -571,7 +607,7 @@ export type PriceObject = {
 }
 
 export type Website = Noun & {
-    type: 'Website'
+    _type: 'Website'
     title: string
     home: Page
     domain: Domain
@@ -585,7 +621,7 @@ export type Website = Noun & {
 
 
 export type Domain = Noun & Name & {
-    type: 'Domain'
+    _type: 'Domain'
     name: string
     isInstance: true
     subdomains: SubDomain[]
@@ -605,7 +641,7 @@ export type Path = string
 // export type 
 
 export type LandingPage = Website & Page & {
-    type: 'LandingPage'
+    _type: 'LandingPage'
     hero: Hero | Section | Section[]
     features?: Features | Section | Section[]
     benefits?: Benefits | Section | Section[]
@@ -614,7 +650,7 @@ export type LandingPage = Website & Page & {
 }
 
 export type Page = Noun & {
-    type: 'Page'
+    _type: 'Page'
     title: string
     header: Header
     sections: Section[]
@@ -622,19 +658,19 @@ export type Page = Noun & {
 }
 
 export type Header = {
-    type: 'Header'
+    _type: 'Header'
     logo?: string | Image
     menu?: Link[] | MenuItem[] | Menu | Menu[]
 }
 
 export interface Menu {
-    type: 'Menu'
+    _type: 'Menu'
     name: string
     items: Link[] | MenuItem
 }
 
 export interface MenuItem {
-    type: 'MenuItem'
+    _type: 'MenuItem'
     name: string
     href?: string
     onClick?: Function
@@ -642,7 +678,7 @@ export interface MenuItem {
 }
 
 export interface Section {
-    type: 'Section'
+    _type: 'Section'
     title?: string
     subtitle?: string
     description?: string
@@ -655,7 +691,7 @@ export interface Section {
 }
 
 export interface ListItem {
-    type: 'ListItem'
+    _type: 'ListItem'
     text?: string
     subtext?: string
     icon?: string | Image
@@ -663,25 +699,25 @@ export interface ListItem {
 }
 
 // export type CallToAction = CallToAction & {
-//     type: 'CallToAction'
+//     _type: 'CallToAction'
     // name?: string
     // href?: string
     // onClick?: Function
 // }
 
 export type Hero = Section & Persona & {
-    type: 'HeroSection'
+    _type: 'HeroSection'
     logo?: string | Image
     image?: string
 }
 
 export type Features = Section & {
-    type: 'FeaturesSection'
+    _type: 'FeaturesSection'
     features?: ListItem[]
 }
 
 export type Benefits = Section & {
-    type: 'BenefitsSection'
+    _type: 'BenefitsSection'
     benefits?: ListItem[]
 }
 
@@ -757,7 +793,7 @@ export type SocialAccounts = Noun & {
 }
 
 export type Footer = Section & {
-    type: 'Footer'
+    _type: 'Footer'
     logo?: string | Logo | Wordmark | Image
     copyright?: string
     companyName?: string
