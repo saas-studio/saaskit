@@ -1,25 +1,22 @@
-import { Adapter, AdapterUser, AdapterSession, VerificationToken } from 'next-auth/adapters'
-import fetchJSON from '../utils/fetch-json'
-
-export default function Auth(client, options = {}): Adapter {
+export default function Auth({headers}) {
     return {
       async createUser(user) {
-        return fetchJSON<AdapterUser>(`https://saas.dev/api/users`, { body: user, method: 'POST' })
+        return fetch(`https://saas.dev/api/users`, { body: JSON.stringify(user), method: 'POST', headers }).then(res => res.json())
       },
       async getUser(id) {
-        return fetchJSON<AdapterUser>(`https://saas.dev/api/users/${id}`)
+        return fetch(`https://saas.dev/api/users/${id}`, {headers}).then(res => res.json())
       },
       async getUserByEmail(email) {
-        return fetchJSON<AdapterUser>(`https://saas.dev/api/users`, {query: { email } })
+        return fetch(`https://saas.dev/api/users?email=${email}`, {headers}).then(res => res.json())
       },
       async getUserByAccount({ provider, providerAccountId }) {
-        return fetchJSON<AdapterUser>(`https://saas.dev/api/users`, {query: { provider, providerAccountId } })
+        return fetch(`https://saas.dev/api/users/${provider}/${providerAccountId}`, {headers}).then(res => res.json())
       },
       async updateUser(user) {
-        return fetchJSON<AdapterUser>(`https://saas.dev/api/users`, { body: user, method: 'PATCH' })
+        return fetch(`https://saas.dev/api/users`, { body: JSON.stringify(user), method: 'PATCH', headers}).then(res => res.json())
       },
       async deleteUser(userId) {
-        return fetchJSON<AdapterUser>(`https://saas.dev/api/users/${userId}`, { method: 'DELETE' })
+        fetch(`https://saas.dev/api/users/session/users/${userId}`, { method: 'DELETE', headers })
       },
       async linkAccount() {
         return
@@ -28,22 +25,22 @@ export default function Auth(client, options = {}): Adapter {
         return
       },
       async createSession({ sessionToken, userId, expires }) {
-        return fetchJSON<AdapterSession>(`https://saas.dev/api/users/session`, { body: { sessionToken, userId, expires }, method: 'POST' })
+        return fetch(`https://saas.dev/api/users/session`, { body: JSON.stringify({ sessionToken, userId, expires }), method: 'POST', headers }).then(res => res.json())
       },
       async getSessionAndUser(sessionToken) {
-        return fetchJSON(`https://saas.dev/api/users/session/${sessionToken}`)
+        return fetch(`https://saas.dev/api/users/session/${sessionToken}`).then(res => res.json())
       },
       async updateSession(session) {
-        return fetchJSON<AdapterSession>(`https://saas.dev/api/users/session/${session.sessionToken}`, { body: session, method: 'PUT' })
+        return fetch(`https://saas.dev/api/users/session/${session.sessionToken}`, { body: JSON.stringify(session), method: 'PUT', headers }).then(res => res.json())
       },
       async deleteSession(sessionToken) {
-        return fetchJSON<AdapterSession>(`https://saas.dev/api/users/session/${sessionToken}`, { body: sessionToken, method: 'DELETE' })
+        fetch(`https://saas.dev/api/users/session/${sessionToken}`, { body: sessionToken, method: 'DELETE', headers })
       },
       async createVerificationToken({ identifier, expires, token }) {
-        return  fetchJSON<VerificationToken>(`https://saas.dev/api/verification/token`, { body: { identifier, expires, token }, method: 'POST' })
+        return fetch(`https://saas.dev/api/verification/token`, { body: JSON.stringify({ identifier, expires, token }), method: 'POST', headers }).then(res => res.json())
       },
       async useVerificationToken({ identifier, token }) {
-        return fetchJSON<VerificationToken>(`https://saas.dev/api/verification/token/${identifier}/${token}`)
+        return fetch(`https://saas.dev/api/verification/token/${identifier}/${token}`, { headers }).then(res => res.json())
       },
     }
   }
