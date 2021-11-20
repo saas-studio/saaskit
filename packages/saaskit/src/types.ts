@@ -1,6 +1,7 @@
-import { Analytics } from "@segment/analytics-next"
-import { NextFetchEvent, NextRequest, NextResponse } from "next/server"
-import { Thing } from "schema-dts"
+// import { Analytics } from "@segment/analytics-next"
+// import { NextFetchEvent, NextRequest, NextResponse } from "next/server"
+// import { Thing } from "schema-dts"
+
 
 export type KeyValue<T = string> = {
     [key: string]: T
@@ -38,7 +39,7 @@ export type Noun<O = object, I = Instances, N = Nouns, V = Verbs> = {
     description?: string
     icon?: string | Icon 
     image?: string | string[] | Image | Image[]
-    schema?: Thing
+    schema?: object
     schemaType?: Schema
     url?: string 
     app?: App
@@ -293,11 +294,13 @@ export type Marketplace = Noun & {
     _type: 'Marketplace'
 }
 
-export type EdgeRequest = NextRequest & {
+export type EdgeRequest = {
     jwt?: JWT 
     user?: User
     analytics?: Analytics
 }
+
+export type Analytics = {}
 
 export type IsInstance = { isInstance: true, name: string }
 
@@ -407,15 +410,15 @@ export type APIConfig = Noun & {
     _type: 'APIConfig'
 }
 
-export type EdgeResponse<T> = NextResponse & {
+export type EdgeResponse<T> = {
     json: (obj: T, options: { camelCase: boolean, pretty: boolean }) => void
     text: (message: string) => void
-    rewrite: (args: {source: string, destination: string, rewriter: HTMLRewriter}) => void
+    // rewrite: (args: {source: string, destination: string, rewriter: HTMLRewriter}) => void
     experiment: (experiment: Experiment) => void
     track: (activity: Activity) => void
 }
 
-export type EdgeFetchEvent = NextFetchEvent
+export type EdgeFetchEvent = {}
 
 export type JWT = {}
 
