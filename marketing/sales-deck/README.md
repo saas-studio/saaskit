@@ -1,2 +1,0 @@
-# SaaSkit Zapier Marketing Integration
-

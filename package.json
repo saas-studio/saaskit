@@ -1,9 +1,0 @@
-{
-  "name": "root",
-  "private": true,
-  "devDependencies": {
-    "@types/node": "^16.11.6",
-    "lerna": "^4.0.0",
-    "next-seo": "^4.28.1"
-  }
-}
