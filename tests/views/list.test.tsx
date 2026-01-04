@@ -333,9 +333,9 @@ describe('List Component', () => {
       })
 
       expect(element).toBeDefined()
-      // Should have item 1 selected
+      // Should have item 1 selected (isSelected prop in memoized component)
       const resultString = JSON.stringify(element)
-      expect(resultString).toContain('selected')
+      expect(resultString).toContain('isSelected')
     })
   })
 

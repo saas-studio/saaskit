@@ -191,12 +191,62 @@ export function parseResourceProps(props: Record<string, unknown>): FieldDefinit
 
 /**
  * Extracts resource metadata from a Resource JSX element
+ * Supports both shorthand props and expanded syntax children
  */
 export function getResourceMetadata(element: React.ReactElement<ResourceProps>): ResourceMetadata {
   const props = element.props
+  const shorthandFields = parseResourceProps(props as Record<string, unknown>)
+
+  // Check if there are expanded syntax children
+  let expandedFields: FieldDefinition[] = []
+  if (props.children) {
+    // Dynamically import to avoid circular dependency
+    const { extractFieldsFromChildren } = require('./fields')
+    const fieldMetadata = extractFieldsFromChildren(props.children)
+
+    // Convert FieldMetadata to FieldDefinition
+    expandedFields = fieldMetadata.map((meta: any) => {
+      const field: FieldDefinition = {
+        name: meta.name,
+        type: meta.type,
+        required: meta.required,
+      }
+      if (meta.unique) {
+        field.unique = meta.unique
+      }
+      if (meta.auto) {
+        field.auto = meta.auto
+      }
+      if (meta.options) {
+        field.options = meta.options
+      }
+      if (meta.relation) {
+        field.relation = {
+          target: meta.relation.target,
+          many: meta.relation.many,
+        }
+        // Include cascade if present
+        if (meta.relation.cascade) {
+          (field.relation as any).cascade = meta.relation.cascade
+        }
+      }
+      // Include default and validation in extended FieldDefinition
+      if (meta.default !== undefined) {
+        (field as any).default = meta.default
+      }
+      if (meta.validation) {
+        (field as any).validation = meta.validation
+      }
+      return field
+    })
+  }
+
+  // Combine shorthand and expanded fields (expanded takes precedence if same name)
+  const allFields = [...shorthandFields, ...expandedFields]
+
   return {
     name: props.name,
-    fields: parseResourceProps(props as Record<string, unknown>),
+    fields: allFields,
   }
 }
 
