@@ -1,0 +1,59 @@
+{
+  "name": "saaskit",
+  "version": "0.1.0",
+  "description": "Headless SaaS for AI Agents",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "dev": "bun run src/index.ts",
+    "build": "bun build src/index.ts --outdir dist --target node",
+    "test": "bun test",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write ."
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "ink": "^5.0.1",
+    "yoga-wasm-web": "^0.3.3"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@types/bun": "^1.1.14",
+    "@types/react": "^18.3.12",
+    "typescript": "^5.7.2"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "bun": ">=1.2.0"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "keywords": [
+    "saas",
+    "cli",
+    "terminal",
+    "react",
+    "ink",
+    "ai",
+    "agent",
+    "mcp"
+  ],
+  "author": "SaaS Studio",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/saas-studio/saaskit.git"
+  }
+}
