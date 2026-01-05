@@ -288,15 +288,21 @@ export function createResourceNode(
   fields: FieldNode[] = [],
   options: Partial<Omit<ResourceNode, 'kind' | 'name' | 'fields'>> = {}
 ): ResourceNode {
-  return {
+  // Only spread defined option values
+  const result: ResourceNode = {
     kind: 'resource',
     name,
     pluralName: options.pluralName ?? pluralize(name),
     path: options.path ?? `/${normalizeName(pluralize(name))}`,
     displayName: options.displayName ?? toDisplayName(name),
     fields,
-    ...options,
   }
+
+  // Add optional properties if defined
+  if (options.description) result.description = options.description
+  if (options.icon) result.icon = options.icon
+
+  return result
 }
 
 /**
