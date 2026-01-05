@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { Box, Text, useInput } from 'ink';
 import { colors } from '../../theme/colors.js';
-import { arrows, status as statusIcons, box } from '../../theme/icons.js';
+import { arrows, status as statusIcons, box, selection } from '../../theme/icons.js';
 
 export interface WizardStep {
   /** Unique step identifier */
@@ -69,7 +69,7 @@ export const Wizard: React.FC<WizardProps> = ({
 }) => {
   const [currentStep, setCurrentStep] = useState(initialStep);
   const [isValidating, setIsValidating] = useState(false);
-  const [direction, setDirection] = useState<'forward' | 'backward'>('forward');
+  const [_direction, setDirection] = useState<'forward' | 'backward'>('forward');
 
   const step = steps[currentStep];
   const isFirstStep = currentStep === 0;
@@ -104,7 +104,7 @@ export const Wizard: React.FC<WizardProps> = ({
   }, [allowBack, isFirstStep, currentStep, onStepChange]);
 
   // Keyboard navigation
-  useInput((input, key) => {
+  useInput((_input, key) => {
     if (key.leftArrow && allowBack && !isFirstStep) {
       goToPrevStep();
     } else if (key.rightArrow && !isValidating) {
@@ -142,10 +142,10 @@ export const Wizard: React.FC<WizardProps> = ({
           icon = statusIcons.success;
           color = colors.success[500];
         } else if (isCurrent) {
-          icon = statusIcons.radioOn;
+          icon = selection.radioOn;
           color = colors.primary[500];
         } else {
-          icon = statusIcons.radioOff;
+          icon = selection.radioOff;
           color = colors.neutral[500];
         }
 
@@ -242,12 +242,14 @@ export const Wizard: React.FC<WizardProps> = ({
         padding={2}
         marginY={1}
       >
-        <Text bold color={colors.neutral[800]} marginBottom={1}>
-          {step.icon && `${step.icon} `}{step.title}
-          {step.optional && (
-            <Text color={colors.neutral[500]} dimColor> (Optional)</Text>
-          )}
-        </Text>
+        <Box marginBottom={1}>
+          <Text bold color={colors.neutral[800]}>
+            {step.icon && `${step.icon} `}{step.title}
+            {step.optional && (
+              <Text color={colors.neutral[500]} dimColor> (Optional)</Text>
+            )}
+          </Text>
+        </Box>
         {step.content}
       </Box>
 
@@ -309,7 +311,7 @@ export interface WizardFormStepProps {
 
 export const WizardFormStep: React.FC<WizardFormStepProps> = ({
   children,
-  onValidate,
+  onValidate: _onValidate,
 }) => {
   return <Box flexDirection="column">{children}</Box>;
 };
@@ -340,8 +342,8 @@ export const StepGuide: React.FC<StepGuideProps> = ({ steps, currentStep = 0 }) 
       const icon = status === 'complete'
         ? statusIcons.success
         : status === 'current'
-          ? statusIcons.radioOn
-          : statusIcons.radioOff;
+          ? selection.radioOn
+          : selection.radioOff;
 
       return (
         <Box key={i} flexDirection="column" marginBottom={1}>

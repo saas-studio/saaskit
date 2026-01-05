@@ -63,15 +63,18 @@ export async function render(app: AppDefinition): Promise<RendererResult> {
  * Render using OpenTUI (primary)
  */
 export async function renderWithOpenTUI(app: AppDefinition): Promise<RendererResult> {
-  const { render } = await import('@opentui/react')
+  const { createRoot } = await import('@opentui/react')
+  const { createCliRenderer } = await import('@opentui/core')
   const { TUIApp } = await import('./App')
   const React = await import('react')
 
-  const instance = render(React.createElement(TUIApp, { app }))
+  const renderer = await createCliRenderer()
+  const root = createRoot(renderer)
+  root.render(React.createElement(TUIApp, { app }))
 
   return {
     engine: 'opentui',
-    cleanup: () => instance?.unmount?.(),
+    cleanup: () => root?.unmount?.(),
   }
 }
 

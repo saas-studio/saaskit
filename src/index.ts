@@ -134,7 +134,7 @@ export type { TextProps, TextColor, BoxProps, BorderStyle, FlexDirection } from 
 // =============================================================================
 
 export { MemoryStore } from './data/MemoryStore'
-export type { Record } from './data/MemoryStore'
+export type { DataRecord } from './data/MemoryStore'
 
 // =============================================================================
 // Rendering
@@ -225,9 +225,6 @@ export {
 	createAppNode,
 	createResourceNode,
 	createFieldNode,
-	normalizeName,
-	toDisplayName,
-	pluralize,
 	parseFieldType,
 } from './schema/ast'
 export type {
@@ -258,3 +255,10 @@ export type { GeneratedFile, SDKResult } from './sdk/generate'
 
 export { CommandPalette } from './cli/command-palette'
 export type { Command as PaletteCommand } from './cli/command-palette'
+
+// =============================================================================
+// Utilities
+// =============================================================================
+
+export { normalizeName, toDisplayName, pluralize, fieldTypeToTS } from './utils'
+export type { FieldTypeInfo } from './utils'

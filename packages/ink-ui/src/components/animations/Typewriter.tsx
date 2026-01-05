@@ -62,11 +62,12 @@ export const Typewriter: React.FC<TypewriterProps> = ({
       const timer = setTimeout(() => setStarted(true), delay);
       return () => clearTimeout(timer);
     }
+    return undefined;
   }, [delay]);
 
   // Typewriter animation
   useEffect(() => {
-    if (!started) return;
+    if (!started) return undefined;
 
     let currentIndex = 0;
     let typingTimer: NodeJS.Timeout;
@@ -102,7 +103,7 @@ export const Typewriter: React.FC<TypewriterProps> = ({
 
   // Cursor blinking
   useEffect(() => {
-    if (!cursor) return;
+    if (!cursor) return undefined;
 
     const cursorTimer = setInterval(() => {
       setShowCursor((prev) => !prev);
@@ -307,7 +308,7 @@ export const TerminalCommand: React.FC<TerminalCommandProps> = ({
   };
 
   useEffect(() => {
-    if (!showOutput || visibleOutputLines >= output.length) return;
+    if (!showOutput || visibleOutputLines >= output.length) return undefined;
 
     const timer = setTimeout(() => {
       setVisibleOutputLines((prev) => prev + 1);

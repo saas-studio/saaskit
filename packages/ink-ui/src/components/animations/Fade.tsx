@@ -104,6 +104,7 @@ export const FadeIn: React.FC<{
       const timer = setTimeout(() => setStarted(true), delay);
       return () => clearTimeout(timer);
     }
+    return undefined;
   }, [delay]);
 
   if (!started) return null;

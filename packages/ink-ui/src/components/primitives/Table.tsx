@@ -77,7 +77,7 @@ export function Table<T extends Record<string, unknown>>({
   defaultSortKey,
   defaultSortDirection = 'asc',
   showRowNumbers = false,
-  striped = true,
+  striped: _striped = true,
   borderStyle = 'single',
   maxHeight,
   emptyMessage = 'No data',
@@ -85,8 +85,8 @@ export function Table<T extends Record<string, unknown>>({
   const { isFocused } = useFocus();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
-  const [sortKey, setSortKey] = useState<keyof T | undefined>(defaultSortKey);
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>(defaultSortDirection);
+  const [sortKey, _setSortKey] = useState<keyof T | undefined>(defaultSortKey);
+  const [sortDirection, _setSortDirection] = useState<'asc' | 'desc'>(defaultSortDirection);
   const [scrollOffset, setScrollOffset] = useState(0);
 
   // Sort data
@@ -193,22 +193,13 @@ export function Table<T extends Record<string, unknown>>({
   );
 
   // Render row
-  const renderRow = (row: T, index: number, dataIndex: number) => {
+  const renderRow = (row: T, _index: number, dataIndex: number) => {
     const isSelected = selectable && dataIndex === selectedIndex;
     const isChecked = multiSelect && selectedRows.has(dataIndex);
-    const isAlternate = striped && index % 2 === 1;
-
-    let bgColor: string | undefined;
-    if (isSelected) {
-      bgColor = interactive.table.selected;
-    } else if (isAlternate) {
-      bgColor = interactive.table.alternate;
-    }
 
     return (
       <Box
         key={dataIndex}
-        backgroundColor={bgColor}
       >
         {selectable && (
           <Box width={3}>
@@ -276,7 +267,6 @@ export function Table<T extends Record<string, unknown>>({
         </Box>
       )}
       <Box
-        backgroundColor={interactive.table.headerBg}
         borderStyle={borderStyle !== 'none' ? 'single' : undefined}
         borderColor={colors.neutral[300]}
         borderTop={false}

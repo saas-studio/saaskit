@@ -9,7 +9,8 @@
 import type { ReactElement, ReactNode } from 'react'
 import React from 'react'
 import type { AppProps } from '../schema/App'
-import type { MemoryStore, Record } from '../data/MemoryStore'
+import type { MemoryStore, DataRecord } from '../data/MemoryStore'
+import { pluralize as pluralizeUtil } from '../utils'
 
 /**
  * HTTP method types for routes
@@ -174,13 +175,10 @@ export function createSuccessResponse<T>(
 }
 
 /**
- * Pluralize a resource name (simple rules)
+ * Pluralize a resource name (delegates to shared util, returns lowercase)
  */
 function pluralize(name: string): string {
-  const lower = name.toLowerCase()
-  if (lower.endsWith('s')) return lower + 'es'
-  if (lower.endsWith('y')) return lower.slice(0, -1) + 'ies'
-  return lower + 's'
+  return pluralizeUtil(name).toLowerCase()
 }
 
 /**
@@ -494,9 +492,9 @@ function compareValues(
  * Apply filters to records
  */
 function applyFilters(
-  records: Record[],
+  records: DataRecord[],
   filters: Array<{ field: string; operator: string; value: unknown }>
-): Record[] {
+): DataRecord[] {
   return records.filter((record) => {
     for (const { field, operator, value } of filters) {
       const recordValue = record[field]
@@ -517,7 +515,7 @@ function applyFilters(
 /**
  * Apply search across text fields
  */
-function applySearch(records: Record[], searchTerm: string, resource: ResourceInfo): Record[] {
+function applySearch(records: DataRecord[], searchTerm: string, resource: ResourceInfo): DataRecord[] {
   const term = searchTerm.toLowerCase()
   return records.filter((record) => {
     for (const [fieldName, fieldDef] of resource.fields.entries()) {
@@ -539,7 +537,7 @@ function applySearch(records: Record[], searchTerm: string, resource: ResourceIn
 /**
  * Apply sorting to records
  */
-function applySort(records: Record[], sortField: string, order: 'asc' | 'desc'): Record[] {
+function applySort(records: DataRecord[], sortField: string, order: 'asc' | 'desc'): DataRecord[] {
   return [...records].sort((a, b) => {
     const aVal = a[sortField]
     const bVal = b[sortField]
@@ -556,8 +554,8 @@ function applySort(records: Record[], sortField: string, order: 'asc' | 'desc'):
 /**
  * Select specific fields from a record
  */
-function selectFields(record: Record, fields: string[]): Record {
-  const result: Record = {} as Record
+function selectFields(record: DataRecord, fields: string[]): DataRecord {
+  const result: DataRecord = {} as DataRecord
   for (const field of fields) {
     if (field in record) {
       result[field] = record[field]
@@ -570,12 +568,12 @@ function selectFields(record: Record, fields: string[]): Record {
  * Expand relations in a record
  */
 async function expandRelations(
-  record: Record,
+  record: DataRecord,
   includes: string[],
   resource: ResourceInfo,
   store: MemoryStore,
   resources: ResourceInfo[]
-): Promise<Record> {
+): Promise<DataRecord> {
   const result = { ...record }
 
   for (const include of includes) {
@@ -597,7 +595,7 @@ async function expandRelations(
 /**
  * Generate ETag for a record
  */
-function generateETag(record: Record): string {
+function generateETag(record: DataRecord): string {
   const content = JSON.stringify(record)
   let hash = 0
   for (let i = 0; i < content.length; i++) {
@@ -611,7 +609,7 @@ function generateETag(record: Record): string {
 /**
  * Convert data to CSV format
  */
-function toCSV(data: Record[]): string {
+function toCSV(data: DataRecord[]): string {
   if (data.length === 0) return ''
 
   const headers = Object.keys(data[0])
@@ -714,7 +712,7 @@ function serializeResponse(data: unknown, acceptHeader: string | null, meta?: Pa
     }
 
     if (type === 'text/csv') {
-      const csvData = Array.isArray(data) ? toCSV(data) : toCSV([data as Record])
+      const csvData = Array.isArray(data) ? toCSV(data) : toCSV([data as DataRecord])
       return new Response(csvData, {
         status: 200,
         headers: { 'Content-Type': 'text/csv', ...CORS_HEADERS },
@@ -790,6 +788,8 @@ export function createAPIRouter(options: CreateAPIRouterOptions): APIRouter {
 
   // Track relations for many-to-many (simplified in-memory)
   const manyToManyRelations = new Map<string, Map<string, Set<string>>>()
+  // Simpler map for tags - relationKey -> Set of tag IDs
+  const tagRelations = new Map<string, Set<string>>()
 
   // Build routes for each resource
   for (const resource of resources) {
@@ -957,7 +957,7 @@ export function createAPIRouter(options: CreateAPIRouterOptions): APIRouter {
         }
 
         // Create all items
-        const created: Record[] = []
+        const created: DataRecord[] = []
         for (const item of body) {
           const { id: _, ...data } = item
           const record = await store.create(resource.collectionName, data)
@@ -979,7 +979,7 @@ export function createAPIRouter(options: CreateAPIRouterOptions): APIRouter {
           return createErrorResponse(400, ErrorCodes.BAD_REQUEST, 'Request body must be an array')
         }
 
-        const updated: Record[] = []
+        const updated: DataRecord[] = []
         const errors: APIErrorDetail[] = []
 
         for (const item of body) {
@@ -1310,16 +1310,16 @@ export function createAPIRouter(options: CreateAPIRouterOptions): APIRouter {
         }
 
         const relationKey = `${resource.collectionName}:${id}:tags`
-        const relatedIds = manyToManyRelations.get(relationKey) || new Set()
+        const relatedIds = tagRelations.get(relationKey) || new Set<string>()
 
         const tagsResource = resources.find((r) => r.name === 'Tag')
         if (!tagsResource) {
           return createSuccessResponse([], 200)
         }
 
-        const tags: Record[] = []
+        const tags: DataRecord[] = []
         for (const tagId of relatedIds) {
-          const tag = await store.get(tagsResource.collectionName, tagId)
+          const tag = await store.get(tagsResource.collectionName, tagId as string)
           if (tag) tags.push(tag)
         }
 
@@ -1356,10 +1356,10 @@ export function createAPIRouter(options: CreateAPIRouterOptions): APIRouter {
         }
 
         const relationKey = `${resource.collectionName}:${id}:tags`
-        if (!manyToManyRelations.has(relationKey)) {
-          manyToManyRelations.set(relationKey, new Set())
+        if (!tagRelations.has(relationKey)) {
+          tagRelations.set(relationKey, new Set())
         }
-        manyToManyRelations.get(relationKey)!.add(body.id)
+        tagRelations.get(relationKey)!.add(body.id)
 
         return createSuccessResponse({ success: true }, 201)
       },
@@ -1378,7 +1378,7 @@ export function createAPIRouter(options: CreateAPIRouterOptions): APIRouter {
         }
 
         const relationKey = `${resource.collectionName}:${id}:tags`
-        const relatedIds = manyToManyRelations.get(relationKey)
+        const relatedIds = tagRelations.get(relationKey)
         if (relatedIds) {
           relatedIds.delete(relationId)
         }

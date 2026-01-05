@@ -161,43 +161,11 @@ export interface ParseError {
   source?: string
 }
 
-/**
- * Normalize a name to lowercase with hyphens
- */
-export function normalizeName(name: string): string {
-  return name
-    .replace(/([a-z])([A-Z])/g, '$1-$2') // camelCase -> camel-Case
-    .replace(/[_\s]+/g, '-') // underscores/spaces -> hyphens
-    .replace(/-+/g, '-') // multiple hyphens -> single
-    .toLowerCase()
-    .replace(/^-|-$/g, '') // trim hyphens
-}
+// Import string utilities from utils for local use
+import { normalizeName, toDisplayName, pluralize } from '../utils'
 
-/**
- * Convert a name to display format (Title Case)
- */
-export function toDisplayName(name: string): string {
-  return name
-    .replace(/[-_]+/g, ' ')
-    .replace(/([a-z])([A-Z])/g, '$1 $2')
-    .split(' ')
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join(' ')
-}
-
-/**
- * Pluralize a name (simple English rules)
- */
-export function pluralize(name: string): string {
-  const lower = name.toLowerCase()
-  if (lower.endsWith('s') || lower.endsWith('x') || lower.endsWith('ch') || lower.endsWith('sh')) {
-    return name + 'es'
-  }
-  if (lower.endsWith('y') && !['a', 'e', 'i', 'o', 'u'].includes(lower.charAt(lower.length - 2))) {
-    return name.slice(0, -1) + 'ies'
-  }
-  return name + 's'
-}
+// Re-export string utilities from utils for backwards compatibility
+export { normalizeName, toDisplayName, pluralize } from '../utils'
 
 /**
  * Parse field type from shorthand notation
@@ -411,10 +379,10 @@ function parseResourceElement(element: ReactElement, errors: ParseError[]): Reso
   }
 
   return createResourceNode(props.name, fields, {
-    path: props.path,
-    displayName: props.displayName as string,
-    description: props.description as string,
-    icon: props.icon as string,
+    path: props.path as string | undefined,
+    displayName: props.displayName as string | undefined,
+    description: props.description as string | undefined,
+    icon: props.icon as string | undefined,
   })
 }
 

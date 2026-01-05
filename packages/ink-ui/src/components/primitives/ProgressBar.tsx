@@ -60,11 +60,11 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
   useEffect(() => {
     if (!animated) {
       setDisplayValue(value);
-      return;
+      return undefined;
     }
 
     const step = value > displayValue ? 1 : -1;
-    if (displayValue === value) return;
+    if (displayValue === value) return undefined;
 
     const timer = setInterval(() => {
       setDisplayValue((prev) => {
@@ -182,7 +182,7 @@ export interface CircularProgressProps {
 
 export const CircularProgress: React.FC<CircularProgressProps> = ({
   value,
-  size = 'md',
+  size: _size = 'md',
   variant = 'default',
   showValue = true,
 }) => {
@@ -192,8 +192,6 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({
   // Simplified circular representation using Unicode
   const quarters = Math.round((clampedValue / 100) * 4);
   const circleStates = ['○', '◔', '◑', '◕', '●'];
-
-  const sizeChars = { sm: 1, md: 1, lg: 1 };
 
   return (
     <Box>

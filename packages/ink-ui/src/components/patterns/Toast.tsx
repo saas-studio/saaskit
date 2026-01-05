@@ -1,7 +1,7 @@
 import React, { useState, useEffect, createContext, useContext, useCallback } from 'react';
 import { Box, Text } from 'ink';
 import { colors, semantic } from '../../theme/colors.js';
-import { status as statusIcons, box } from '../../theme/icons.js';
+import { status as statusIcons } from '../../theme/icons.js';
 
 export type ToastType = 'success' | 'error' | 'warning' | 'info';
 
@@ -61,7 +61,7 @@ export interface ToastItemProps {
  * Individual toast notification
  */
 export const ToastItem: React.FC<ToastItemProps> = ({ toast, onDismiss }) => {
-  const [visible, setVisible] = useState(false);
+  const [_visible, setVisible] = useState(false);
   const style = toastStyles[toast.type];
 
   // Animate in
@@ -79,6 +79,7 @@ export const ToastItem: React.FC<ToastItemProps> = ({ toast, onDismiss }) => {
       }, toast.duration);
       return () => clearTimeout(timer);
     }
+    return undefined;
   }, [toast.duration, onDismiss]);
 
   return (
@@ -86,7 +87,6 @@ export const ToastItem: React.FC<ToastItemProps> = ({ toast, onDismiss }) => {
       flexDirection="column"
       borderStyle="round"
       borderColor={style.border}
-      backgroundColor={style.bg}
       paddingX={2}
       paddingY={0}
       marginBottom={1}

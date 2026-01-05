@@ -12,7 +12,7 @@ import { Database } from 'bun:sqlite'
 /**
  * Record type matching MemoryStore interface
  */
-export interface Record {
+export interface DataRecord {
   id: string
   createdAt: Date
   updatedAt?: Date
@@ -114,7 +114,7 @@ export class SQLiteStore {
   /**
    * Create a new record in a collection
    */
-  async create(collection: string, data: object): Promise<Record> {
+  async create(collection: string, data: object): Promise<DataRecord> {
     if (!this.db) throw new Error('Database not connected')
 
     await this.ensureCollection(collection)
@@ -123,7 +123,7 @@ export class SQLiteStore {
     const id = crypto.randomUUID()
     const createdAt = new Date()
 
-    const record: Record = {
+    const record: DataRecord = {
       ...data,
       id,
       createdAt,
@@ -144,7 +144,7 @@ export class SQLiteStore {
   /**
    * List all records in a collection
    */
-  async list(collection: string): Promise<Record[]> {
+  async list(collection: string): Promise<DataRecord[]> {
     if (!this.db) throw new Error('Database not connected')
 
     await this.ensureCollection(collection)
@@ -163,7 +163,7 @@ export class SQLiteStore {
   /**
    * Get a record by ID
    */
-  async get(collection: string, id: string): Promise<Record | null> {
+  async get(collection: string, id: string): Promise<DataRecord | null> {
     if (!this.db) throw new Error('Database not connected')
 
     await this.ensureCollection(collection)
@@ -186,7 +186,7 @@ export class SQLiteStore {
   /**
    * Update a record by ID
    */
-  async update(collection: string, id: string, data: object): Promise<Record> {
+  async update(collection: string, id: string, data: object): Promise<DataRecord> {
     if (!this.db) throw new Error('Database not connected')
 
     await this.ensureCollection(collection)
@@ -201,7 +201,7 @@ export class SQLiteStore {
     const updatedAt = new Date()
 
     // Merge with existing data
-    const updated: Record = {
+    const updated: DataRecord = {
       ...existing,
       ...data,
       id: existing.id, // Preserve original ID
@@ -242,14 +242,14 @@ export class SQLiteStore {
   }
 
   /**
-   * Convert a database row to a Record
+   * Convert a database row to a DataRecord
    */
   private rowToRecord(row: {
     id: string
     data: string
     created_at: string
     updated_at: string | null
-  }): Record {
+  }): DataRecord {
     const data = JSON.parse(row.data)
 
     // Parse dates from stored data

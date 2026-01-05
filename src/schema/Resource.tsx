@@ -168,6 +168,12 @@ export interface ResourceProps {
   name: string
 
   /**
+   * Custom API path for this resource.
+   * @example "/api/v1/users" or "/tasks"
+   */
+  path?: string
+
+  /**
    * Custom plural name (defaults to name + 's').
    * @example "People" for a "Person" resource
    */
@@ -196,6 +202,22 @@ export interface ResourceProps {
    * @default false
    */
   softDelete?: boolean
+
+  /**
+   * Human-readable display name for the resource.
+   * @example "Blog Post" for a "BlogPost" resource
+   */
+  displayName?: string
+
+  /**
+   * Description of what this resource represents.
+   */
+  description?: string
+
+  /**
+   * Icon name or emoji for the resource.
+   */
+  icon?: string
 
   /**
    * Child components (expanded syntax field definitions).
@@ -249,26 +271,11 @@ const TYPE_INFERRED_NAMES: Record<string, FieldType> = {
 // Helper Functions
 // =============================================================================
 
-/**
- * Pluralizes a resource name using simple English rules.
- *
- * @param name - The singular resource name
- * @returns The pluralized name
- *
- * @example
- * pluralize('Task')    // 'Tasks'
- * pluralize('Person')  // 'Persons' (use 'plural' prop for 'People')
- * pluralize('Category') // 'Categories'
- */
-export function pluralize(name: string): string {
-  if (name.endsWith('y') && !/[aeiou]y$/i.test(name)) {
-    return name.slice(0, -1) + 'ies'
-  }
-  if (name.endsWith('s') || name.endsWith('x') || name.endsWith('ch') || name.endsWith('sh')) {
-    return name + 'es'
-  }
-  return name + 's'
-}
+// Import pluralize from utils for local use
+import { pluralize } from '../utils'
+
+// Re-export pluralize from utils for backwards compatibility
+export { pluralize } from '../utils'
 
 /**
  * Converts PascalCase to snake_case for table names.

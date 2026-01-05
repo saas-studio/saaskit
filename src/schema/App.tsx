@@ -35,6 +35,7 @@
  */
 
 import React, { createContext, useContext, type ReactNode, type ReactElement } from 'react'
+import { normalizeName, toDisplayName } from '../utils'
 
 /**
  * Configuration props for the App component.
@@ -226,43 +227,8 @@ const AppContext = createContext<AppMetadata | null>(null)
 // Helper Functions
 // =============================================================================
 
-/**
- * Normalizes an app name to lowercase with hyphens.
- *
- * @param name - The raw app name
- * @returns The normalized name (lowercase, spaces/underscores replaced with hyphens)
- *
- * @example
- * normalizeName('MyApp')      // 'my-app'
- * normalizeName('my_app')     // 'my-app'
- * normalizeName('My App')     // 'my-app'
- * normalizeName('my-app')     // 'my-app'
- */
-export function normalizeName(name: string): string {
-  return name
-    .replace(/([a-z])([A-Z])/g, '$1-$2') // camelCase to kebab-case
-    .replace(/[\s_]+/g, '-')              // spaces and underscores to hyphens
-    .toLowerCase()
-    .replace(/-+/g, '-')                  // collapse multiple hyphens
-    .replace(/^-|-$/g, '')                // trim leading/trailing hyphens
-}
-
-/**
- * Converts a name to a human-readable display name.
- *
- * @param name - The normalized or raw app name
- * @returns A capitalized, human-readable display name
- *
- * @example
- * toDisplayName('my-app')     // 'My App'
- * toDisplayName('todos')      // 'Todos'
- * toDisplayName('my_crm')     // 'My Crm'
- */
-export function toDisplayName(name: string): string {
-  return name
-    .replace(/[-_]/g, ' ')
-    .replace(/\b\w/g, (char) => char.toUpperCase())
-}
+// Re-export string utilities from utils for backwards compatibility
+export { normalizeName, toDisplayName } from '../utils'
 
 /**
  * Creates a complete AppMetadata object with defaults applied.

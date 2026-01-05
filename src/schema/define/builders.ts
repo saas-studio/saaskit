@@ -101,7 +101,7 @@ abstract class BaseBuilder<T, Required extends boolean = false> implements Field
 // =============================================================================
 
 class StringBuilder<Required extends boolean = false> extends BaseBuilder<string, Required> {
-  __config!: StringFieldConfig
+  declare __config: StringFieldConfig
 
   constructor(type: 'string' | 'email' | 'url' | 'uuid' = 'string') {
     super({ type })
@@ -173,7 +173,7 @@ class StringBuilder<Required extends boolean = false> extends BaseBuilder<string
 // =============================================================================
 
 class NumberBuilder<Required extends boolean = false> extends BaseBuilder<number, Required> {
-  __config!: NumberFieldConfig
+  declare __config: NumberFieldConfig
 
   constructor() {
     super({ type: 'number' })
@@ -240,7 +240,7 @@ class NumberBuilder<Required extends boolean = false> extends BaseBuilder<number
 // =============================================================================
 
 class BooleanBuilder<Required extends boolean = false> extends BaseBuilder<boolean, Required> {
-  __config!: BooleanFieldConfig
+  declare __config: BooleanFieldConfig
 
   constructor() {
     super({ type: 'boolean' })
@@ -258,7 +258,7 @@ class BooleanBuilder<Required extends boolean = false> extends BaseBuilder<boole
 // =============================================================================
 
 class DateBuilder<Required extends boolean = false> extends BaseBuilder<Date, Required> {
-  __config!: DateFieldConfig
+  declare __config: DateFieldConfig
 
   constructor(includeTime: boolean = false) {
     super({ type: includeTime ? 'datetime' : 'date' })
@@ -310,7 +310,7 @@ class DateBuilder<Required extends boolean = false> extends BaseBuilder<Date, Re
 // =============================================================================
 
 class EnumBuilder<T extends string, Required extends boolean = false> extends BaseBuilder<T, Required> {
-  __config!: EnumFieldConfig<T>
+  declare __config: EnumFieldConfig<T>
 
   constructor(values: readonly T[]) {
     super({ type: 'enum', values })
@@ -328,7 +328,7 @@ class EnumBuilder<T extends string, Required extends boolean = false> extends Ba
 // =============================================================================
 
 class JsonBuilder<T = unknown, Required extends boolean = false> extends BaseBuilder<T, Required> {
-  __config!: JsonFieldConfig<T>
+  declare __config: JsonFieldConfig<T>
 
   constructor() {
     super({ type: 'json' })
@@ -351,7 +351,7 @@ class JsonBuilder<T = unknown, Required extends boolean = false> extends BaseBui
 // =============================================================================
 
 class RelationBuilder<T extends string | string[], Required extends boolean = false> extends BaseBuilder<T, Required> {
-  __config!: RelationFieldConfig
+  declare __config: RelationFieldConfig
 
   constructor(target: string, type: RelationConfig['type']) {
     super({
@@ -403,7 +403,7 @@ class RelationBuilder<T extends string | string[], Required extends boolean = fa
 // =============================================================================
 
 class IdBuilder<Required extends boolean = true> extends BaseBuilder<string, Required> {
-  __config!: StringFieldConfig
+  declare __config: StringFieldConfig
 
   constructor() {
     super({ type: 'uuid', required: true, auto: true, unique: true })

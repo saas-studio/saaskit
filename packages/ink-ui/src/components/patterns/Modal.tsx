@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Text, useInput, useFocus, useFocusManager } from 'ink';
+import { Box, Text, useInput } from 'ink';
 import { colors } from '../../theme/colors.js';
 import { box } from '../../theme/icons.js';
 
@@ -83,7 +83,7 @@ export const Modal: React.FC<ModalProps> = ({
   const [fadeIn, setFadeIn] = useState(false);
 
   // Handle ESC key
-  useInput((input, key) => {
+  useInput((_input, key) => {
     if (closeOnEsc && key.escape && visible) {
       onClose();
     }
@@ -96,6 +96,7 @@ export const Modal: React.FC<ModalProps> = ({
       return () => clearTimeout(timer);
     } else {
       setFadeIn(false);
+      return undefined;
     }
   }, [visible]);
 
@@ -117,7 +118,6 @@ export const Modal: React.FC<ModalProps> = ({
           borderStyle="double"
           borderColor={style.border}
           width={width}
-          backgroundColor={colors.neutral[100]}
           paddingX={2}
           paddingY={1}
         >
@@ -212,7 +212,7 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
 }) => {
   const [focusedButton, setFocusedButton] = useState<'cancel' | 'confirm'>('cancel');
 
-  useInput((input, key) => {
+  useInput((_input, key) => {
     if (!visible) return;
 
     if (key.leftArrow || key.rightArrow || key.tab) {
@@ -226,7 +226,6 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
     }
   });
 
-  const style = variantStyles[variant];
   const confirmColor = variant === 'danger' ? colors.error[500] : colors.primary[500];
 
   return (
@@ -253,7 +252,6 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
           </Box>
           <Box
             paddingX={2}
-            backgroundColor={focusedButton === 'confirm' ? confirmColor : undefined}
             borderStyle="single"
             borderColor={focusedButton === 'confirm' ? confirmColor : colors.neutral[400]}
           >
@@ -292,7 +290,7 @@ export const AlertModal: React.FC<AlertModalProps> = ({
   buttonLabel = 'OK',
   variant = 'default',
 }) => {
-  useInput((input, key) => {
+  useInput((_input, key) => {
     if (visible && key.return) {
       onClose();
     }
@@ -309,9 +307,10 @@ export const AlertModal: React.FC<AlertModalProps> = ({
         <Box justifyContent="center">
           <Box
             paddingX={3}
-            backgroundColor={colors.primary[500]}
+            borderStyle="single"
+            borderColor={colors.primary[500]}
           >
-            <Text color={colors.neutral[900]} bold>
+            <Text color={colors.primary[500]} bold>
               {buttonLabel}
             </Text>
           </Box>
@@ -402,7 +401,6 @@ export const PromptModal: React.FC<PromptModalProps> = ({
           </Box>
           <Box
             paddingX={2}
-            backgroundColor={focusedButton === 'submit' ? colors.primary[500] : undefined}
             borderStyle="single"
             borderColor={focusedButton === 'submit' ? colors.primary[500] : colors.neutral[400]}
           >
@@ -414,9 +412,11 @@ export const PromptModal: React.FC<PromptModalProps> = ({
       }
     >
       <Box flexDirection="column">
-        <Text color={colors.neutral[700]} marginBottom={1}>
-          {message}
-        </Text>
+        <Box marginBottom={1}>
+          <Text color={colors.neutral[700]}>
+            {message}
+          </Text>
+        </Box>
         <Box
           borderStyle="single"
           borderColor={focusedButton === 'input' ? colors.primary[500] : colors.neutral[300]}

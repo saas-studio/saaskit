@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Text } from 'ink';
 import { colors, semantic } from '../../theme/colors.js';
-import { status as statusIcons } from '../../theme/icons.js';
+import { status as statusIcons, selection } from '../../theme/icons.js';
 
 export type BadgeVariant = 'success' | 'warning' | 'error' | 'info' | 'neutral' | 'pro';
 
@@ -81,7 +81,6 @@ export const Badge: React.FC<BadgeProps> = ({
 
   return (
     <Box
-      backgroundColor={outline ? undefined : style.bg}
       borderStyle={outline ? 'single' : undefined}
       borderColor={outline ? style.border : undefined}
       paddingX={1}
@@ -111,11 +110,11 @@ export const StatusBadge: React.FC<{
   showLabel?: boolean;
 }> = ({ status, showLabel = true }) => {
   const statusConfig = {
-    online: { variant: 'success' as const, label: 'Online', icon: statusIcons.radioOnFilled },
-    offline: { variant: 'neutral' as const, label: 'Offline', icon: statusIcons.radioOff },
-    busy: { variant: 'error' as const, label: 'Busy', icon: statusIcons.radioOnFilled },
-    away: { variant: 'warning' as const, label: 'Away', icon: statusIcons.radioOnFilled },
-    dnd: { variant: 'error' as const, label: 'Do Not Disturb', icon: statusIcons.radioOnFilled },
+    online: { variant: 'success' as const, label: 'Online', icon: selection.radioOnFilled },
+    offline: { variant: 'neutral' as const, label: 'Offline', icon: selection.radioOff },
+    busy: { variant: 'error' as const, label: 'Busy', icon: selection.radioOnFilled },
+    away: { variant: 'warning' as const, label: 'Away', icon: selection.radioOnFilled },
+    dnd: { variant: 'error' as const, label: 'Do Not Disturb', icon: selection.radioOnFilled },
   };
 
   const config = statusConfig[status];

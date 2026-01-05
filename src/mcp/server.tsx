@@ -10,7 +10,7 @@ import type { ReactElement, ReactNode } from 'react'
 import React from 'react'
 import type { AppProps } from '../schema/App'
 import type { ResourceProps } from '../schema/Resource'
-import type { MemoryStore, Record } from '../data/MemoryStore'
+import type { MemoryStore, DataRecord } from '../data/MemoryStore'
 
 /**
  * MCP Tool definition
@@ -117,7 +117,7 @@ export class MCPServer {
       if (React.isValidElement(child)) {
         const type = child.type as { displayName?: string }
         if (type.displayName === 'Resource' || (child.props as any).name) {
-          this.parseResource(child)
+          this.parseResource(child as ReactElement<ResourceProps>)
         }
       }
     }
@@ -126,11 +126,11 @@ export class MCPServer {
   /**
    * Parse a Resource element to extract field definitions
    */
-  private parseResource(element: ReactElement): void {
-    const props = element.props as ResourceProps
-    const name = props.name
-    const path = props.path || `/${name.toLowerCase()}s`
-    const collectionName = name
+  private parseResource(element: ReactElement<ResourceProps>): void {
+    const props = element.props
+    const name: string = props.name
+    const path: string = props.path || `/${name.toLowerCase()}s`
+    const collectionName: string = name
 
     const fields = new Map<string, FieldDef>()
 
@@ -342,7 +342,7 @@ export class MCPServer {
   private async handleCreate(
     resource: ResourceInfo,
     args: Record<string, unknown>
-  ): Promise<Record> {
+  ): Promise<DataRecord> {
     // Validate required fields
     for (const [fieldName, fieldDef] of resource.fields) {
       if (fieldDef.required && !(fieldName in args)) {
@@ -368,7 +368,7 @@ export class MCPServer {
   private async handleUpdate(
     resource: ResourceInfo,
     args: Record<string, unknown>
-  ): Promise<Record> {
+  ): Promise<DataRecord> {
     if (!args.id || typeof args.id !== 'string') {
       throw new MCPError('VALIDATION_ERROR', 'id is required')
     }

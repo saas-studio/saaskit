@@ -5,7 +5,7 @@
  * Provides Tab navigation between focusable components.
  */
 
-import React, { createContext, useState, useCallback, useMemo, ReactNode } from 'react'
+import React, { createContext, useContext, useState, useCallback, useMemo, ReactNode } from 'react'
 
 export interface FocusContextValue {
   /**
@@ -73,6 +73,14 @@ export const FocusContext = createContext<FocusContextValue | null>(null)
 
 interface FocusProviderProps {
   children: ReactNode
+}
+
+export function useFocusManager(): FocusContextValue {
+  const context = useContext(FocusContext)
+  if (!context) {
+    throw new Error('useFocusManager must be used within a FocusProvider')
+  }
+  return context
 }
 
 export function FocusProvider({ children }: FocusProviderProps) {

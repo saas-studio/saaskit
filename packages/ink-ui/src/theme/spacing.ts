@@ -39,7 +39,7 @@ export type SpacingKey = keyof typeof spacing;
 // SEMANTIC SPACING
 // =============================================================================
 
-export const semantic = {
+export const semanticSpacing = {
   /** Gap between inline elements */
   inline: spacing[1],
   /** Gap between stacked elements */
@@ -352,7 +352,7 @@ export const layers = {
 
 export default {
   spacing,
-  semantic,
+  semanticSpacing,
   components,
   widths,
   heights,

@@ -10,7 +10,7 @@
  */
 
 import type { AppNode, ResourceNode, FieldNode, FieldType } from '../schema/ast'
-import { toDisplayName } from '../schema/ast'
+import { toDisplayName, fieldTypeToTS } from '../utils'
 
 /**
  * TypeScript compilation result
@@ -92,38 +92,6 @@ interface OpenAPISchema {
   type: string
   properties?: Record<string, { type?: string; format?: string; enum?: string[] }>
   required?: string[]
-}
-
-/**
- * Map field types to TypeScript types
- */
-function fieldTypeToTS(field: FieldNode): string {
-  if (field.type === 'select' && field.values && field.values.length > 0) {
-    return field.values.map((v) => `'${v}'`).join(' | ')
-  }
-
-  switch (field.type) {
-    case 'text':
-    case 'email':
-    case 'url':
-    case 'phone':
-    case 'password':
-    case 'textarea':
-    case 'relation':
-      return 'string'
-    case 'number':
-      return 'number'
-    case 'boolean':
-      return 'boolean'
-    case 'date':
-      return 'Date'
-    case 'json':
-      return 'Record<string, unknown>'
-    case 'select':
-      return 'string'
-    default:
-      return 'unknown'
-  }
 }
 
 /**
