@@ -22,9 +22,11 @@
 	},
 	"dependencies": {
 		"ink": "^5.0.1",
+		"mongo.do": "file:../mongo",
 		"react": "^18.3.1",
 		"yaml": "^2.8.2",
-		"yoga-wasm-web": "^0.3.3"
+		"yoga-wasm-web": "^0.3.3",
+		"zod": "^3.23.0"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
