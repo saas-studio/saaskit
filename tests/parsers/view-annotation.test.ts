@@ -1,50 +1,13 @@
 /**
  * View Annotation Parser Tests
- *
- * RED phase tests for parsing inline view annotations from schema definitions.
  */
 
 import { describe, it, expect } from 'bun:test'
-
-// Placeholder types - to be implemented
-interface ViewConfig {
-  name: string
-  type: 'list' | 'detail' | 'form' | 'card' | 'table'
-  fields?: string[]
-  sortBy?: string
-  sortDirection?: 'asc' | 'desc'
-  filters?: { field: string; operator: string; value?: unknown }[]
-  groupBy?: string
-  layout?: 'horizontal' | 'vertical' | 'grid'
-  columns?: number
-}
-
-interface FieldViewConfig {
-  visible?: boolean
-  label?: string
-  placeholder?: string
-  readonly?: boolean
-  hidden?: boolean
-  format?: string
-  width?: number | string
-  component?: string
-}
-
-interface ParseResult {
-  success: boolean
-  views?: ViewConfig[]
-  fieldConfigs?: Record<string, FieldViewConfig>
-  errors?: { message: string; line?: number }[]
-}
-
-function parseViewAnnotations(input: string): ParseResult {
-  // TODO: Implement view annotation parser
-  throw new Error('View annotation parser not implemented')
-}
+import { parseViewAnnotations } from '../../src/parsers/view-annotation'
 
 describe('View Annotation Parser', () => {
   describe('view definition', () => {
-    it.skip('should parse basic view annotation', () => {
+    it('should parse basic view annotation', () => {
       const input = `
 @view("list", fields: ["name", "email"])
 Resource User {
@@ -60,7 +23,7 @@ Resource User {
       expect(result.views?.[0].fields).toEqual(['name', 'email'])
     })
 
-    it.skip('should parse multiple view annotations', () => {
+    it('should parse multiple view annotations', () => {
       const input = `
 @view("list", fields: ["name"])
 @view("detail", fields: ["name", "email", "bio"])
@@ -77,7 +40,7 @@ Resource User {
       expect(result.views?.[1].type).toBe('detail')
     })
 
-    it.skip('should parse named views', () => {
+    it('should parse named views', () => {
       const input = `
 @view("list", name: "UserDirectory")
 Resource User {
@@ -91,7 +54,7 @@ Resource User {
   })
 
   describe('view configuration', () => {
-    it.skip('should parse sortBy configuration', () => {
+    it('should parse sortBy configuration', () => {
       const input = `
 @view("list", sortBy: "createdAt", sortDirection: "desc")
 Resource Post {
@@ -105,7 +68,7 @@ Resource Post {
       expect(result.views?.[0].sortDirection).toBe('desc')
     })
 
-    it.skip('should parse groupBy configuration', () => {
+    it('should parse groupBy configuration', () => {
       const input = `
 @view("list", groupBy: "category")
 Resource Post {
@@ -118,7 +81,7 @@ Resource Post {
       expect(result.views?.[0].groupBy).toBe('category')
     })
 
-    it.skip('should parse layout configuration', () => {
+    it('should parse layout configuration', () => {
       const input = `
 @view("form", layout: "horizontal", columns: 2)
 Resource User {
@@ -132,7 +95,7 @@ Resource User {
       expect(result.views?.[0].columns).toBe(2)
     })
 
-    it.skip('should parse filter configuration', () => {
+    it('should parse filter configuration', () => {
       const input = `
 @view("list", filters: [{ field: "status", operator: "eq", value: "active" }])
 Resource User {
@@ -152,7 +115,7 @@ Resource User {
   })
 
   describe('field annotations', () => {
-    it.skip('should parse field label annotation', () => {
+    it('should parse field label annotation', () => {
       const input = `
 Resource User {
   @label("Full Name")
@@ -164,7 +127,7 @@ Resource User {
       expect(result.fieldConfigs?.name?.label).toBe('Full Name')
     })
 
-    it.skip('should parse field placeholder annotation', () => {
+    it('should parse field placeholder annotation', () => {
       const input = `
 Resource User {
   @placeholder("Enter your email address")
@@ -176,7 +139,7 @@ Resource User {
       expect(result.fieldConfigs?.email?.placeholder).toBe('Enter your email address')
     })
 
-    it.skip('should parse hidden field annotation', () => {
+    it('should parse hidden field annotation', () => {
       const input = `
 Resource User {
   @hidden
@@ -188,7 +151,7 @@ Resource User {
       expect(result.fieldConfigs?.password?.hidden).toBe(true)
     })
 
-    it.skip('should parse readonly field annotation', () => {
+    it('should parse readonly field annotation', () => {
       const input = `
 Resource User {
   @readonly
@@ -200,7 +163,7 @@ Resource User {
       expect(result.fieldConfigs?.createdAt?.readonly).toBe(true)
     })
 
-    it.skip('should parse width annotation', () => {
+    it('should parse width annotation', () => {
       const input = `
 Resource User {
   @width(200)
@@ -215,7 +178,7 @@ Resource User {
       expect(result.fieldConfigs?.bio?.width).toBe('50%')
     })
 
-    it.skip('should parse format annotation', () => {
+    it('should parse format annotation', () => {
       const input = `
 Resource Transaction {
   @format("currency")
@@ -230,7 +193,7 @@ Resource Transaction {
       expect(result.fieldConfigs?.rate?.format).toBe('percent')
     })
 
-    it.skip('should parse component annotation', () => {
+    it('should parse component annotation', () => {
       const input = `
 Resource Post {
   @component("RichTextEditor")
@@ -244,7 +207,7 @@ Resource Post {
   })
 
   describe('combined annotations', () => {
-    it.skip('should parse multiple field annotations', () => {
+    it('should parse multiple field annotations', () => {
       const input = `
 Resource User {
   @label("Email Address")
@@ -260,7 +223,7 @@ Resource User {
       expect(result.fieldConfigs?.email?.readonly).toBe(true)
     })
 
-    it.skip('should parse view and field annotations together', () => {
+    it('should parse view and field annotations together', () => {
       const input = `
 @view("form", layout: "vertical")
 Resource User {
@@ -284,14 +247,14 @@ Resource User {
   })
 
   describe('annotation syntax variations', () => {
-    it.skip('should parse single-line annotations', () => {
+    it('should parse single-line annotations', () => {
       const input = `@view("list") Resource User { name: Text }`
       const result = parseViewAnnotations(input)
 
       expect(result.success).toBe(true)
     })
 
-    it.skip('should parse annotations with trailing comma', () => {
+    it('should parse annotations with trailing comma', () => {
       const input = `
 @view("list", fields: ["name", "email",])
 Resource User {
@@ -304,7 +267,7 @@ Resource User {
       expect(result.success).toBe(true)
     })
 
-    it.skip('should parse annotations with single quotes', () => {
+    it('should parse annotations with single quotes', () => {
       const input = `
 @view('list', fields: ['name', 'email'])
 Resource User {
@@ -319,7 +282,7 @@ Resource User {
   })
 
   describe('error handling', () => {
-    it.skip('should report error for invalid annotation syntax', () => {
+    it('should report error for invalid annotation syntax', () => {
       const input = `
 @view("invalid
 Resource User {
@@ -332,7 +295,7 @@ Resource User {
       expect(result.errors).toBeDefined()
     })
 
-    it.skip('should report error for unknown annotation', () => {
+    it('should report error for unknown annotation', () => {
       const input = `
 @unknownAnnotation
 Resource User {
@@ -344,7 +307,7 @@ Resource User {
       expect(result.success).toBe(false)
     })
 
-    it.skip('should report error for invalid view type', () => {
+    it('should report error for invalid view type', () => {
       const input = `
 @view("invalid-type")
 Resource User {
@@ -356,7 +319,7 @@ Resource User {
       expect(result.success).toBe(false)
     })
 
-    it.skip('should report line numbers in errors', () => {
+    it('should report line numbers in errors', () => {
       const input = `
 @view("list")
 @badAnnotation
@@ -371,7 +334,7 @@ Resource User {
   })
 
   describe('real-world examples', () => {
-    it.skip('should parse a complete user resource with views', () => {
+    it('should parse a complete user resource with views', () => {
       const input = `
 @view("list", name: "UserDirectory", fields: ["name", "email", "role"], sortBy: "name")
 @view("form", name: "UserForm", layout: "vertical", columns: 1)
@@ -406,7 +369,7 @@ Resource User {
       expect(result.fieldConfigs?.createdAt?.format).toBe('datetime')
     })
 
-    it.skip('should parse a task management resource', () => {
+    it('should parse a task management resource', () => {
       const input = `
 @view("list",
   name: "TaskBoard",

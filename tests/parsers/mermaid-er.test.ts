@@ -1,27 +1,13 @@
 /**
  * Mermaid ER Parser Tests
- *
- * RED phase tests for parsing Mermaid ER diagrams into Schema AST.
  */
 
 import { describe, it, expect } from 'bun:test'
-import type { AppNode, ResourceNode, FieldNode } from '../../src/schema/ast'
-
-// Placeholder parser - to be implemented
-interface ParseResult {
-  success: boolean
-  ast?: AppNode
-  errors?: { message: string; line?: number }[]
-}
-
-function parseMermaidER(input: string, appName: string = 'app'): ParseResult {
-  // TODO: Implement Mermaid ER parser
-  throw new Error('Mermaid ER parser not implemented')
-}
+import { parseMermaidER } from '../../src/parsers/mermaid-er'
 
 describe('Mermaid ER Parser', () => {
   describe('basic entity parsing', () => {
-    it.skip('should parse a simple entity', () => {
+    it('should parse a simple entity', () => {
       const input = `
 erDiagram
   User {
@@ -36,7 +22,7 @@ erDiagram
       expect(result.ast?.resources[0].name).toBe('User')
     })
 
-    it.skip('should parse multiple entities', () => {
+    it('should parse multiple entities', () => {
       const input = `
 erDiagram
   User {
@@ -52,7 +38,7 @@ erDiagram
       expect(result.ast?.resources).toHaveLength(2)
     })
 
-    it.skip('should parse entity with no fields', () => {
+    it('should parse entity with no fields', () => {
       const input = `
 erDiagram
   EmptyEntity {
@@ -66,7 +52,7 @@ erDiagram
   })
 
   describe('field type parsing', () => {
-    it.skip('should parse string fields', () => {
+    it('should parse string fields', () => {
       const input = `
 erDiagram
   User {
@@ -79,7 +65,7 @@ erDiagram
       expect(field?.type).toBe('text')
     })
 
-    it.skip('should parse number fields', () => {
+    it('should parse number fields', () => {
       const input = `
 erDiagram
   Product {
@@ -95,7 +81,7 @@ erDiagram
       expect(fields?.[1].modifiers.decimal).toBe(true)
     })
 
-    it.skip('should parse boolean fields', () => {
+    it('should parse boolean fields', () => {
       const input = `
 erDiagram
   Task {
@@ -108,7 +94,7 @@ erDiagram
       expect(field?.type).toBe('boolean')
     })
 
-    it.skip('should parse date fields', () => {
+    it('should parse date fields', () => {
       const input = `
 erDiagram
   Event {
@@ -125,7 +111,7 @@ erDiagram
   })
 
   describe('field modifiers', () => {
-    it.skip('should parse PK (primary key) modifier', () => {
+    it('should parse PK (primary key) modifier', () => {
       const input = `
 erDiagram
   User {
@@ -139,7 +125,7 @@ erDiagram
       expect(idField?.modifiers.primary).toBe(true)
     })
 
-    it.skip('should parse FK (foreign key) as relation', () => {
+    it('should parse FK (foreign key) as relation', () => {
       const input = `
 erDiagram
   Post {
@@ -153,7 +139,7 @@ erDiagram
       expect(userIdField?.type).toBe('relation')
     })
 
-    it.skip('should parse UK (unique key) modifier', () => {
+    it('should parse UK (unique key) modifier', () => {
       const input = `
 erDiagram
   User {
@@ -168,7 +154,7 @@ erDiagram
   })
 
   describe('relationship parsing', () => {
-    it.skip('should parse one-to-many relationship', () => {
+    it('should parse one-to-many relationship', () => {
       const input = `
 erDiagram
   User ||--o{ Post : writes
@@ -179,7 +165,7 @@ erDiagram
       expect(result.success).toBe(true)
     })
 
-    it.skip('should parse many-to-many relationship', () => {
+    it('should parse many-to-many relationship', () => {
       const input = `
 erDiagram
   Student }o--o{ Course : enrolls
@@ -189,7 +175,7 @@ erDiagram
       expect(result.success).toBe(true)
     })
 
-    it.skip('should parse one-to-one relationship', () => {
+    it('should parse one-to-one relationship', () => {
       const input = `
 erDiagram
   User ||--|| Profile : has
@@ -199,7 +185,7 @@ erDiagram
       expect(result.success).toBe(true)
     })
 
-    it.skip('should infer relation fields from relationships', () => {
+    it('should infer relation fields from relationships', () => {
       const input = `
 erDiagram
   User {
@@ -221,7 +207,7 @@ erDiagram
   })
 
   describe('comments and whitespace', () => {
-    it.skip('should ignore comments', () => {
+    it('should ignore comments', () => {
       const input = `
 erDiagram
   %% This is a comment
@@ -235,7 +221,7 @@ erDiagram
       expect(result.ast?.resources[0].fields).toHaveLength(1)
     })
 
-    it.skip('should handle various whitespace', () => {
+    it('should handle various whitespace', () => {
       const input = `
 erDiagram
     User {
@@ -249,11 +235,11 @@ erDiagram
   })
 
   describe('error handling', () => {
-    it.skip('should report error for invalid syntax', () => {
+    it('should report error for invalid syntax', () => {
       const input = `
 erDiagram
   User {
-    invalid syntax here!!!
+    !!!invalid
   }
 `
       const result = parseMermaidER(input)
@@ -263,7 +249,7 @@ erDiagram
       expect(result.errors!.length).toBeGreaterThan(0)
     })
 
-    it.skip('should report line numbers in errors', () => {
+    it('should report line numbers in errors', () => {
       const input = `
 erDiagram
   User {
@@ -277,13 +263,13 @@ erDiagram
       expect(result.errors?.[0].line).toBeDefined()
     })
 
-    it.skip('should handle empty input', () => {
+    it('should handle empty input', () => {
       const result = parseMermaidER('')
 
       expect(result.success).toBe(false)
     })
 
-    it.skip('should handle missing erDiagram directive', () => {
+    it('should handle missing erDiagram directive', () => {
       const input = `
   User {
     string name
@@ -296,7 +282,7 @@ erDiagram
   })
 
   describe('app configuration', () => {
-    it.skip('should use provided app name', () => {
+    it('should use provided app name', () => {
       const input = `
 erDiagram
   User {
@@ -308,7 +294,7 @@ erDiagram
       expect(result.ast?.name).toBe('my-crm')
     })
 
-    it.skip('should normalize app name', () => {
+    it('should normalize app name', () => {
       const input = `
 erDiagram
   User {
@@ -322,7 +308,7 @@ erDiagram
   })
 
   describe('complex diagrams', () => {
-    it.skip('should parse a full CRM schema', () => {
+    it('should parse a full CRM schema', () => {
       const input = `
 erDiagram
   User {

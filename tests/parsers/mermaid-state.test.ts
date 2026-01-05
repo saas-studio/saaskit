@@ -1,38 +1,13 @@
 /**
  * Mermaid State Parser Tests
- *
- * RED phase tests for parsing Mermaid state diagrams into select field values.
  */
 
 import { describe, it, expect } from 'bun:test'
-
-// Placeholder parser - to be implemented
-interface StateParseResult {
-  success: boolean
-  states?: string[]
-  transitions?: { from: string; to: string; label?: string }[]
-  errors?: { message: string; line?: number }[]
-}
-
-interface SelectFieldConfig {
-  name: string
-  values: string[]
-  default?: string
-}
-
-function parseMermaidState(input: string): StateParseResult {
-  // TODO: Implement Mermaid State parser
-  throw new Error('Mermaid State parser not implemented')
-}
-
-function stateToSelectField(result: StateParseResult, fieldName: string): SelectFieldConfig | null {
-  // TODO: Implement state to select field conversion
-  throw new Error('State to select conversion not implemented')
-}
+import { parseMermaidState, stateToSelectField } from '../../src/parsers/mermaid-state'
 
 describe('Mermaid State Parser', () => {
   describe('basic state parsing', () => {
-    it.skip('should parse simple states', () => {
+    it('should parse simple states', () => {
       const input = `
 stateDiagram-v2
   [*] --> Draft
@@ -47,7 +22,7 @@ stateDiagram-v2
       expect(result.states).toContain('Archived')
     })
 
-    it.skip('should exclude start/end markers from states', () => {
+    it('should exclude start/end markers from states', () => {
       const input = `
 stateDiagram-v2
   [*] --> Open
@@ -60,7 +35,7 @@ stateDiagram-v2
       expect(result.states).toHaveLength(2)
     })
 
-    it.skip('should parse state with description', () => {
+    it('should parse state with description', () => {
       const input = `
 stateDiagram-v2
   Draft: Article is being written
@@ -75,7 +50,7 @@ stateDiagram-v2
   })
 
   describe('transition parsing', () => {
-    it.skip('should parse transitions between states', () => {
+    it('should parse transitions between states', () => {
       const input = `
 stateDiagram-v2
   Open --> InProgress
@@ -88,7 +63,7 @@ stateDiagram-v2
       expect(result.transitions).toContainEqual({ from: 'InProgress', to: 'Done' })
     })
 
-    it.skip('should parse transition labels', () => {
+    it('should parse transition labels', () => {
       const input = `
 stateDiagram-v2
   Open --> InProgress: start work
@@ -103,7 +78,7 @@ stateDiagram-v2
       })
     })
 
-    it.skip('should parse bidirectional transitions', () => {
+    it('should parse bidirectional transitions', () => {
       const input = `
 stateDiagram-v2
   Open --> InProgress
@@ -117,7 +92,7 @@ stateDiagram-v2
   })
 
   describe('select field conversion', () => {
-    it.skip('should convert states to select field values', () => {
+    it('should convert states to select field values', () => {
       const input = `
 stateDiagram-v2
   [*] --> Open
@@ -135,7 +110,7 @@ stateDiagram-v2
       expect(selectField?.values).toContain('Done')
     })
 
-    it.skip('should set first state as default', () => {
+    it('should set first state as default', () => {
       const input = `
 stateDiagram-v2
   [*] --> Draft
@@ -147,7 +122,7 @@ stateDiagram-v2
       expect(selectField?.default).toBe('Draft')
     })
 
-    it.skip('should preserve state order', () => {
+    it('should preserve state order', () => {
       const input = `
 stateDiagram-v2
   [*] --> New
@@ -163,7 +138,7 @@ stateDiagram-v2
   })
 
   describe('composite states', () => {
-    it.skip('should parse nested states', () => {
+    it('should parse nested states', () => {
       const input = `
 stateDiagram-v2
   [*] --> Active
@@ -185,7 +160,7 @@ stateDiagram-v2
   })
 
   describe('choice/fork states', () => {
-    it.skip('should handle choice pseudo-state', () => {
+    it('should handle choice pseudo-state', () => {
       const input = `
 stateDiagram-v2
   [*] --> New
@@ -202,7 +177,7 @@ stateDiagram-v2
       expect(result.states).not.toContain('choice')
     })
 
-    it.skip('should handle fork/join', () => {
+    it('should handle fork/join', () => {
       const input = `
 stateDiagram-v2
   [*] --> Start
@@ -224,7 +199,7 @@ stateDiagram-v2
   })
 
   describe('notes and comments', () => {
-    it.skip('should ignore notes', () => {
+    it('should ignore notes', () => {
       const input = `
 stateDiagram-v2
   [*] --> Open
@@ -239,7 +214,7 @@ stateDiagram-v2
       expect(result.states).toEqual(['Open', 'Closed'])
     })
 
-    it.skip('should ignore comments', () => {
+    it('should ignore comments', () => {
       const input = `
 stateDiagram-v2
   %% This is a comment
@@ -254,7 +229,7 @@ stateDiagram-v2
   })
 
   describe('error handling', () => {
-    it.skip('should report error for invalid syntax', () => {
+    it('should report error for invalid syntax', () => {
       const input = `
 stateDiagram-v2
   invalid --> @@@ syntax
@@ -265,13 +240,13 @@ stateDiagram-v2
       expect(result.errors).toBeDefined()
     })
 
-    it.skip('should handle empty input', () => {
+    it('should handle empty input', () => {
       const result = parseMermaidState('')
 
       expect(result.success).toBe(false)
     })
 
-    it.skip('should handle missing stateDiagram directive', () => {
+    it('should handle missing stateDiagram directive', () => {
       const input = `
   Open --> Closed
 `
@@ -282,7 +257,7 @@ stateDiagram-v2
   })
 
   describe('state naming conventions', () => {
-    it.skip('should handle PascalCase states', () => {
+    it('should handle PascalCase states', () => {
       const input = `
 stateDiagram-v2
   [*] --> NewRequest
@@ -295,7 +270,7 @@ stateDiagram-v2
       expect(result.states).toContain('InReview')
     })
 
-    it.skip('should handle snake_case states', () => {
+    it('should handle snake_case states', () => {
       const input = `
 stateDiagram-v2
   [*] --> new_request
@@ -306,7 +281,7 @@ stateDiagram-v2
       expect(result.states).toContain('new_request')
     })
 
-    it.skip('should handle kebab-case states', () => {
+    it('should handle kebab-case states', () => {
       const input = `
 stateDiagram-v2
   [*] --> new-request
@@ -319,7 +294,7 @@ stateDiagram-v2
   })
 
   describe('real-world examples', () => {
-    it.skip('should parse issue tracking states', () => {
+    it('should parse issue tracking states', () => {
       const input = `
 stateDiagram-v2
   [*] --> Open
@@ -341,7 +316,7 @@ stateDiagram-v2
       expect(selectField?.values).toContain('Closed')
     })
 
-    it.skip('should parse order status states', () => {
+    it('should parse order status states', () => {
       const input = `
 stateDiagram-v2
   [*] --> Pending
