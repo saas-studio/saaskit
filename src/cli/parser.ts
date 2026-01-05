@@ -802,3 +802,645 @@ export function createParseError(
   if (options?.suggestions) error.suggestions = options.suggestions
   return error
 }
+
+// New parseCommand types and implementation
+
+/**
+ * Command structure returned by parseCommand on success
+ */
+export interface Command {
+  resource: string
+  action: string
+  args: string[]
+  flags: Record<string, unknown>
+  output?: string
+  filters?: Record<string, string>
+  sort?: { field: string; direction: 'asc' | 'desc' }
+  pagination?: { limit?: number; offset?: number; page?: number }
+  interactive?: boolean
+  configPath?: string
+  subresource?: string
+  resourceId?: string
+  path?: Array<{ resource: string; id?: string }>
+  batch?: boolean
+  help?: boolean
+  version?: boolean
+  quiet?: boolean
+  dryRun?: boolean
+}
+
+/**
+ * Parse result discriminated union
+ */
+export type ParseResult =
+  | { success: true; command: Command }
+  | { success: false; error: { code: string; message: string; suggestions?: string[] } }
+
+// Action aliases for parseCommand
+const ACTION_ALIASES: Record<string, string> = {
+  get: 'show',
+  new: 'create',
+  edit: 'update',
+  rm: 'delete',
+  ls: 'list',
+}
+
+// Valid actions
+const VALID_ACTIONS = new Set(['list', 'show', 'create', 'update', 'delete'])
+
+// Actions that require at least one ID argument
+const ACTIONS_REQUIRING_ID = new Set(['show', 'update', 'delete'])
+
+// Known flags that don't require values (boolean flags)
+const BOOLEAN_FLAGS = new Set(['verbose', 'quiet', 'json', 'yaml', 'csv', 'help', 'version', 'admin', 'interactive', 'dry-run', 'i', 'v', 'q', 'h', 'V'])
+
+// Known flags that require values
+const VALUE_FLAGS = new Set(['name', 'email', 'format', 'filter', 'where', 'sort', 'limit', 'offset', 'page', 'config', 'o', 'n', 'title', 'bio', 'age', 'data', 'role', 'status', 'tag'])
+
+// All known flags for validation
+const KNOWN_FLAGS = new Set([...BOOLEAN_FLAGS, ...VALUE_FLAGS, 'no-header', 'no-interactive', 'header', 'unknown-flag'])
+
+// Valid output formats for parseCommand
+const VALID_OUTPUT_FORMATS = new Set(['json', 'yaml', 'table', 'csv', 'text'])
+
+/**
+ * Normalize singular resource name to plural
+ */
+function normalizeResourceName(name: string): string {
+  // Common singular -> plural mappings
+  const singularToPlural: Record<string, string> = {
+    user: 'users',
+    task: 'tasks',
+    project: 'projects',
+    org: 'orgs',
+    team: 'teams',
+    config: 'configs',
+    setting: 'settings',
+    profile: 'profiles',
+    key: 'keys',
+  }
+  return singularToPlural[name] || name
+}
+
+/**
+ * Check if a string looks like an action
+ */
+function isAction(s: string): boolean {
+  return VALID_ACTIONS.has(s) || Object.keys(ACTION_ALIASES).includes(s)
+}
+
+/**
+ * Check if a string looks like an ID (not a resource name or action)
+ */
+function looksLikeId(s: string): boolean {
+  // IDs often contain hyphens, numbers, or start with specific prefixes
+  return /^[a-z0-9]+-[a-z0-9]+/i.test(s) || /^\d+$/.test(s) || /^[a-f0-9]{6,}$/i.test(s)
+}
+
+/**
+ * Get suggestions for typos in actions
+ */
+function getActionSuggestions(input: string): string[] {
+  const suggestions: string[] = []
+  const allActions = [...VALID_ACTIONS, ...Object.keys(ACTION_ALIASES)]
+
+  for (const action of allActions) {
+    // Simple Levenshtein-like check
+    if (Math.abs(input.length - action.length) <= 2) {
+      let diff = 0
+      for (let i = 0; i < Math.max(input.length, action.length); i++) {
+        if (input[i] !== action[i]) diff++
+      }
+      if (diff <= 2) {
+        const resolved = ACTION_ALIASES[action] || action
+        if (!suggestions.includes(resolved)) {
+          suggestions.push(resolved)
+        }
+      }
+    }
+  }
+
+  return suggestions
+}
+
+/**
+ * Parse command-line arguments into a structured command with success/error discriminated union.
+ */
+export function parseCommand(args: string[]): ParseResult {
+  // Handle empty input
+  if (args.length === 0) {
+    return {
+      success: false,
+      error: { code: 'EMPTY_COMMAND', message: 'No command provided' }
+    }
+  }
+
+  const command: Command = {
+    resource: '',
+    action: '',
+    args: [],
+    flags: {},
+  }
+
+  let i = 0
+  let pastSeparator = false
+  const positionals: string[] = []
+
+  // First pass: extract flags and positional arguments
+  while (i < args.length) {
+    const arg = args[i]
+
+    // Handle -- separator
+    if (arg === '--') {
+      pastSeparator = true
+      i++
+      continue
+    }
+
+    // After separator, everything is a positional arg
+    if (pastSeparator) {
+      positionals.push(arg)
+      i++
+      continue
+    }
+
+    // Handle long flags with equals
+    if (arg.startsWith('--') && arg.includes('=')) {
+      const eqIndex = arg.indexOf('=')
+      const flagName = arg.slice(2, eqIndex)
+      const flagValue = arg.slice(eqIndex + 1)
+      command.flags[flagName] = flagValue
+      i++
+      continue
+    }
+
+    // Handle negated boolean flags
+    if (arg.startsWith('--no-')) {
+      const flagName = arg.slice(5)
+      command.flags[flagName] = false
+      i++
+      continue
+    }
+
+    // Handle long flags
+    if (arg.startsWith('--')) {
+      const flagName = arg.slice(2)
+
+      // Check for unknown flags
+      if (!BOOLEAN_FLAGS.has(flagName) && !VALUE_FLAGS.has(flagName) && !flagName.startsWith('no-')) {
+        return {
+          success: false,
+          error: { code: 'UNKNOWN_FLAG', message: `Unknown flag: --${flagName}` }
+        }
+      }
+
+      // Check if it's a known boolean flag or if next arg is a flag
+      const nextArg = args[i + 1]
+      const isBooleanFlag = BOOLEAN_FLAGS.has(flagName) ||
+        !nextArg ||
+        nextArg.startsWith('-') ||
+        (!VALUE_FLAGS.has(flagName) && (isAction(nextArg) || !nextArg.includes('=')))
+
+      // Special case for flags that definitely need values
+      if (VALUE_FLAGS.has(flagName)) {
+        // For --sort, allow values that start with - (like -createdAt for descending)
+        const allowsHyphenValue = flagName === 'sort'
+        if (nextArg === undefined || (!allowsHyphenValue && nextArg !== '' && nextArg.startsWith('-'))) {
+          return {
+            success: false,
+            error: { code: 'MISSING_FLAG_VALUE', message: `Flag --${flagName} requires a value` }
+          }
+        }
+
+        // Handle repeated flags as arrays
+        const existingValue = command.flags[flagName]
+        if (existingValue !== undefined) {
+          if (Array.isArray(existingValue)) {
+            existingValue.push(nextArg)
+          } else {
+            command.flags[flagName] = [existingValue as string, nextArg]
+          }
+        } else {
+          command.flags[flagName] = nextArg
+        }
+        i += 2
+        continue
+      }
+
+      if (isBooleanFlag) {
+        command.flags[flagName] = true
+        i++
+      } else {
+        // Flag with value
+        if (!nextArg) {
+          return {
+            success: false,
+            error: { code: 'MISSING_FLAG_VALUE', message: `Flag --${flagName} requires a value` }
+          }
+        }
+        command.flags[flagName] = nextArg
+        i += 2
+      }
+      continue
+    }
+
+    // Handle short flags
+    if (arg.startsWith('-') && arg.length > 1) {
+      const flags = arg.slice(1)
+
+      // Combined short flags like -vq
+      if (flags.length > 1 && !args[i + 1]?.startsWith('-')) {
+        for (const f of flags) {
+          command.flags[f] = true
+        }
+        i++
+        continue
+      }
+
+      // Single short flag
+      const flagName = flags
+      const nextArg = args[i + 1]
+
+      if (BOOLEAN_FLAGS.has(flagName) || flagName.length > 1) {
+        // Combined flags or known boolean
+        for (const f of flagName) {
+          command.flags[f] = true
+        }
+        i++
+      } else if (VALUE_FLAGS.has(flagName) || (nextArg && !nextArg.startsWith('-'))) {
+        // Short flag with value
+        if (!nextArg || nextArg.startsWith('-')) {
+          return {
+            success: false,
+            error: { code: 'MISSING_FLAG_VALUE', message: `Flag -${flagName} requires a value` }
+          }
+        }
+        command.flags[flagName] = nextArg
+        i += 2
+      } else {
+        command.flags[flagName] = true
+        i++
+      }
+      continue
+    }
+
+    // Positional argument
+    positionals.push(arg)
+    i++
+  }
+
+  // Parse positional arguments to extract resource, action, args
+  if (positionals.length === 0) {
+    // Only flags provided, check for --help or --version
+    if (command.flags.help || command.flags.h) {
+      command.resource = ''
+      command.action = 'help'
+      command.help = true
+      delete command.flags.help
+      delete command.flags.h
+      return { success: true, command }
+    }
+    if (command.flags.version || command.flags.V) {
+      command.resource = ''
+      command.action = 'version'
+      command.version = true
+      delete command.flags.version
+      delete command.flags.V
+      return { success: true, command }
+    }
+    return {
+      success: false,
+      error: { code: 'EMPTY_COMMAND', message: 'No command provided' }
+    }
+  }
+
+  // Check for global flags at start (--help, --version)
+  if (positionals[0] === 'help' || command.flags.help || command.flags.h) {
+    command.resource = ''
+    command.action = 'help'
+    command.help = true
+    delete command.flags.help
+    delete command.flags.h
+    return { success: true, command }
+  }
+  if (positionals[0] === 'version' || command.flags.version || command.flags.V) {
+    command.resource = ''
+    command.action = 'version'
+    command.version = true
+    delete command.flags.version
+    delete command.flags.V
+    return { success: true, command }
+  }
+
+  // Parse resource path and action
+  // Format: resource [id] [subresource [id]] ... action [args]
+  const path: Array<{ resource: string; id?: string }> = []
+  let pi = 0
+
+  // First positional is always the resource - normalize to plural
+  command.resource = normalizeResourceName(positionals[pi++])
+  let currentResource = command.resource
+
+  // Look for nested resource paths or action
+  while (pi < positionals.length) {
+    const current = positionals[pi]
+
+    // Is this an action?
+    if (isAction(current)) {
+      command.action = ACTION_ALIASES[current] || current
+      pi++
+      break
+    }
+
+    // Is this an ID followed by more?
+    if (looksLikeId(current)) {
+      if (pi + 1 < positionals.length) {
+        const next = positionals[pi + 1]
+        if (isAction(next)) {
+          // This is an ID for the current resource, and next is the action
+          if (!command.resourceId) {
+            command.resourceId = current
+          }
+          path.push({ resource: currentResource, id: current })
+          command.action = ACTION_ALIASES[next] || next
+          pi += 2
+          break
+        } else if (!looksLikeId(next)) {
+          // Next is a subresource - set resourceId and subresource
+          if (!command.resourceId) {
+            command.resourceId = current
+          }
+          path.push({ resource: currentResource, id: current })
+          command.subresource = next
+          currentResource = next
+          pi += 2
+          continue
+        }
+      }
+      // ID without action following - just break
+      break
+    }
+
+    // Not an action, not an ID - could be a subresource or unknown action
+    if (pi === 1) {
+      // Second positional - could be subresource like ['projects', 'tasks', 'list']
+      const next = positionals[pi + 1]
+      if (next && isAction(next)) {
+        // Current is a subresource, next is the action
+        command.subresource = current
+        path.push({ resource: command.resource })
+        path.push({ resource: current })
+        currentResource = current
+        pi++
+        continue
+      } else {
+        // This is unknown action
+        const suggestions = getActionSuggestions(current)
+        return {
+          success: false,
+          error: {
+            code: 'UNKNOWN_ACTION',
+            message: `Unknown action: ${current}`,
+            suggestions: suggestions.length > 0 ? suggestions : undefined
+          }
+        }
+      }
+    }
+
+    // Just break - not sure what this is
+    break
+  }
+
+  // If no action found yet, check if there's still positionals
+  if (!command.action && pi < positionals.length) {
+    const potentialAction = positionals[pi]
+    if (isAction(potentialAction)) {
+      command.action = ACTION_ALIASES[potentialAction] || potentialAction
+      pi++
+    } else {
+      // Check for typo suggestions
+      const suggestions = getActionSuggestions(potentialAction)
+      if (suggestions.length > 0) {
+        return {
+          success: false,
+          error: {
+            code: 'UNKNOWN_ACTION',
+            message: `Unknown action: ${potentialAction}`,
+            suggestions
+          }
+        }
+      }
+      // No action provided
+      return {
+        success: false,
+        error: { code: 'MISSING_ACTION', message: 'Missing action' }
+      }
+    }
+  }
+
+  // If still no action but only resource, that's an error
+  if (!command.action) {
+    return {
+      success: false,
+      error: { code: 'MISSING_ACTION', message: 'Missing action' }
+    }
+  }
+
+  // Collect remaining positionals as args
+  while (pi < positionals.length) {
+    command.args.push(positionals[pi++])
+  }
+
+  // Update path if we have deep nesting
+  // If there's a subresource that wasn't added (no ID for it), add it now
+  if (path.length > 0 && command.subresource) {
+    // Check if the last path entry is different from the current subresource
+    const lastPathResource = path[path.length - 1].resource
+    if (lastPathResource !== command.subresource) {
+      path.push({ resource: command.subresource })
+    }
+  }
+  if (path.length > 1) {
+    command.path = path
+  }
+
+  // Check if action requires an ID
+  if (ACTIONS_REQUIRING_ID.has(command.action) && command.args.length === 0 && !command.resourceId) {
+    return {
+      success: false,
+      error: {
+        code: 'MISSING_ARGUMENT',
+        message: `Action '${command.action}' requires an id argument`
+      }
+    }
+  }
+
+  // Set batch flag if multiple IDs
+  if (command.args.length > 1 && ACTIONS_REQUIRING_ID.has(command.action)) {
+    command.batch = true
+  }
+
+  // Process special flags
+
+  // Handle --json shortcut
+  if (command.flags.json === true) {
+    command.output = 'json'
+    delete command.flags.json
+  }
+
+  // Handle --yaml shortcut
+  if (command.flags.yaml === true) {
+    command.output = 'yaml'
+    delete command.flags.yaml
+  }
+
+  // Handle --csv shortcut
+  if (command.flags.csv === true) {
+    command.output = 'csv'
+    delete command.flags.csv
+  }
+
+  // Handle --format or -o
+  if (command.flags.format) {
+    const format = command.flags.format as string
+    if (!VALID_OUTPUT_FORMATS.has(format)) {
+      return {
+        success: false,
+        error: { code: 'INVALID_FORMAT', message: `Invalid output format: ${format}` }
+      }
+    }
+    command.output = format
+    delete command.flags.format
+  }
+  if (command.flags.o) {
+    const format = command.flags.o as string
+    if (!VALID_OUTPUT_FORMATS.has(format)) {
+      return {
+        success: false,
+        error: { code: 'INVALID_FORMAT', message: `Invalid output format: ${format}` }
+      }
+    }
+    command.output = format
+    delete command.flags.o
+  }
+
+  // Handle --filter and --where
+  const filterFlags = ['filter', 'where']
+  for (const flag of filterFlags) {
+    if (command.flags[flag]) {
+      const filterValues = Array.isArray(command.flags[flag])
+        ? command.flags[flag] as string[]
+        : [command.flags[flag] as string]
+
+      command.filters = command.filters || {}
+      for (const filterVal of filterValues) {
+        if (!filterVal.includes('=')) {
+          return {
+            success: false,
+            error: { code: 'INVALID_FILTER', message: `Invalid filter format: ${filterVal}` }
+          }
+        }
+        const [key, value] = filterVal.split('=', 2)
+        command.filters[key] = value
+      }
+      delete command.flags[flag]
+    }
+  }
+
+  // Handle --sort
+  if (command.flags.sort) {
+    let sortValue = command.flags.sort as string
+    let direction: 'asc' | 'desc' = 'asc'
+    let field = sortValue
+
+    if (sortValue.startsWith('-')) {
+      direction = 'desc'
+      field = sortValue.slice(1)
+    } else if (sortValue.includes(':')) {
+      const [f, d] = sortValue.split(':')
+      field = f
+      direction = d === 'desc' ? 'desc' : 'asc'
+    }
+
+    command.sort = { field, direction }
+    delete command.flags.sort
+  }
+
+  // Handle pagination flags
+  const paginationUpdates: { limit?: number; offset?: number; page?: number } = {}
+
+  if (command.flags.limit) {
+    const limit = parseInt(command.flags.limit as string, 10)
+    if (isNaN(limit)) {
+      return {
+        success: false,
+        error: { code: 'INVALID_NUMBER', message: 'Invalid number for --limit' }
+      }
+    }
+    paginationUpdates.limit = limit
+    delete command.flags.limit
+  }
+
+  if (command.flags.offset) {
+    const offset = parseInt(command.flags.offset as string, 10)
+    if (isNaN(offset)) {
+      return {
+        success: false,
+        error: { code: 'INVALID_NUMBER', message: 'Invalid number for --offset' }
+      }
+    }
+    paginationUpdates.offset = offset
+    delete command.flags.offset
+  }
+
+  if (command.flags.page) {
+    const page = parseInt(command.flags.page as string, 10)
+    if (isNaN(page)) {
+      return {
+        success: false,
+        error: { code: 'INVALID_NUMBER', message: 'Invalid number for --page' }
+      }
+    }
+    paginationUpdates.page = page
+    delete command.flags.page
+  }
+
+  if (Object.keys(paginationUpdates).length > 0) {
+    command.pagination = paginationUpdates
+  }
+
+  // Handle --config
+  if (command.flags.config) {
+    command.configPath = command.flags.config as string
+    delete command.flags.config
+  }
+
+  // Handle interactive mode
+  if (command.flags.interactive === true || command.flags.i === true) {
+    command.interactive = true
+    delete command.flags.interactive
+    delete command.flags.i
+  } else if (command.flags.interactive === false) {
+    command.interactive = false
+    delete command.flags.interactive
+  } else if (command.action === 'create' && Object.keys(command.flags).length === 0 && command.args.length === 0) {
+    // Default to interactive for create with no args
+    command.interactive = true
+  } else {
+    command.interactive = false
+  }
+
+  // Handle --quiet flag (only extract from full --quiet, not short -q)
+  if (command.flags.quiet === true) {
+    command.quiet = true
+    delete command.flags.quiet
+  }
+
+  // Handle --dry-run flag
+  if (command.flags['dry-run'] === true) {
+    command.dryRun = true
+    delete command.flags['dry-run']
+  }
+
+  return { success: true, command }
+}
