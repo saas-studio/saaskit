@@ -31,6 +31,21 @@ resources:
     list: ->List
 `
 
+const snakeCaseSchemaYaml = `
+app:
+  name: snake-case-test
+  description: Test schema with snake_case timestamps
+  version: 1.0.0
+
+resources:
+  Task:
+    id: auto
+    title: text
+    completed: boolean
+    created_at: auto
+    updated_at: auto
+`
+
 const blogSchemaYaml = `
 app:
   name: blog
@@ -570,7 +585,65 @@ resources:
   })
 
   // ============================================================================
-  // 9. Edge Cases and Error Handling
+  // 9. Required Field Validation
+  // ============================================================================
+
+  describe('Required field validation', () => {
+    beforeEach(() => {
+      schema = parseSchemaYaml(todoSchemaYaml)
+      store = new DataStore(schema)
+    })
+
+    it('should throw error when required field is missing from create()', () => {
+      // 'name' is a required field on List (no ? suffix)
+      expect(() => store.create('List', {}))
+        .toThrow(/required field.*name.*missing/i)
+    })
+
+    it('should throw error listing all missing required fields', () => {
+      // Create a list first for the foreign key
+      const list = store.create('List', { name: 'Work' })
+
+      // 'title' and 'completed' are required on Todo
+      expect(() => store.create('Todo', { listId: list.id }))
+        .toThrow(/required field/i)
+    })
+
+    it('should succeed when all required fields are provided', () => {
+      const list = store.create('List', { name: 'Shopping' })
+
+      expect(list).toBeDefined()
+      expect(list.name).toBe('Shopping')
+      expect(list.id).toBeDefined()
+    })
+
+    it('should succeed when required fields are provided and optional fields are omitted', () => {
+      const list = store.create('List', { name: 'Work' })
+      const todo = store.create('Todo', {
+        title: 'Complete task',
+        completed: false,
+        listId: list.id
+      })
+
+      expect(todo).toBeDefined()
+      expect(todo.title).toBe('Complete task')
+      expect(todo.completed).toBe(false)
+      // dueDate is optional (has ? suffix)
+      expect(todo.dueDate).toBeNull()
+    })
+
+    it('should not require auto-generated fields (id, createdAt, updatedAt)', () => {
+      // These are auto fields and should not need to be provided
+      const list = store.create('List', { name: 'Auto fields test' })
+
+      expect(list.id).toBeDefined()
+      expect(list.createdAt).toBeDefined()
+      expect(list.updatedAt).toBeDefined()
+    })
+  })
+
+  // ============================================================================
+  // 10. Edge Cases and Error Handling
   // ============================================================================
 
   describe('Edge cases', () => {
@@ -658,6 +731,504 @@ resources:
       store = new DataStore(schema)
 
       expect(store.schema).toBe(schema)
+    })
+  })
+
+  // ============================================================================
+  // 11. FK Field Creation - Only for belongsTo relations
+  // ============================================================================
+
+  describe('FK field creation', () => {
+    it('should NOT create FK fields on parent records with hasMany relations', () => {
+      // Schema where List hasMany Todos (via inverse relation)
+      const schemaYaml = `
+metadata:
+  name: test
+  version: "1.0.0"
+
+resources:
+  - name: List
+    fields:
+      - name: id
+        type: uuid
+      - name: name
+        type: string
+    relations: []
+
+  - name: Todo
+    fields:
+      - name: id
+        type: uuid
+      - name: title
+        type: string
+    relations:
+      - name: list
+        to: List
+        cardinality: one
+        inverse: todos
+`
+      const testSchema = parseSchemaYaml(schemaYaml)
+      const testStore = new DataStore(testSchema)
+
+      // Create a List (parent) - should NOT have any FK fields
+      const list = testStore.create('List', { name: 'My List' })
+
+      // List should only have: id, name
+      // It should NOT have: listId, todoId, todosId, or any spurious FK field
+      const listKeys = Object.keys(list)
+      expect(listKeys).toContain('id')
+      expect(listKeys).toContain('name')
+      expect(listKeys).not.toContain('listId')
+      expect(listKeys).not.toContain('todoId')
+      expect(listKeys).not.toContain('todosId')
+      // Only exactly the defined fields should exist
+      expect(listKeys).toHaveLength(2)
+    })
+
+    it('should only create FK fields for belongsTo (cardinality: one) relations', () => {
+      const schemaYaml = `
+metadata:
+  name: test
+  version: "1.0.0"
+
+resources:
+  - name: Author
+    fields:
+      - name: id
+        type: uuid
+      - name: name
+        type: string
+    relations: []
+
+  - name: Post
+    fields:
+      - name: id
+        type: uuid
+      - name: title
+        type: string
+    relations:
+      - name: author
+        to: Author
+        cardinality: one
+`
+      const testSchema = parseSchemaYaml(schemaYaml)
+      const testStore = new DataStore(testSchema)
+
+      // Create Author (no relations) - should NOT have FK fields
+      const author = testStore.create('Author', { name: 'John' })
+      const authorKeys = Object.keys(author)
+      expect(authorKeys).toContain('id')
+      expect(authorKeys).toContain('name')
+      expect(authorKeys).toHaveLength(2)
+
+      // Create Post (belongsTo Author) - SHOULD have authorId FK field
+      const post = testStore.create('Post', { title: 'Hello', authorId: author.id })
+      const postKeys = Object.keys(post)
+      expect(postKeys).toContain('id')
+      expect(postKeys).toContain('title')
+      expect(postKeys).toContain('authorId') // This is the FK for belongsTo
+      expect(postKeys).toHaveLength(3)
+      expect(post.authorId).toBe(author.id)
+    })
+
+    it('should not create FK fields for hasMany relations (cardinality: many)', () => {
+      const schemaYaml = `
+metadata:
+  name: test
+  version: "1.0.0"
+
+resources:
+  - name: Category
+    fields:
+      - name: id
+        type: uuid
+      - name: name
+        type: string
+    relations:
+      - name: products
+        to: Product
+        cardinality: many
+
+  - name: Product
+    fields:
+      - name: id
+        type: uuid
+      - name: title
+        type: string
+    relations:
+      - name: category
+        to: Category
+        cardinality: one
+`
+      const testSchema = parseSchemaYaml(schemaYaml)
+      const testStore = new DataStore(testSchema)
+
+      // Create Category - has a hasMany relation to Product
+      // Should NOT create a productsId field
+      const category = testStore.create('Category', { name: 'Electronics' })
+      const categoryKeys = Object.keys(category)
+
+      expect(categoryKeys).toContain('id')
+      expect(categoryKeys).toContain('name')
+      // Should NOT have productsId (spurious FK for hasMany)
+      expect(categoryKeys).not.toContain('productsId')
+      expect(categoryKeys).toHaveLength(2)
+
+      // Create Product - has belongsTo relation to Category
+      // SHOULD have categoryId field
+      const product = testStore.create('Product', { title: 'Phone', categoryId: category.id })
+      const productKeys = Object.keys(product)
+
+      expect(productKeys).toContain('id')
+      expect(productKeys).toContain('title')
+      expect(productKeys).toContain('categoryId')
+      expect(productKeys).toHaveLength(3)
+    })
+  })
+
+  // ============================================================================
+  // 12. Enum Value Validation
+  // ============================================================================
+
+  describe('Enum value validation', () => {
+    let blogStore: DataStore
+
+    beforeEach(() => {
+      const blogSchema = parseSchemaYaml(blogSchemaYaml)
+      blogStore = new DataStore(blogSchema)
+    })
+
+    describe('create()', () => {
+      it('should throw when invalid enum value is provided', () => {
+        const author = blogStore.create('Author', {
+          name: 'John Doe',
+          email: 'john@example.com'
+        })
+
+        expect(() => blogStore.create('Post', {
+          title: 'My Post',
+          status: 'invalid_status',
+          authorId: author.id
+        })).toThrow(/invalid.*enum.*value|invalid value.*status/i)
+      })
+
+      it('should succeed with valid enum values', () => {
+        const author = blogStore.create('Author', {
+          name: 'John Doe',
+          email: 'john@example.com'
+        })
+
+        const draftPost = blogStore.create('Post', {
+          title: 'Draft Post',
+          status: 'draft',
+          authorId: author.id
+        })
+        expect(draftPost.status).toBe('draft')
+
+        const publishedPost = blogStore.create('Post', {
+          title: 'Published Post',
+          status: 'published',
+          authorId: author.id
+        })
+        expect(publishedPost.status).toBe('published')
+
+        const archivedPost = blogStore.create('Post', {
+          title: 'Archived Post',
+          status: 'archived',
+          authorId: author.id
+        })
+        expect(archivedPost.status).toBe('archived')
+      })
+
+      it('should include allowed values in error message', () => {
+        const author = blogStore.create('Author', {
+          name: 'Jane Doe',
+          email: 'jane@example.com'
+        })
+
+        expect(() => blogStore.create('Post', {
+          title: 'Bad Post',
+          status: 'wrong',
+          authorId: author.id
+        })).toThrow(/draft|published|archived/)
+      })
+    })
+
+    describe('update()', () => {
+      it('should throw when updating with invalid enum value', () => {
+        const author = blogStore.create('Author', {
+          name: 'John Doe',
+          email: 'john@example.com'
+        })
+
+        const post = blogStore.create('Post', {
+          title: 'My Post',
+          status: 'draft',
+          authorId: author.id
+        })
+
+        expect(() => blogStore.update('Post', post.id as string, {
+          status: 'not_valid'
+        })).toThrow(/invalid.*enum.*value|invalid value.*status/i)
+      })
+
+      it('should succeed when updating with valid enum value', () => {
+        const author = blogStore.create('Author', {
+          name: 'John Doe',
+          email: 'john@example.com'
+        })
+
+        const post = blogStore.create('Post', {
+          title: 'My Post',
+          status: 'draft',
+          authorId: author.id
+        })
+
+        const updated = blogStore.update('Post', post.id as string, {
+          status: 'published'
+        })
+
+        expect(updated.status).toBe('published')
+      })
+    })
+  })
+
+  // ============================================================================
+  // 13. Foreign Key Field Naming (suffix doubling prevention)
+  // ============================================================================
+
+  describe('getForeignKeyField() - FK field naming', () => {
+    it('should not double the "Id" suffix when relation name already ends with "Id"', () => {
+      // Relation named "authorId" should create FK field "authorId", not "authorIdId"
+      const schemaYaml = `
+metadata:
+  name: test
+  version: "1.0.0"
+
+resources:
+  - name: User
+    fields:
+      - name: id
+        type: uuid
+      - name: name
+        type: string
+    relations: []
+
+  - name: Post
+    fields:
+      - name: id
+        type: uuid
+      - name: title
+        type: string
+    relations:
+      - name: authorId
+        to: User
+        cardinality: one
+`
+      const testSchema = parseSchemaYaml(schemaYaml)
+      const testStore = new DataStore(testSchema)
+
+      const user = testStore.create('User', { name: 'John' })
+      const post = testStore.create('Post', { title: 'Test Post', authorId: user.id })
+
+      // The FK field should be "authorId", not "authorIdId"
+      expect(post.authorId).toBe(user.id)
+      expect(post).not.toHaveProperty('authorIdId')
+
+      // Verify the relation works
+      const relatedUser = testStore.getRelated('Post', post.id as string, 'authorId')
+      expect(relatedUser).not.toBeNull()
+      expect((relatedUser as Record<string, unknown>).id).toBe(user.id)
+    })
+
+    it('should not double the "_id" suffix when relation name already ends with "_id"', () => {
+      // Relation named "owner_id" should create FK field "owner_id", not "owner_idId"
+      const schemaYaml = `
+metadata:
+  name: test
+  version: "1.0.0"
+
+resources:
+  - name: User
+    fields:
+      - name: id
+        type: uuid
+      - name: name
+        type: string
+    relations: []
+
+  - name: Document
+    fields:
+      - name: id
+        type: uuid
+      - name: title
+        type: string
+    relations:
+      - name: owner_id
+        to: User
+        cardinality: one
+`
+      const testSchema = parseSchemaYaml(schemaYaml)
+      const testStore = new DataStore(testSchema)
+
+      const user = testStore.create('User', { name: 'Jane' })
+      const doc = testStore.create('Document', { title: 'Test Doc', owner_id: user.id })
+
+      // The FK field should be "owner_id", not "owner_idId"
+      expect(doc.owner_id).toBe(user.id)
+      expect(doc).not.toHaveProperty('owner_idId')
+
+      // Verify the relation works
+      const relatedUser = testStore.getRelated('Document', doc.id as string, 'owner_id')
+      expect(relatedUser).not.toBeNull()
+      expect((relatedUser as Record<string, unknown>).id).toBe(user.id)
+    })
+
+    it('should add "Id" suffix when relation name does not already have it', () => {
+      // Relation named "author" should create FK field "authorId"
+      const schemaYaml = `
+metadata:
+  name: test
+  version: "1.0.0"
+
+resources:
+  - name: User
+    fields:
+      - name: id
+        type: uuid
+      - name: name
+        type: string
+    relations: []
+
+  - name: Post
+    fields:
+      - name: id
+        type: uuid
+      - name: title
+        type: string
+    relations:
+      - name: author
+        to: User
+        cardinality: one
+`
+      const testSchema = parseSchemaYaml(schemaYaml)
+      const testStore = new DataStore(testSchema)
+
+      const user = testStore.create('User', { name: 'Bob' })
+      const post = testStore.create('Post', { title: 'Test Post', authorId: user.id })
+
+      // The FK field should be "authorId"
+      expect(post.authorId).toBe(user.id)
+
+      // Verify the relation works
+      const relatedUser = testStore.getRelated('Post', post.id as string, 'author')
+      expect(relatedUser).not.toBeNull()
+      expect((relatedUser as Record<string, unknown>).id).toBe(user.id)
+    })
+  })
+
+  // ============================================================================
+  // 14. Snake_case Timestamp Support
+  // ============================================================================
+
+  describe('snake_case timestamp support', () => {
+    let snakeCaseStore: DataStore
+
+    beforeEach(() => {
+      const snakeCaseSchema = parseSchemaYaml(snakeCaseSchemaYaml)
+      snakeCaseStore = new DataStore(snakeCaseSchema)
+    })
+
+    describe('create()', () => {
+      it('should auto-set created_at timestamp (snake_case)', () => {
+        const before = new Date()
+        const task = snakeCaseStore.create('Task', { title: 'Test Task', completed: false })
+        const after = new Date()
+
+        expect(task.created_at).toBeDefined()
+        const createdAt = new Date(task.created_at as string)
+        expect(createdAt.getTime()).toBeGreaterThanOrEqual(before.getTime())
+        expect(createdAt.getTime()).toBeLessThanOrEqual(after.getTime())
+      })
+
+      it('should auto-set updated_at timestamp (snake_case)', () => {
+        const before = new Date()
+        const task = snakeCaseStore.create('Task', { title: 'Test Task', completed: false })
+        const after = new Date()
+
+        expect(task.updated_at).toBeDefined()
+        const updatedAt = new Date(task.updated_at as string)
+        expect(updatedAt.getTime()).toBeGreaterThanOrEqual(before.getTime())
+        expect(updatedAt.getTime()).toBeLessThanOrEqual(after.getTime())
+      })
+    })
+
+    describe('update()', () => {
+      it('should update updated_at timestamp (snake_case)', () => {
+        const created = snakeCaseStore.create('Task', { title: 'Test', completed: false })
+        const originalUpdatedAt = created.updated_at
+
+        // Wait a small amount to ensure different timestamp
+        const start = Date.now()
+        while (Date.now() - start < 10) { /* busy wait */ }
+
+        const updated = snakeCaseStore.update('Task', created.id as string, { title: 'Updated' })
+
+        expect(new Date(updated.updated_at as string).getTime())
+          .toBeGreaterThan(new Date(originalUpdatedAt as string).getTime())
+      })
+
+      it('should not modify created_at on update (snake_case)', () => {
+        const created = snakeCaseStore.create('Task', { title: 'Test', completed: false })
+        const originalCreatedAt = created.created_at
+
+        const updated = snakeCaseStore.update('Task', created.id as string, { title: 'Updated' })
+
+        expect(updated.created_at).toBe(originalCreatedAt)
+      })
+    })
+  })
+
+  describe('camelCase timestamp support (still works)', () => {
+    beforeEach(() => {
+      schema = parseSchemaYaml(todoSchemaYaml)
+      store = new DataStore(schema)
+    })
+
+    it('should still auto-set createdAt timestamp (camelCase)', () => {
+      const before = new Date()
+      const list = store.create('List', { name: 'Test' })
+      const after = new Date()
+
+      expect(list.createdAt).toBeDefined()
+      const createdAt = new Date(list.createdAt as string)
+      expect(createdAt.getTime()).toBeGreaterThanOrEqual(before.getTime())
+      expect(createdAt.getTime()).toBeLessThanOrEqual(after.getTime())
+    })
+
+    it('should still auto-set updatedAt timestamp (camelCase)', () => {
+      const before = new Date()
+      const list = store.create('List', { name: 'Test' })
+      const after = new Date()
+
+      expect(list.updatedAt).toBeDefined()
+      const updatedAt = new Date(list.updatedAt as string)
+      expect(updatedAt.getTime()).toBeGreaterThanOrEqual(before.getTime())
+      expect(updatedAt.getTime()).toBeLessThanOrEqual(after.getTime())
+    })
+
+    it('should still update updatedAt on update (camelCase)', () => {
+      const created = store.create('List', { name: 'Test' })
+      const originalUpdatedAt = created.updatedAt
+
+      // Wait a small amount to ensure different timestamp
+      const start = Date.now()
+      while (Date.now() - start < 10) { /* busy wait */ }
+
+      const updated = store.update('List', created.id as string, { name: 'Updated' })
+
+      expect(new Date(updated.updatedAt as string).getTime())
+        .toBeGreaterThan(new Date(originalUpdatedAt as string).getTime())
     })
   })
 })

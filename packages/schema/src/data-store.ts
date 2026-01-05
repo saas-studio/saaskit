@@ -5,7 +5,7 @@
  * Supports auto-generation of UUIDs, timestamps, and relation traversal.
  */
 
-import type { SaaSSchema, Resource, Relation } from './types'
+import type { SaaSSchema, Resource, Relation, Field } from './types'
 
 // ============================================================================
 // Types
@@ -172,9 +172,26 @@ export class DataStore implements IDataStore {
 
   /**
    * Get the foreign key field name for a relation
+   * Avoids doubling the suffix if the relation name already ends with "Id" or "_id"
    */
   private getForeignKeyField(relation: Relation): string {
-    return relation.foreignKey || `${relation.name}Id`
+    if (relation.foreignKey) {
+      return relation.foreignKey
+    }
+    // Check if relation name already ends with "Id" (camelCase) or "_id" (snake_case)
+    if (relation.name.endsWith('Id') || relation.name.endsWith('_id')) {
+      return relation.name
+    }
+    return `${relation.name}Id`
+  }
+
+  /**
+   * Check if a relation is a belongsTo relation (has FK on this side)
+   * belongsTo relations have cardinality 'one' - they point to a single parent record
+   * hasMany relations have cardinality 'many' - they represent the parent side with no FK
+   */
+  private isBelongsToRelation(relation: Relation): boolean {
+    return relation.cardinality === 'one'
   }
 
   /**
@@ -188,11 +205,96 @@ export class DataStore implements IDataStore {
     return field?.type === 'uuid'
   }
 
+  /** Field names that represent "created at" timestamps */
+  private static readonly CREATED_AT_FIELDS = new Set(['createdAt', 'created_at'])
+
+  /** Field names that represent "updated at" timestamps */
+  private static readonly UPDATED_AT_FIELDS = new Set(['updatedAt', 'updated_at'])
+
+  /**
+   * Check if a field is a "created at" timestamp field
+   * Supports both camelCase (createdAt) and snake_case (created_at)
+   */
+  private isCreatedAtField(fieldName: string): boolean {
+    return DataStore.CREATED_AT_FIELDS.has(fieldName)
+  }
+
+  /**
+   * Check if a field is an "updated at" timestamp field
+   * Supports both camelCase (updatedAt) and snake_case (updated_at)
+   */
+  private isUpdatedAtField(fieldName: string): boolean {
+    return DataStore.UPDATED_AT_FIELDS.has(fieldName)
+  }
+
   /**
    * Check if a field is an auto-generated timestamp field
+   * Supports both camelCase (createdAt/updatedAt) and snake_case (created_at/updated_at)
    */
   private isAutoTimestampField(fieldName: string): boolean {
-    return fieldName === 'createdAt' || fieldName === 'updatedAt'
+    return this.isCreatedAtField(fieldName) || this.isUpdatedAtField(fieldName)
+  }
+
+  /**
+   * Validate that all required fields are provided in the data
+   * Throws an error listing missing required fields
+   */
+  private validateRequiredFields(
+    resource: Resource,
+    data: Record<string, unknown>
+  ): void {
+    const missingFields: string[] = []
+
+    for (const field of resource.fields) {
+      // Skip auto-generated fields
+      if (this.isAutoIdField(resource, field.name)) {
+        continue
+      }
+      if (this.isAutoTimestampField(field.name)) {
+        continue
+      }
+
+      // Check if field is required and not provided
+      if (field.required && !(field.name in data)) {
+        // Check if there's a default value
+        if (field.default === undefined) {
+          missingFields.push(field.name)
+        }
+      }
+    }
+
+    if (missingFields.length > 0) {
+      const fieldList = missingFields.map(f => `"${f}"`).join(', ')
+      throw new Error(
+        `Required field${missingFields.length > 1 ? 's' : ''} ${fieldList} missing on resource "${resource.name}"`
+      )
+    }
+  }
+
+  /**
+   * Validate that a value is valid for an enum field
+   * Throws an error if the value is not in the allowed options
+   */
+  private validateEnumValue(field: Field, value: unknown, resourceName: string): void {
+    if (field.type !== 'enum') {
+      return
+    }
+
+    const enumValues = field.annotations?.enumValues
+    if (!enumValues || enumValues.length === 0) {
+      return
+    }
+
+    if (value === null || value === undefined) {
+      return // null/undefined are handled by required field validation
+    }
+
+    if (!enumValues.includes(value as string)) {
+      throw new Error(
+        `Invalid enum value "${value}" for field "${field.name}" on resource "${resourceName}". ` +
+        `Allowed values: ${enumValues.join(', ')}`
+      )
+    }
   }
 
   /**
@@ -213,6 +315,9 @@ export class DataStore implements IDataStore {
     const resource = this.getResource(resourceName)
     const dataMap = this.getDataMap(resourceName)
 
+    // Validate required fields before creating the record
+    this.validateRequiredFields(resource, data)
+
     const now = new Date().toISOString()
     const record: Record<string, unknown> = {}
 
@@ -224,14 +329,16 @@ export class DataStore implements IDataStore {
       if (this.isAutoIdField(resource, fieldName)) {
         record[fieldName] = generateUUID()
       }
-      // Auto-set timestamps
-      else if (fieldName === 'createdAt' && this.isAutoTimestampField(fieldName)) {
+      // Auto-set timestamps (supports both camelCase and snake_case)
+      else if (this.isCreatedAtField(fieldName)) {
         record[fieldName] = now
-      } else if (fieldName === 'updatedAt' && this.isAutoTimestampField(fieldName)) {
+      } else if (this.isUpdatedAtField(fieldName)) {
         record[fieldName] = now
       }
       // Use provided value or null for optional fields
       else if (fieldName in data) {
+        // Validate enum values before assignment
+        this.validateEnumValue(field, data[fieldName], resourceName)
         record[fieldName] = data[fieldName]
       } else if (!field.required) {
         record[fieldName] = null
@@ -242,8 +349,12 @@ export class DataStore implements IDataStore {
       }
     }
 
-    // Process foreign key fields for relations
+    // Process foreign key fields for belongsTo relations only
+    // hasMany relations don't have FK fields on this side - the FK is on the child resource
     for (const relation of resource.relations) {
+      if (!this.isBelongsToRelation(relation)) {
+        continue
+      }
       const fkField = this.getForeignKeyField(relation)
       if (fkField in data) {
         record[fkField] = data[fkField]
@@ -324,19 +435,26 @@ export class DataStore implements IDataStore {
       throw new Error(`Record with id "${id}" not found in resource "${resourceName}"`)
     }
 
-    // Update fields (excluding id and createdAt)
+    // Update fields (excluding id and createdAt/created_at)
     for (const [key, value] of Object.entries(data)) {
-      // Don't allow updating id or createdAt
-      if (key === 'id' || key === 'createdAt') {
+      // Don't allow updating id or createdAt fields (both naming conventions)
+      if (key === 'id' || this.isCreatedAtField(key)) {
         continue
       }
+
+      // Validate enum values before assignment
+      const field = resource.fields.find((f) => f.name === key)
+      if (field) {
+        this.validateEnumValue(field, value, resourceName)
+      }
+
       existing[key] = value
     }
 
-    // Update updatedAt timestamp
-    const hasUpdatedAt = resource.fields.some((f) => f.name === 'updatedAt')
-    if (hasUpdatedAt) {
-      existing.updatedAt = new Date().toISOString()
+    // Update updatedAt/updated_at timestamp (supports both naming conventions)
+    const updatedAtField = resource.fields.find((f) => this.isUpdatedAtField(f.name))
+    if (updatedAtField) {
+      existing[updatedAtField.name] = new Date().toISOString()
     }
 
     return this.cloneRecord(existing)

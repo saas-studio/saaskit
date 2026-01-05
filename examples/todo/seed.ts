@@ -5,7 +5,9 @@
  * Run with: bun run seed.ts
  */
 
-import { MemoryStore } from '../../src/data/MemoryStore'
+import { parseSchemaYaml, DataStore } from '../../packages/schema/src'
+import { readFileSync } from 'fs'
+import { join } from 'path'
 
 // Types based on our schema
 interface List {
@@ -162,18 +164,16 @@ function generateId(): string {
 async function seed(): Promise<void> {
   console.log('Seeding todo app database...\n')
 
-  const listStore = new MemoryStore<List>()
-  const todoStore = new MemoryStore<Todo>()
+  // Load and parse the schema
+  const schemaPath = join(import.meta.dir || __dirname, 'schema.yaml')
+  const schemaYaml = readFileSync(schemaPath, 'utf-8')
+  const schema = parseSchemaYaml(schemaYaml)
+  const store = new DataStore(schema)
 
   // Create lists
   const createdLists: List[] = []
   for (const listData of sampleLists) {
-    const list: List = {
-      id: generateId(),
-      ...listData,
-      createdAt: new Date(),
-    }
-    await listStore.create(list)
+    const list = store.create('List', listData) as unknown as List
     createdLists.push(list)
     console.log(`Created list: ${list.name} (${list.id})`)
   }
@@ -183,13 +183,10 @@ async function seed(): Promise<void> {
   // Create todos
   for (const todoData of sampleTodos) {
     const list = createdLists[todoData.listIndex]
-    const todo: Todo = {
-      id: generateId(),
+    const todo = store.create('Todo', {
       ...todoData.data,
       listId: list.id,
-      createdAt: new Date(),
-    }
-    await todoStore.create(todo)
+    }) as unknown as Todo
     const status = todo.completed ? '[x]' : '[ ]'
     console.log(`Created todo: ${status} ${todo.title} (${list.name})`)
   }
@@ -205,7 +202,7 @@ async function seed(): Promise<void> {
 
   // Output JSON for reference
   console.log('\n--- JSON Output ---')
-  console.log(JSON.stringify({ lists: createdLists, todos: await todoStore.list() }, null, 2))
+  console.log(JSON.stringify({ lists: createdLists, todos: store.findAll('Todo') }, null, 2))
 }
 
 // Run seed

@@ -16,7 +16,9 @@
  *   blog seed
  */
 
-import { MemoryStore } from '../../src/data/MemoryStore'
+import { parseSchemaYaml, DataStore } from '../../packages/schema/src'
+import { readFileSync } from 'fs'
+import { join } from 'path'
 
 // =============================================================================
 // Type Definitions
@@ -952,22 +954,17 @@ const COMMENTS_DATA = [
 async function seed() {
   console.log('Starting blog seed...\n')
 
-  // Create stores
-  const authorsStore = new MemoryStore<Author>()
-  const postsStore = new MemoryStore<Post>()
-  const tagsStore = new MemoryStore<Tag>()
-  const postTagsStore = new MemoryStore<PostTag>()
-  const commentsStore = new MemoryStore<Comment>()
+  // Load and parse the schema
+  const schemaPath = join(import.meta.dir || __dirname, 'schema.yaml')
+  const schemaYaml = readFileSync(schemaPath, 'utf-8')
+  const schema = parseSchemaYaml(schemaYaml)
+  const store = new DataStore(schema)
 
   // Create authors
   console.log('Creating authors...')
   const authors: Author[] = []
   for (const data of AUTHORS_DATA) {
-    const author: Author = {
-      id: generateId(),
-      ...data,
-    }
-    await authorsStore.create(author)
+    const author = store.create('Author', data) as unknown as Author
     authors.push(author)
     console.log(`  Created author: ${author.name}`)
   }
@@ -977,11 +974,7 @@ async function seed() {
   const tags: Tag[] = []
   const tagsBySlug = new Map<string, Tag>()
   for (const data of TAGS_DATA) {
-    const tag: Tag = {
-      id: generateId(),
-      ...data,
-    }
-    await tagsStore.create(tag)
+    const tag = store.create('Tag', data) as unknown as Tag
     tags.push(tag)
     tagsBySlug.set(tag.slug, tag)
     console.log(`  Created tag: ${tag.name} (${tag.color || 'no color'})`)
@@ -999,8 +992,7 @@ async function seed() {
     const createdAt = randomDate(oneYearAgo, now)
     const updatedAt = randomDate(new Date(createdAt), now)
 
-    const post: Post = {
-      id: generateId(),
+    const post = store.create('Post', {
       title: data.title,
       slug: slugify(data.title),
       content: data.content,
@@ -1010,8 +1002,7 @@ async function seed() {
       author_id: author.id,
       created_at: createdAt,
       updated_at: updatedAt,
-    }
-    await postsStore.create(post)
+    }) as unknown as Post
     posts.push(post)
     console.log(`  Created post: "${post.title}" (${post.status})`)
 
@@ -1019,12 +1010,10 @@ async function seed() {
     for (const tagSlug of data.tags) {
       const tag = tagsBySlug.get(tagSlug)
       if (tag) {
-        const postTag: PostTag = {
-          id: generateId(),
+        store.create('PostTag', {
           post_id: post.id,
           tag_id: tag.id,
-        }
-        await postTagsStore.create(postTag)
+        })
       }
     }
   }
@@ -1035,16 +1024,14 @@ async function seed() {
 
   for (const commentData of COMMENTS_DATA) {
     const post = randomElement(publishedPosts)
-    const comment: Comment = {
-      id: generateId(),
+    const comment = store.create('Comment', {
       post_id: post.id,
       author_name: commentData.author_name,
       author_email: commentData.author_email,
       content: commentData.content,
       approved: commentData.approved,
       created_at: randomDate(new Date(post.created_at), now),
-    }
-    await commentsStore.create(comment)
+    }) as unknown as Comment
     console.log(
       `  Created comment by ${comment.author_name} on "${post.title.substring(0, 30)}..." (${comment.approved ? 'approved' : 'pending'})`
     )
@@ -1054,13 +1041,16 @@ async function seed() {
   console.log('\n' + '='.repeat(60))
   console.log('Seed completed!')
   console.log('='.repeat(60))
+  const postTags = store.findAll('PostTag')
+  const comments = store.findAll('Comment')
+
   console.log(`
 Summary:
   Authors:   ${authors.length}
   Tags:      ${tags.length}
   Posts:     ${posts.length} (${posts.filter((p) => p.status === 'published').length} published, ${posts.filter((p) => p.status === 'draft').length} draft, ${posts.filter((p) => p.status === 'archived').length} archived)
-  Post-Tags: ${await postTagsStore.list().then((items) => items.length)}
-  Comments:  ${await commentsStore.list().then((items) => items.length)} (${COMMENTS_DATA.filter((c) => c.approved).length} approved, ${COMMENTS_DATA.filter((c) => !c.approved).length} pending)
+  Post-Tags: ${postTags.length}
+  Comments:  ${comments.length} (${COMMENTS_DATA.filter((c) => c.approved).length} approved, ${COMMENTS_DATA.filter((c) => !c.approved).length} pending)
 
 Sample data has been created. Use the CLI or API to explore:
 
@@ -1074,8 +1064,8 @@ Sample data has been created. Use the CLI or API to explore:
     authors,
     tags,
     posts,
-    postTags: await postTagsStore.list(),
-    comments: await commentsStore.list(),
+    postTags,
+    comments,
   }
 }
 

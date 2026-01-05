@@ -270,6 +270,23 @@ const VALID_FIELD_TYPES: Set<string> = new Set([
   'relation',
 ])
 
+/**
+ * Auto-timestamp field names (both camelCase and snake_case conventions)
+ */
+const AUTO_TIMESTAMP_FIELDS: Set<string> = new Set([
+  'createdAt',
+  'created_at',
+  'updatedAt',
+  'updated_at',
+])
+
+/**
+ * Check if a field name is an auto-timestamp field
+ */
+function isAutoTimestampField(fieldName: string): boolean {
+  return AUTO_TIMESTAMP_FIELDS.has(fieldName)
+}
+
 // ============================================================================
 // Helper Functions
 // ============================================================================
@@ -342,7 +359,7 @@ export function parseShorthandField(
         },
       }
     }
-    if (cleanFieldName === 'createdAt' || cleanFieldName === 'updatedAt') {
+    if (isAutoTimestampField(cleanFieldName)) {
       return {
         field: {
           name: cleanFieldName,

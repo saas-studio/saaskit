@@ -10,7 +10,9 @@
  *   project-tracker seed
  */
 
-import { MemoryStore } from '../../src/data/MemoryStore'
+import { parseSchemaYaml, DataStore } from '../../packages/schema/src'
+import { readFileSync } from 'fs'
+import { join } from 'path'
 
 // =============================================================================
 // Types
@@ -495,24 +497,14 @@ export function generateSeedData() {
 // =============================================================================
 
 export class ProjectTrackerSeeder {
-	private stores: {
-		users: MemoryStore
-		projects: MemoryStore
-		tasks: MemoryStore
-		comments: MemoryStore
-		labels: MemoryStore
-		taskLabels: MemoryStore
-	}
+	private store: DataStore
 
 	constructor() {
-		this.stores = {
-			users: new MemoryStore(),
-			projects: new MemoryStore(),
-			tasks: new MemoryStore(),
-			comments: new MemoryStore(),
-			labels: new MemoryStore(),
-			taskLabels: new MemoryStore(),
-		}
+		// Load and parse the schema
+		const schemaPath = join(import.meta.dir || __dirname, 'schema.yaml')
+		const schemaYaml = readFileSync(schemaPath, 'utf-8')
+		const schema = parseSchemaYaml(schemaYaml)
+		this.store = new DataStore(schema)
 	}
 
 	async seed(): Promise<void> {
@@ -522,37 +514,37 @@ export class ProjectTrackerSeeder {
 
 		// Seed users
 		for (const user of data.users) {
-			await this.stores.users.create(user)
+			this.store.create('users', user)
 		}
 		console.log(`  Created ${data.users.length} users`)
 
 		// Seed projects
 		for (const project of data.projects) {
-			await this.stores.projects.create(project)
+			this.store.create('projects', project)
 		}
 		console.log(`  Created ${data.projects.length} projects`)
 
 		// Seed labels
 		for (const label of data.labels) {
-			await this.stores.labels.create(label)
+			this.store.create('labels', label)
 		}
 		console.log(`  Created ${data.labels.length} labels`)
 
 		// Seed tasks
 		for (const task of data.tasks) {
-			await this.stores.tasks.create(task)
+			this.store.create('tasks', task)
 		}
 		console.log(`  Created ${data.tasks.length} tasks`)
 
 		// Seed comments
 		for (const comment of data.comments) {
-			await this.stores.comments.create(comment)
+			this.store.create('comments', comment)
 		}
 		console.log(`  Created ${data.comments.length} comments`)
 
 		// Seed task labels
 		for (const taskLabel of data.taskLabels) {
-			await this.stores.taskLabels.create(taskLabel)
+			this.store.create('task_labels', taskLabel)
 		}
 		console.log(`  Created ${data.taskLabels.length} task-label associations`)
 
@@ -590,8 +582,8 @@ Total: ${data.tasks.length} tasks, ${data.comments.length} comments
 `)
 	}
 
-	getStores() {
-		return this.stores
+	getStore() {
+		return this.store
 	}
 }
 
