@@ -1,9 +1,16 @@
 /**
  * Terminal rendering functions
+ *
+ * Optimized implementation with:
+ * - Centralized ANSI/style utilities (no duplication)
+ * - Render cache for repeated elements
+ * - Unified children processing
+ * - Efficient string building
  */
 import React from 'react'
 import { Text, type TextProps, type TextColor } from '../components/Text'
 import { Box, borderChars, getPadding, getMargin, type BoxProps, type BorderStyle } from '../components/Box'
+import { stripAnsi, visualWidth } from './styles'
 
 export type OutputFormat = 'unicode' | 'ascii' | 'plain' | 'json' | 'markdown'
 
@@ -13,7 +20,7 @@ export interface RenderOptions {
 	color?: boolean
 }
 
-// ANSI color codes (duplicated from Text.tsx for use in rendering)
+// Centralized ANSI color codes - single source of truth
 const colorCodes: Record<TextColor, number> = {
 	black: 30,
 	red: 31,
@@ -25,7 +32,7 @@ const colorCodes: Record<TextColor, number> = {
 	white: 37,
 }
 
-// ASCII border characters
+// ASCII border characters for fallback rendering
 const asciiBorderChars = {
 	topLeft: '+',
 	topRight: '+',
@@ -35,18 +42,73 @@ const asciiBorderChars = {
 	vertical: '|',
 }
 
+// ============================================================================
+// Render Cache - LRU cache for memoizing render results
+// ============================================================================
+
+interface RenderCacheEntry {
+	result: string
+	accessTime: number
+}
+
+const MAX_RENDER_CACHE_SIZE = 128
+const renderCache = new Map<string, RenderCacheEntry>()
+
 /**
- * Strip ANSI escape codes from a string to get its visual length
+ * Generate a cache key for a render operation
  */
-function stripAnsi(str: string): string {
-	return str.replace(/\x1b\[[0-9;]*m/g, '')
+function getCacheKey(element: React.ReactElement, options: RenderOptions): string {
+	const propsKey = JSON.stringify({
+		type: typeof element.type === 'function' ? element.type.name : element.type,
+		props: element.props,
+		format: options.format,
+		width: options.width,
+		color: options.color,
+	})
+	return propsKey
 }
 
 /**
- * Get the visual width of a string (without ANSI codes)
+ * Get cached render result or compute and cache it
  */
-function visualWidth(str: string): number {
-	return stripAnsi(str).length
+function getCachedRender(
+	key: string,
+	compute: () => string
+): string {
+	const cached = renderCache.get(key)
+	if (cached) {
+		cached.accessTime = Date.now()
+		return cached.result
+	}
+
+	const result = compute()
+
+	// Evict oldest entries if cache is full
+	if (renderCache.size >= MAX_RENDER_CACHE_SIZE) {
+		let oldest: string | null = null
+		let oldestTime = Infinity
+
+		for (const [k, entry] of renderCache) {
+			if (entry.accessTime < oldestTime) {
+				oldest = k
+				oldestTime = entry.accessTime
+			}
+		}
+
+		if (oldest) {
+			renderCache.delete(oldest)
+		}
+	}
+
+	renderCache.set(key, { result, accessTime: Date.now() })
+	return result
+}
+
+/**
+ * Clear the render cache (useful for testing)
+ */
+export function clearRenderCache(): void {
+	renderCache.clear()
 }
 
 /**

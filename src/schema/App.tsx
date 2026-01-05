@@ -4,7 +4,14 @@
  * The App component is the root of a SaaSkit application definition.
  * It serves as the declarative entry point for defining complete SaaS products.
  *
- * @example
+ * From a single App definition, SaaSkit generates:
+ * - Terminal UI (React Ink interactive interface)
+ * - CLI commands for all CRUD operations
+ * - REST API endpoints
+ * - TypeScript SDK with full type safety
+ * - MCP Server for AI agent integration
+ *
+ * @example Basic Usage
  * ```tsx
  * import { App, Resource } from 'saaskit'
  *
@@ -13,6 +20,15 @@
  *     <Resource name="Task" title done priority="low | medium | high" />
  *   </App>
  * )
+ * ```
+ *
+ * @example With Multiple Resources
+ * ```tsx
+ * <App name="crm" description="Customer Relationship Manager">
+ *   <Resource name="Contact" name email:email company? />
+ *   <Resource name="Deal" title contact->Contact value:number status="open | won | lost" />
+ *   <Resource name="Note" content contact->Contact createdAt:auto />
+ * </App>
  * ```
  *
  * @module schema/App
@@ -35,6 +51,11 @@ import React, { createContext, useContext, type ReactNode, type ReactElement } f
  * }
  * ```
  */
+/**
+ * Default application version when not specified.
+ */
+export const DEFAULT_APP_VERSION = '0.1.0'
+
 export interface AppProps {
   /**
    * The unique identifier for the application.
@@ -46,6 +67,7 @@ export interface AppProps {
    * - Register MCP tools (e.g., `todos_tasks_list`)
    *
    * Should be lowercase, alphanumeric, and may contain hyphens.
+   * Names are automatically normalized to lowercase with hyphens.
    *
    * @example "todos", "my-crm", "issue-tracker"
    */
@@ -56,10 +78,11 @@ export interface AppProps {
    *
    * Used in:
    * - CLI help output
-   * - API documentation
+   * - API documentation (OpenAPI description)
    * - MCP tool descriptions
    * - Generated SDK README
    *
+   * @default Inferred from name: "{Name} - A SaaSkit application"
    * @example "A simple task management application"
    */
   description?: string
@@ -70,9 +93,35 @@ export interface AppProps {
    * Follows semver conventions (major.minor.patch).
    * Displayed in CLI headers and included in API responses.
    *
+   * @default "0.1.0"
    * @example "1.0.0", "2.1.3"
    */
   version?: string
+
+  /**
+   * Base URL for the API. Used for SDK generation and documentation.
+   *
+   * @default "http://localhost:3000"
+   * @example "https://api.myapp.com"
+   */
+  baseUrl?: string
+
+  /**
+   * Enable or disable specific output targets.
+   * All targets are enabled by default.
+   *
+   * @example { cli: true, api: true, sdk: false, mcp: false }
+   */
+  targets?: {
+    /** Generate CLI commands */
+    cli?: boolean
+    /** Generate REST API */
+    api?: boolean
+    /** Generate TypeScript SDK */
+    sdk?: boolean
+    /** Generate MCP server */
+    mcp?: boolean
+  }
 
   /**
    * Child components, typically Resource definitions.
@@ -92,29 +141,70 @@ export interface AppProps {
 }
 
 /**
+ * Default targets configuration - all enabled.
+ */
+export const DEFAULT_TARGETS = {
+  cli: true,
+  api: true,
+  sdk: true,
+  mcp: true,
+} as const
+
+/**
+ * Default base URL for local development.
+ */
+export const DEFAULT_BASE_URL = 'http://localhost:3000'
+
+/**
  * Metadata extracted from an App component for use by generators.
  *
  * This interface represents the normalized, processed form of app configuration
  * that is consumed by the various output generators (TUI, API, SDK, MCP).
+ * All optional fields have sensible defaults applied during extraction.
  */
 export interface AppMetadata {
   /**
-   * The application name (from AppProps.name).
+   * The normalized application name (lowercase, hyphenated).
    * @see AppProps.name
    */
   name: string
 
   /**
-   * The application description (from AppProps.description).
-   * @see AppProps.description
+   * The display name (capitalized, human-readable).
+   * Derived from the name prop.
    */
-  description?: string
+  displayName: string
 
   /**
-   * The application version (from AppProps.version).
+   * The application description.
+   * Defaults to "{DisplayName} - A SaaSkit application" if not provided.
+   * @see AppProps.description
+   */
+  description: string
+
+  /**
+   * The application version.
+   * Defaults to "0.1.0" if not provided.
    * @see AppProps.version
    */
-  version?: string
+  version: string
+
+  /**
+   * Base URL for the API.
+   * Defaults to "http://localhost:3000".
+   */
+  baseUrl: string
+
+  /**
+   * Which output targets are enabled.
+   * All targets are enabled by default.
+   */
+  targets: {
+    cli: boolean
+    api: boolean
+    sdk: boolean
+    mcp: boolean
+  }
 
   /**
    * List of resource names defined in this application.
@@ -131,6 +221,73 @@ export interface AppMetadata {
  * @internal
  */
 const AppContext = createContext<AppMetadata | null>(null)
+
+// =============================================================================
+// Helper Functions
+// =============================================================================
+
+/**
+ * Normalizes an app name to lowercase with hyphens.
+ *
+ * @param name - The raw app name
+ * @returns The normalized name (lowercase, spaces/underscores replaced with hyphens)
+ *
+ * @example
+ * normalizeName('MyApp')      // 'my-app'
+ * normalizeName('my_app')     // 'my-app'
+ * normalizeName('My App')     // 'my-app'
+ * normalizeName('my-app')     // 'my-app'
+ */
+export function normalizeName(name: string): string {
+  return name
+    .replace(/([a-z])([A-Z])/g, '$1-$2') // camelCase to kebab-case
+    .replace(/[\s_]+/g, '-')              // spaces and underscores to hyphens
+    .toLowerCase()
+    .replace(/-+/g, '-')                  // collapse multiple hyphens
+    .replace(/^-|-$/g, '')                // trim leading/trailing hyphens
+}
+
+/**
+ * Converts a name to a human-readable display name.
+ *
+ * @param name - The normalized or raw app name
+ * @returns A capitalized, human-readable display name
+ *
+ * @example
+ * toDisplayName('my-app')     // 'My App'
+ * toDisplayName('todos')      // 'Todos'
+ * toDisplayName('my_crm')     // 'My Crm'
+ */
+export function toDisplayName(name: string): string {
+  return name
+    .replace(/[-_]/g, ' ')
+    .replace(/\b\w/g, (char) => char.toUpperCase())
+}
+
+/**
+ * Creates a complete AppMetadata object with defaults applied.
+ *
+ * @internal
+ */
+function createMetadata(props: AppProps): AppMetadata {
+  const normalizedName = normalizeName(props.name)
+  const displayName = toDisplayName(normalizedName)
+
+  return {
+    name: normalizedName,
+    displayName,
+    description: props.description ?? `${displayName} - A SaaSkit application`,
+    version: props.version ?? DEFAULT_APP_VERSION,
+    baseUrl: props.baseUrl ?? DEFAULT_BASE_URL,
+    targets: {
+      cli: props.targets?.cli ?? DEFAULT_TARGETS.cli,
+      api: props.targets?.api ?? DEFAULT_TARGETS.api,
+      sdk: props.targets?.sdk ?? DEFAULT_TARGETS.sdk,
+      mcp: props.targets?.mcp ?? DEFAULT_TARGETS.mcp,
+    },
+    resources: [],
+  }
+}
 
 /**
  * The root component for defining a SaaSkit application.
@@ -162,13 +319,9 @@ const AppContext = createContext<AppMetadata | null>(null)
  * </App>
  * ```
  */
-export function App({ name, description, version, children }: AppProps): ReactElement {
-  const metadata: AppMetadata = {
-    name,
-    description,
-    version,
-    resources: [],
-  }
+export function App(props: AppProps): ReactElement {
+  const { children } = props
+  const metadata = createMetadata(props)
 
   return <AppContext.Provider value={metadata}>{children}</AppContext.Provider>
 }
@@ -241,21 +394,49 @@ export function useAppRequired(): AppMetadata {
  * ```
  */
 export function getAppMetadata(app: ReactElement<AppProps>): AppMetadata {
-  const { name, description, version } = app.props
+  const { name } = app.props
 
   if (!name) {
     throw new Error(
-      'App component requires a "name" prop. ' +
-        'Example: <App name="my-app">...</App>'
+      'App component requires a "name" prop.\n\n' +
+      'The name is used to:\n' +
+      '  - Generate CLI command names (e.g., `todos list`)\n' +
+      '  - Create API endpoint prefixes (e.g., `/api/todos/tasks`)\n' +
+      '  - Name the generated SDK package\n' +
+      '  - Register MCP tools\n\n' +
+      'Example:\n' +
+      '  <App name="my-app">...</App>\n' +
+      '  <App name="todos" description="Task management" version="1.0.0">...</App>'
     )
   }
 
-  return {
-    name,
-    description,
-    version,
-    resources: [],
+  if (typeof name !== 'string') {
+    throw new Error(
+      `App name must be a string, received ${typeof name}.\n\n` +
+      'Example: <App name="my-app">...</App>'
+    )
   }
+
+  if (name.trim() === '') {
+    throw new Error(
+      'App name cannot be empty.\n\n' +
+      'Provide a valid name like "todos", "my-crm", or "issue-tracker".'
+    )
+  }
+
+  const normalizedName = normalizeName(name)
+  if (normalizedName === '' || !/^[a-z][a-z0-9-]*$/.test(normalizedName)) {
+    throw new Error(
+      `Invalid App name "${name}".\n\n` +
+      'App names must:\n' +
+      '  - Start with a letter\n' +
+      '  - Contain only letters, numbers, hyphens, and underscores\n' +
+      '  - Not be empty after normalization\n\n' +
+      'Valid examples: "todos", "my-crm", "issue-tracker", "MyApp"'
+    )
+  }
+
+  return createMetadata(app.props)
 }
 
 /**
@@ -274,13 +455,21 @@ export function getAppMetadata(app: ReactElement<AppProps>): AppMetadata {
  * ```
  */
 export function isAppMetadata(value: unknown): value is AppMetadata {
+  if (typeof value !== 'object' || value === null) {
+    return false
+  }
+
+  const obj = value as Record<string, unknown>
+
   return (
-    typeof value === 'object' &&
-    value !== null &&
-    'name' in value &&
-    typeof (value as AppMetadata).name === 'string' &&
-    'resources' in value &&
-    Array.isArray((value as AppMetadata).resources)
+    typeof obj.name === 'string' &&
+    typeof obj.displayName === 'string' &&
+    typeof obj.description === 'string' &&
+    typeof obj.version === 'string' &&
+    typeof obj.baseUrl === 'string' &&
+    typeof obj.targets === 'object' &&
+    obj.targets !== null &&
+    Array.isArray(obj.resources)
   )
 }
 

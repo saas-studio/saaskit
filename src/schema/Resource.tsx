@@ -1,10 +1,59 @@
 /**
- * Resource component - defines a data model in the app
- * Stub - to be implemented in GREEN phase
+ * Resource Component - Declarative Data Model Definition
+ *
+ * The Resource component defines a data model (entity) in your SaaSkit application.
+ * Each Resource automatically gets CRUD operations, API endpoints, CLI commands,
+ * and type-safe SDK methods generated.
+ *
+ * Resources support two syntax styles:
+ * 1. **Shorthand syntax** - Concise, inline field definitions using props
+ * 2. **Expanded syntax** - Verbose, component-based field definitions
+ *
+ * @example Shorthand Syntax
+ * ```tsx
+ * <Resource name="Task"
+ *   title
+ *   description?
+ *   done
+ *   priority="low | medium | high"
+ *   assignee->User
+ *   createdAt:auto
+ * />
+ * ```
+ *
+ * @example Expanded Syntax
+ * ```tsx
+ * <Resource name="Task">
+ *   <Text name="title" minLength={1} maxLength={200} />
+ *   <Text name="description" optional multiline />
+ *   <Boolean name="done" default={false} />
+ *   <Select name="priority" options={['low', 'medium', 'high']} default="medium" />
+ *   <Relation name="assignee" to="User" optional />
+ *   <Date name="createdAt" includeTime auto />
+ * </Resource>
+ * ```
+ *
+ * @module schema/Resource
  */
 import type React from 'react'
 
-// Field types supported by the schema
+// =============================================================================
+// Type Definitions
+// =============================================================================
+
+/**
+ * Field types supported by the schema.
+ *
+ * - `text` - String values (default type)
+ * - `number` - Numeric values (integer or decimal)
+ * - `boolean` - True/false values
+ * - `date` - Date only (no time component)
+ * - `datetime` - Date and time
+ * - `email` - Email addresses (with validation)
+ * - `url` - URLs (with validation)
+ * - `select` - Enum/choice field with predefined options
+ * - `relation` - Reference to another Resource
+ */
 export type FieldType =
   | 'text'
   | 'number'
@@ -16,52 +65,242 @@ export type FieldType =
   | 'select'
   | 'relation'
 
-// Relation configuration for relation fields
+/**
+ * Relation configuration for relation fields.
+ */
 export interface FieldRelation {
+  /** The target Resource name */
   target: string
+  /** Whether this is a one-to-many (true) or one-to-one (false) relationship */
   many: boolean
+  /** Cascade behavior when the related record is deleted */
+  cascade?: 'delete' | 'nullify' | 'restrict'
 }
 
-// Field definition extracted from shorthand props
+/**
+ * Field validation constraints.
+ */
+export interface FieldValidation {
+  /** Minimum length for text fields */
+  minLength?: number
+  /** Maximum length for text fields */
+  maxLength?: number
+  /** Regex pattern for text fields */
+  pattern?: string
+  /** Minimum value for number fields */
+  min?: number
+  /** Maximum value for number fields */
+  max?: number
+  /** Step value for number fields */
+  step?: number
+  /** Date must be in the future */
+  future?: boolean
+  /** Date must be in the past */
+  past?: boolean
+}
+
+/**
+ * Complete field definition extracted from props or child components.
+ */
 export interface FieldDefinition {
+  /** Field name (used as column/property name) */
   name: string
+  /** Field type */
   type: FieldType
+  /** Whether the field is required (true) or optional (false) */
   required: boolean
+  /** Whether the field must have unique values */
   unique?: boolean
+  /** Whether the field is auto-generated (e.g., timestamps) */
   auto?: boolean
+  /** Default value for the field */
+  default?: unknown
+  /** Options for select fields */
   options?: string[]
+  /** Relation configuration for relation fields */
   relation?: FieldRelation
+  /** Validation constraints */
+  validation?: FieldValidation
+  /** Human-readable label for UI display */
+  label?: string
+  /** Description for documentation and help text */
+  description?: string
 }
 
-// Resource metadata extracted from JSX element
+/**
+ * Resource metadata extracted from JSX element.
+ */
 export interface ResourceMetadata {
+  /** Resource name (singular, PascalCase) */
   name: string
+  /** Plural name for collections (auto-derived if not specified) */
+  pluralName: string
+  /** Table/collection name in the database */
+  tableName: string
+  /** Field definitions */
   fields: FieldDefinition[]
+  /** Primary key field name */
+  primaryKey: string
+  /** Whether to include timestamp fields (createdAt, updatedAt) */
+  timestamps: boolean
+  /** Whether to use soft deletes (deletedAt instead of actual deletion) */
+  softDelete: boolean
 }
 
+/**
+ * Props for the Resource component.
+ *
+ * The `name` prop is required. All other props are either configuration
+ * options or shorthand field definitions.
+ */
 export interface ResourceProps {
+  /**
+   * The Resource name (singular, PascalCase).
+   *
+   * Used to generate:
+   * - Table/collection name (pluralized, snake_case)
+   * - API endpoint paths (pluralized, kebab-case)
+   * - TypeScript type names
+   * - CLI command names
+   *
+   * @example "Task", "User", "BlogPost"
+   */
   name: string
+
+  /**
+   * Custom plural name (defaults to name + 's').
+   * @example "People" for a "Person" resource
+   */
+  plural?: string
+
+  /**
+   * Custom table/collection name.
+   * @example "blog_posts" instead of auto-generated "blog_posts"
+   */
+  tableName?: string
+
+  /**
+   * Primary key field name.
+   * @default "id"
+   */
+  primaryKey?: string
+
+  /**
+   * Whether to automatically add createdAt and updatedAt fields.
+   * @default true
+   */
+  timestamps?: boolean
+
+  /**
+   * Whether to use soft deletes (deletedAt field) instead of actual deletion.
+   * @default false
+   */
+  softDelete?: boolean
+
+  /**
+   * Child components (expanded syntax field definitions).
+   */
   children?: React.ReactNode
-  // Shorthand field props will be parsed from additional props
+
+  /**
+   * Shorthand field props will be parsed from additional props.
+   * @see parseResourceProps for supported syntax
+   */
   [key: string]: unknown
 }
 
-// Boolean field name patterns
-const BOOLEAN_NAMES = new Set(['done', 'completed', 'active', 'enabled', 'visible'])
+// =============================================================================
+// Constants and Defaults
+// =============================================================================
 
-// Timestamp field names for auto type inference
+/** Default primary key field name */
+export const DEFAULT_PRIMARY_KEY = 'id'
+
+/** Whether timestamps are enabled by default */
+export const DEFAULT_TIMESTAMPS = true
+
+/** Whether soft delete is enabled by default */
+export const DEFAULT_SOFT_DELETE = false
+
+/** Reserved prop names that are not field definitions */
+const RESERVED_PROPS = new Set([
+  'name',
+  'children',
+  'plural',
+  'tableName',
+  'primaryKey',
+  'timestamps',
+  'softDelete',
+])
+
+/** Boolean field name patterns (automatically infer boolean type) */
+const BOOLEAN_NAMES = new Set(['done', 'completed', 'active', 'enabled', 'visible', 'published', 'archived'])
+
+/** Timestamp field names for auto type inference */
 const TIMESTAMP_NAMES = new Set(['createdAt', 'updatedAt', 'deletedAt'])
 
-// Type-inferred field names
+/** Type-inferred field names */
 const TYPE_INFERRED_NAMES: Record<string, FieldType> = {
   email: 'email',
   url: 'url',
 }
 
+// =============================================================================
+// Helper Functions
+// =============================================================================
+
 /**
- * Infers the type based on field name
+ * Pluralizes a resource name using simple English rules.
+ *
+ * @param name - The singular resource name
+ * @returns The pluralized name
+ *
+ * @example
+ * pluralize('Task')    // 'Tasks'
+ * pluralize('Person')  // 'Persons' (use 'plural' prop for 'People')
+ * pluralize('Category') // 'Categories'
  */
-function inferTypeFromName(name: string): FieldType | null {
+export function pluralize(name: string): string {
+  if (name.endsWith('y') && !/[aeiou]y$/i.test(name)) {
+    return name.slice(0, -1) + 'ies'
+  }
+  if (name.endsWith('s') || name.endsWith('x') || name.endsWith('ch') || name.endsWith('sh')) {
+    return name + 'es'
+  }
+  return name + 's'
+}
+
+/**
+ * Converts PascalCase to snake_case for table names.
+ *
+ * @param name - The PascalCase resource name
+ * @returns The snake_case table name
+ *
+ * @example
+ * toTableName('Task')       // 'tasks'
+ * toTableName('BlogPost')   // 'blog_posts'
+ * toTableName('UserProfile') // 'user_profiles'
+ */
+export function toTableName(name: string): string {
+  const plural = pluralize(name)
+  return plural
+    .replace(/([a-z])([A-Z])/g, '$1_$2')
+    .toLowerCase()
+}
+
+/**
+ * Infers the field type based on field name conventions.
+ *
+ * @param name - The field name
+ * @returns The inferred field type, or null if no inference applies
+ *
+ * @example
+ * inferTypeFromName('done')      // 'boolean'
+ * inferTypeFromName('isActive')  // 'boolean'
+ * inferTypeFromName('email')     // 'email'
+ * inferTypeFromName('title')     // null (defaults to 'text')
+ */
+export function inferTypeFromName(name: string): FieldType | null {
   if (BOOLEAN_NAMES.has(name)) {
     return 'boolean'
   }
@@ -92,8 +331,8 @@ export function parseResourceProps(props: Record<string, unknown>): FieldDefinit
   const fields: FieldDefinition[] = []
 
   for (const [key, value] of Object.entries(props)) {
-    // Skip reserved props
-    if (key === 'name' || key === 'children') {
+    // Skip reserved props (configuration options, not field definitions)
+    if (RESERVED_PROPS.has(key)) {
       continue
     }
 
@@ -190,14 +429,40 @@ export function parseResourceProps(props: Record<string, unknown>): FieldDefinit
 }
 
 /**
- * Extracts resource metadata from a Resource JSX element
- * Supports both shorthand props and expanded syntax children
+ * Extracts resource metadata from a Resource JSX element.
+ *
+ * Supports both shorthand props and expanded syntax children.
+ * Applies sensible defaults for all configuration options.
+ *
+ * @param element - The Resource JSX element
+ * @returns Complete ResourceMetadata with all fields and configuration
+ *
+ * @example
+ * ```tsx
+ * const resource = <Resource name="Task" title done priority="low | medium | high" />
+ * const metadata = getResourceMetadata(resource)
+ * console.log(metadata.name)       // "Task"
+ * console.log(metadata.tableName)  // "tasks"
+ * console.log(metadata.fields)     // [{ name: "title", type: "text", required: true }, ...]
+ * ```
  */
 export function getResourceMetadata(element: React.ReactElement<ResourceProps>): ResourceMetadata {
   const props = element.props
+
+  // Validate required name prop
+  if (!props.name) {
+    throw new Error(
+      'Resource component requires a "name" prop.\n\n' +
+      'Example:\n' +
+      '  <Resource name="Task" title done />\n' +
+      '  <Resource name="User" name email:email />'
+    )
+  }
+
+  // Parse shorthand field definitions from props
   const shorthandFields = parseResourceProps(props as Record<string, unknown>)
 
-  // Check if there are expanded syntax children
+  // Extract expanded syntax children if present
   let expandedFields: FieldDefinition[] = []
   if (props.children) {
     // Dynamically import to avoid circular dependency
@@ -225,28 +490,45 @@ export function getResourceMetadata(element: React.ReactElement<ResourceProps>):
           target: meta.relation.target,
           many: meta.relation.many,
         }
-        // Include cascade if present
         if (meta.relation.cascade) {
-          (field.relation as any).cascade = meta.relation.cascade
+          field.relation.cascade = meta.relation.cascade
         }
       }
-      // Include default and validation in extended FieldDefinition
       if (meta.default !== undefined) {
-        (field as any).default = meta.default
+        field.default = meta.default
       }
       if (meta.validation) {
-        (field as any).validation = meta.validation
+        field.validation = meta.validation
       }
       return field
     })
   }
 
-  // Combine shorthand and expanded fields (expanded takes precedence if same name)
-  const allFields = [...shorthandFields, ...expandedFields]
+  // Merge fields: expanded fields take precedence over shorthand fields with same name
+  const fieldMap = new Map<string, FieldDefinition>()
+  for (const field of shorthandFields) {
+    fieldMap.set(field.name, field)
+  }
+  for (const field of expandedFields) {
+    fieldMap.set(field.name, field)
+  }
+  const allFields = Array.from(fieldMap.values())
+
+  // Compute derived values with defaults
+  const pluralName = props.plural ?? pluralize(props.name)
+  const tableName = props.tableName ?? toTableName(props.name)
+  const primaryKey = props.primaryKey ?? DEFAULT_PRIMARY_KEY
+  const timestamps = props.timestamps ?? DEFAULT_TIMESTAMPS
+  const softDelete = props.softDelete ?? DEFAULT_SOFT_DELETE
 
   return {
     name: props.name,
+    pluralName,
+    tableName,
     fields: allFields,
+    primaryKey,
+    timestamps,
+    softDelete,
   }
 }
 

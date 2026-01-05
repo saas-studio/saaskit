@@ -19,6 +19,32 @@ export type ExtendedType = 'email' | 'url' | 'uuid' | 'json'
 /** All supported field types */
 export type FieldType = PrimitiveType | ExtendedType | 'enum' | 'relation'
 
+/** UI field types for expanded syntax */
+export type UIFieldType = 'text' | 'number' | 'boolean' | 'date' | 'datetime' | 'select' | 'relation'
+
+// =============================================================================
+// Type Constants (for runtime validation)
+// =============================================================================
+
+/** Set of all valid primitive types */
+export const PRIMITIVE_TYPES: ReadonlySet<PrimitiveType> = new Set(['string', 'number', 'boolean', 'date', 'datetime'])
+
+/** Set of all valid extended types */
+export const EXTENDED_TYPES: ReadonlySet<ExtendedType> = new Set(['email', 'url', 'uuid', 'json'])
+
+/** Set of all valid field types */
+export const ALL_FIELD_TYPES: ReadonlySet<FieldType> = new Set([
+  ...PRIMITIVE_TYPES,
+  ...EXTENDED_TYPES,
+  'enum',
+  'relation'
+])
+
+/** Set of all valid UI field types */
+export const UI_FIELD_TYPES: ReadonlySet<UIFieldType> = new Set([
+  'text', 'number', 'boolean', 'date', 'datetime', 'select', 'relation'
+])
+
 // =============================================================================
 // Validation Types
 // =============================================================================
@@ -267,4 +293,102 @@ export interface ValidationProperty {
   minLength?: number
   maxLength?: number
   pattern?: string
+}
+
+// =============================================================================
+// Unified Field Component Types (for JSX expanded syntax)
+// =============================================================================
+
+/** Base props shared by all field components */
+export interface BaseFieldProps {
+  /** Field name - must be a valid identifier */
+  name: string
+  /** Mark field as required (default: true unless optional is set) */
+  required?: boolean
+  /** Mark field as optional (shorthand for required=false) */
+  optional?: boolean
+  /** Mark field as unique */
+  unique?: boolean
+  /** Mark field as auto-generated */
+  auto?: boolean
+}
+
+/** Text field specific props */
+export interface TextFieldPropsBase extends BaseFieldProps {
+  type?: 'text' | 'email' | 'url'
+  multiline?: boolean
+  minLength?: number
+  maxLength?: number
+  pattern?: string
+  default?: string
+}
+
+/** Number field specific props */
+export interface NumberFieldPropsBase extends BaseFieldProps {
+  decimal?: boolean
+  min?: number
+  max?: number
+  step?: number
+  default?: number
+}
+
+/** Boolean field specific props */
+export interface BooleanFieldPropsBase extends BaseFieldProps {
+  default?: boolean
+}
+
+/** Date field specific props */
+export interface DateFieldPropsBase extends BaseFieldProps {
+  includeTime?: boolean
+  future?: boolean
+  past?: boolean
+  default?: string | Date
+}
+
+/** Select field specific props */
+export interface SelectFieldPropsBase extends BaseFieldProps {
+  options: string[]
+  multiple?: boolean
+  default?: string | string[]
+}
+
+/** Relation field specific props */
+export interface RelationFieldPropsBase extends BaseFieldProps {
+  to: string
+  many?: boolean
+  self?: boolean
+  cascade?: 'delete' | 'nullify' | 'restrict'
+}
+
+/** Union of all field props */
+export type FieldProps =
+  | TextFieldPropsBase
+  | NumberFieldPropsBase
+  | BooleanFieldPropsBase
+  | DateFieldPropsBase
+  | SelectFieldPropsBase
+  | RelationFieldPropsBase
+
+// =============================================================================
+// Type Guards
+// =============================================================================
+
+/** Check if a value is a valid FieldType */
+export function isValidFieldType(value: unknown): value is FieldType {
+  return typeof value === 'string' && ALL_FIELD_TYPES.has(value as FieldType)
+}
+
+/** Check if a value is a valid UIFieldType */
+export function isValidUIFieldType(value: unknown): value is UIFieldType {
+  return typeof value === 'string' && UI_FIELD_TYPES.has(value as UIFieldType)
+}
+
+/** Check if a value is a valid PrimitiveType */
+export function isValidPrimitiveType(value: unknown): value is PrimitiveType {
+  return typeof value === 'string' && PRIMITIVE_TYPES.has(value as PrimitiveType)
+}
+
+/** Check if a value is a valid ExtendedType */
+export function isValidExtendedType(value: unknown): value is ExtendedType {
+  return typeof value === 'string' && EXTENDED_TYPES.has(value as ExtendedType)
 }

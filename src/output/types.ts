@@ -12,6 +12,11 @@
 export type OutputFormat = 'json' | 'yaml' | 'table' | 'csv' | 'text' | 'markdown'
 
 /**
+ * Terminal format types (subset of OutputFormat for CLI rendering)
+ */
+export type TerminalFormat = 'unicode' | 'ascii' | 'plain'
+
+/**
  * Table rendering style for table formatter
  */
 export type TableStyle = 'ascii' | 'unicode' | 'plain'

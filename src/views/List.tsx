@@ -3,11 +3,12 @@
  * Displays collections of items in various layouts with:
  * - Memoization for expensive computations
  * - Efficient re-rendering with React.memo
- * - Virtual scrolling preparation
+ * - Integrated virtual scrolling for large lists
  * - Clean separation of concerns
  * - Strict type safety
+ * - Stable reference optimization to prevent re-renders
  */
-import React, { useMemo, useCallback, memo } from 'react'
+import React, { useMemo, useCallback, memo, useRef } from 'react'
 
 // ============================================================================
 // Types & Interfaces
@@ -113,6 +114,12 @@ export interface ListProps<T extends ListItem = ListItem> {
   expandedIds?: string[]
   onExpand?: (id: string) => void
   onCollapse?: (id: string) => void
+
+  // Virtual scrolling (for large lists)
+  virtualize?: boolean
+  itemHeight?: number
+  viewportHeight?: number
+  scrollTop?: number
 }
 
 // ============================================================================
@@ -168,6 +175,37 @@ export function useVirtualScroll(
       visibleCount,
     }
   }, [itemCount, itemHeight, viewportHeight, overscan, scrollTop])
+}
+
+// ============================================================================
+// Stable Reference Utilities
+// ============================================================================
+
+/**
+ * Hook to maintain stable array references when content hasn't changed
+ * Prevents unnecessary re-renders when arrays are recreated with same values
+ */
+function useStableArray<T>(arr: readonly T[]): readonly T[] {
+  const ref = useRef<readonly T[]>(arr)
+
+  // Deep comparison for primitive arrays (columns, selectedIds, etc.)
+  const isEqual = arr.length === ref.current.length &&
+    arr.every((val, i) => val === ref.current[i])
+
+  if (!isEqual) {
+    ref.current = arr
+  }
+
+  return ref.current
+}
+
+/**
+ * Hook to maintain stable Set references for O(1) lookups
+ * Only recreates Set when the source array actually changes
+ */
+function useStableSet(arr: readonly string[]): Set<string> {
+  const stableArr = useStableArray(arr)
+  return useMemo(() => new Set(stableArr), [stableArr])
 }
 
 // ============================================================================
