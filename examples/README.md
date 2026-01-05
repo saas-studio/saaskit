@@ -6,7 +6,7 @@ Runnable example applications demonstrating SaaSkit features and patterns.
 
 ```bash
 # Navigate to any example
-cd examples/todo-app
+cd examples/todo
 
 # Generate the application
 npx saaskit generate schema.yaml
@@ -22,7 +22,7 @@ npx saaskit dev
 
 | Example | Description | Key Features |
 |---------|-------------|--------------|
-| [**todo-app**](./todo-app/) | Simple todo list | Basic CRUD, relationships, shorthand syntax |
+| [**todo**](./todo/) | Simple todo list | Basic CRUD, relationships, shorthand syntax |
 | [**crm**](./crm/) | Customer relationship management | Complex relations, workflows, multiple views |
 | [**blog**](./blog/) | Content management platform | Many-to-many, content workflows, moderation |
 | [**project-tracker**](./project-tracker/) | Kanban project management | Task workflows, team collaboration, labels |
@@ -106,7 +106,7 @@ Every example contains:
 
 ```bash
 # After generating, the CLI is available
-todo-app list todos
+todo list todos
 crm deal pipeline
 blog posts list --status published
 project-tracker board tasks
@@ -127,7 +127,7 @@ curl http://localhost:3000/api/tasks
 Each example can run as an MCP server for AI agent integration:
 
 ```bash
-todo-app mcp
+todo mcp
 crm mcp
 blog mcp
 project-tracker mcp

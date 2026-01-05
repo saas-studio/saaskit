@@ -38,7 +38,7 @@ A minimal todo list application demonstrating SaaSkit's core features.
 
 ```bash
 # From the saaskit root directory
-cd examples/todo-app
+cd examples/todo
 
 # Run in development mode
 bun run dev
@@ -251,7 +251,7 @@ Configure in Claude Desktop (`~/.config/claude/claude_desktop_config.json`):
 ## Project Structure
 
 ```
-examples/todo-app/
+examples/todo/
   schema.yaml    # Resource definitions
   seed.ts        # Sample data generator
   README.md      # This file
