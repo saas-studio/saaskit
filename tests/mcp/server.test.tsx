@@ -1,83 +1,17 @@
 /**
  * MCP Server Tests
  *
- * RED phase tests for Model Context Protocol server implementation.
- * These tests define the expected behavior of the MCP server.
+ * Tests for Model Context Protocol server implementation.
  */
 
-import { describe, it, expect, beforeEach, afterEach } from 'bun:test'
+import { describe, it, expect } from 'bun:test'
 import React from 'react'
 
-// These imports will fail until implementation exists
-// import { createMCPServer, MCPServer, type MCPServerConfig } from '../../src/mcp/server'
-
+import { createMCPServer, MCPServer } from '../../src/mcp/server'
 import { App } from '../../src/schema/App'
 import { Resource } from '../../src/schema/Resource'
 import { MemoryStore } from '../../src/data/MemoryStore'
 import { Text, Number as NumberField, Select } from '../../src/schema/fields'
-
-// Mock MCP types based on MCP protocol specification
-interface MCPTool {
-  name: string
-  description: string
-  inputSchema: {
-    type: 'object'
-    properties: Record<string, unknown>
-    required?: string[]
-  }
-}
-
-interface MCPResource {
-  uri: string
-  name: string
-  description?: string
-  mimeType?: string
-}
-
-interface MCPServerConfig {
-  app: React.ReactElement
-  store: MemoryStore
-  name?: string
-  version?: string
-}
-
-interface MCPServerInfo {
-  name: string
-  version: string
-}
-
-// Mock MCPServer class placeholder - to be implemented
-class MCPServer {
-  private config: MCPServerConfig
-
-  constructor(config: MCPServerConfig) {
-    this.config = config
-  }
-
-  getServerInfo(): MCPServerInfo {
-    throw new Error('MCPServer not implemented')
-  }
-
-  listTools(): MCPTool[] {
-    throw new Error('MCPServer not implemented')
-  }
-
-  listResources(): MCPResource[] {
-    throw new Error('MCPServer not implemented')
-  }
-
-  async callTool(name: string, args: Record<string, unknown>): Promise<unknown> {
-    throw new Error('MCPServer not implemented')
-  }
-
-  async readResource(uri: string): Promise<{ contents: unknown }> {
-    throw new Error('MCPServer not implemented')
-  }
-}
-
-function createMCPServer(config: MCPServerConfig): MCPServer {
-  return new MCPServer(config)
-}
 
 // Test app fixture
 function createTestApp() {
@@ -121,7 +55,7 @@ describe('MCPServer', () => {
   })
 
   describe('server info', () => {
-    it.skip('should return server info with name and version', () => {
+    it('should return server info with name and version', () => {
       const store = new MemoryStore()
       const server = createMCPServer({
         app: createTestApp(),
@@ -134,7 +68,7 @@ describe('MCPServer', () => {
       expect(info.version).toBe('1.5.0')
     })
 
-    it.skip('should use app name and version as defaults', () => {
+    it('should use app name and version as defaults', () => {
       const store = new MemoryStore()
       const server = createMCPServer({
         app: createTestApp(),
@@ -147,7 +81,7 @@ describe('MCPServer', () => {
   })
 
   describe('tool listing', () => {
-    it.skip('should generate CRUD tools for each resource', () => {
+    it('should generate CRUD tools for each resource', () => {
       const store = new MemoryStore()
       const server = createMCPServer({
         app: createTestApp(),
@@ -173,7 +107,7 @@ describe('MCPServer', () => {
       expect(toolNames).toContain('delete_post')
     })
 
-    it.skip('should include field schemas in create tool', () => {
+    it('should include field schemas in create tool', () => {
       const store = new MemoryStore()
       const server = createMCPServer({
         app: createTestApp(),
@@ -190,7 +124,7 @@ describe('MCPServer', () => {
       expect(createUser!.inputSchema.required).toContain('email')
     })
 
-    it.skip('should include proper descriptions for tools', () => {
+    it('should include proper descriptions for tools', () => {
       const store = new MemoryStore()
       const server = createMCPServer({
         app: createTestApp(),
@@ -209,7 +143,7 @@ describe('MCPServer', () => {
   })
 
   describe('resource listing', () => {
-    it.skip('should list all available resources', () => {
+    it('should list all available resources', () => {
       const store = new MemoryStore()
       const server = createMCPServer({
         app: createTestApp(),
@@ -224,7 +158,7 @@ describe('MCPServer', () => {
       expect(uris).toContain('resource://testapp/posts')
     })
 
-    it.skip('should include resource metadata', () => {
+    it('should include resource metadata', () => {
       const store = new MemoryStore()
       const server = createMCPServer({
         app: createTestApp(),
@@ -241,7 +175,7 @@ describe('MCPServer', () => {
 
   describe('tool execution', () => {
     describe('create operations', () => {
-      it.skip('should create a new record', async () => {
+      it('should create a new record', async () => {
         const store = new MemoryStore()
         const server = createMCPServer({
           app: createTestApp(),
@@ -259,7 +193,7 @@ describe('MCPServer', () => {
         expect((result as any).name).toBe('John Doe')
       })
 
-      it.skip('should validate required fields', async () => {
+      it('should validate required fields', async () => {
         const store = new MemoryStore()
         const server = createMCPServer({
           app: createTestApp(),
@@ -273,7 +207,7 @@ describe('MCPServer', () => {
         ).rejects.toThrow(/email.*required/i)
       })
 
-      it.skip('should validate field types', async () => {
+      it('should validate field types', async () => {
         const store = new MemoryStore()
         const server = createMCPServer({
           app: createTestApp(),
@@ -290,7 +224,7 @@ describe('MCPServer', () => {
     })
 
     describe('list operations', () => {
-      it.skip('should list all records', async () => {
+      it('should list all records', async () => {
         const store = new MemoryStore()
         const server = createMCPServer({
           app: createTestApp(),
@@ -306,7 +240,7 @@ describe('MCPServer', () => {
         expect((result as any[]).length).toBe(2)
       })
 
-      it.skip('should return empty array for no records', async () => {
+      it('should return empty array for no records', async () => {
         const store = new MemoryStore()
         const server = createMCPServer({
           app: createTestApp(),
@@ -319,7 +253,7 @@ describe('MCPServer', () => {
     })
 
     describe('get operations', () => {
-      it.skip('should get a record by id', async () => {
+      it('should get a record by id', async () => {
         const store = new MemoryStore()
         const server = createMCPServer({
           app: createTestApp(),
@@ -333,7 +267,7 @@ describe('MCPServer', () => {
         expect((result as any).name).toBe('John')
       })
 
-      it.skip('should return null for non-existent record', async () => {
+      it('should return null for non-existent record', async () => {
         const store = new MemoryStore()
         const server = createMCPServer({
           app: createTestApp(),
@@ -346,7 +280,7 @@ describe('MCPServer', () => {
     })
 
     describe('update operations', () => {
-      it.skip('should update a record', async () => {
+      it('should update a record', async () => {
         const store = new MemoryStore()
         const server = createMCPServer({
           app: createTestApp(),
@@ -364,7 +298,7 @@ describe('MCPServer', () => {
         expect((result as any).email).toBe('john@example.com') // Preserved
       })
 
-      it.skip('should throw for non-existent record', async () => {
+      it('should throw for non-existent record', async () => {
         const store = new MemoryStore()
         const server = createMCPServer({
           app: createTestApp(),
@@ -378,7 +312,7 @@ describe('MCPServer', () => {
     })
 
     describe('delete operations', () => {
-      it.skip('should delete a record', async () => {
+      it('should delete a record', async () => {
         const store = new MemoryStore()
         const server = createMCPServer({
           app: createTestApp(),
@@ -392,7 +326,7 @@ describe('MCPServer', () => {
         expect(retrieved).toBeNull()
       })
 
-      it.skip('should not throw for non-existent record', async () => {
+      it('should not throw for non-existent record', async () => {
         const store = new MemoryStore()
         const server = createMCPServer({
           app: createTestApp(),
@@ -407,7 +341,7 @@ describe('MCPServer', () => {
   })
 
   describe('resource reading', () => {
-    it.skip('should read resource schema', async () => {
+    it('should read resource schema', async () => {
       const store = new MemoryStore()
       const server = createMCPServer({
         app: createTestApp(),
@@ -420,7 +354,7 @@ describe('MCPServer', () => {
       expect((result.contents as any).fields).toBeDefined()
     })
 
-    it.skip('should read resource data', async () => {
+    it('should read resource data', async () => {
       const store = new MemoryStore()
       const server = createMCPServer({
         app: createTestApp(),
@@ -433,7 +367,7 @@ describe('MCPServer', () => {
       expect(Array.isArray((result as any).contents)).toBe(true)
     })
 
-    it.skip('should throw for invalid resource URI', async () => {
+    it('should throw for invalid resource URI', async () => {
       const store = new MemoryStore()
       const server = createMCPServer({
         app: createTestApp(),
@@ -445,7 +379,7 @@ describe('MCPServer', () => {
   })
 
   describe('tool validation', () => {
-    it.skip('should reject unknown tool names', async () => {
+    it('should reject unknown tool names', async () => {
       const store = new MemoryStore()
       const server = createMCPServer({
         app: createTestApp(),
@@ -455,7 +389,7 @@ describe('MCPServer', () => {
       await expect(server.callTool('unknown_tool', {})).rejects.toThrow(/unknown tool/i)
     })
 
-    it.skip('should validate select field values', async () => {
+    it('should validate select field values', async () => {
       const store = new MemoryStore()
       const server = createMCPServer({
         app: createTestApp(),
@@ -473,7 +407,7 @@ describe('MCPServer', () => {
   })
 
   describe('error handling', () => {
-    it.skip('should return structured errors', async () => {
+    it('should return structured errors', async () => {
       const store = new MemoryStore()
       const server = createMCPServer({
         app: createTestApp(),
@@ -492,7 +426,7 @@ describe('MCPServer', () => {
       }
     })
 
-    it.skip('should handle store errors gracefully', async () => {
+    it('should handle store errors gracefully', async () => {
       const store = new MemoryStore()
       const server = createMCPServer({
         app: createTestApp(),
@@ -507,7 +441,7 @@ describe('MCPServer', () => {
   })
 
   describe('MCP protocol compliance', () => {
-    it.skip('should generate valid JSON schemas for tools', () => {
+    it('should generate valid JSON schemas for tools', () => {
       const store = new MemoryStore()
       const server = createMCPServer({
         app: createTestApp(),
@@ -524,7 +458,7 @@ describe('MCPServer', () => {
       }
     })
 
-    it.skip('should use proper URI format for resources', () => {
+    it('should use proper URI format for resources', () => {
       const store = new MemoryStore()
       const server = createMCPServer({
         app: createTestApp(),
