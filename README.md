@@ -579,6 +579,30 @@ For AI agents, this is literally true. They don't need interfaces—they need pr
 
 The terminal is not a step backward. It's a return to fundamentals: text in, text out, infinitely composable, universally accessible, and perfectly suited for the age of AI agents.
 
+## Runnable Examples
+
+Explore complete, runnable example applications in the [`examples/`](./examples/) directory:
+
+| Example | Description | Key Features |
+|---------|-------------|--------------|
+| [**todo-app**](./examples/todo-app/) | Simple todo list | Basic CRUD, relationships, shorthand syntax |
+| [**crm**](./examples/crm/) | Customer relationship management | Complex relations, workflows, multiple views |
+| [**blog**](./examples/blog/) | Content management platform | Many-to-many, content workflows, moderation |
+| [**project-tracker**](./examples/project-tracker/) | Kanban project management | Task workflows, team collaboration, labels |
+
+Each example includes:
+- `schema.yaml` — SaaSkit schema definition
+- `README.md` — Documentation with CLI/API examples
+- `seed.ts` — Sample data generator
+
+```bash
+# Try an example
+cd examples/todo-app
+npx saaskit generate schema.yaml
+bun run seed.ts
+npx saaskit dev
+```
+
 ## License
 
 MIT
