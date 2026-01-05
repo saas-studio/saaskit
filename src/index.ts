@@ -202,3 +202,59 @@ export type {
 	ShortcutInfo,
 	KeyEvent,
 } from './interactive/mode'
+
+// =============================================================================
+// Parsers
+// =============================================================================
+
+export { parseMermaidER } from './parsers/mermaid-er'
+export { parseMermaidState, stateToSelectField } from './parsers/mermaid-state'
+export type { StateParseResult, SelectFieldConfig } from './parsers/mermaid-state'
+export { parseViewAnnotations } from './parsers/view-annotation'
+export type { ViewConfig, FieldViewConfig, ViewAnnotationParseResult } from './parsers/view-annotation'
+
+// =============================================================================
+// Schema AST & Compiler
+// =============================================================================
+
+export {
+	parseJSXToAST,
+	validateAST,
+	serializeAST,
+	deserializeAST,
+	createAppNode,
+	createResourceNode,
+	createFieldNode,
+	normalizeName,
+	toDisplayName,
+	pluralize,
+	parseFieldType,
+} from './schema/ast'
+export type {
+	AppNode,
+	ResourceNode,
+	FieldNode,
+	FieldType as ASTFieldType,
+	FieldModifiers,
+	TargetConfig,
+	ASTNode,
+	ParseResult as ASTParseResult,
+	ParseError as ASTParseError,
+} from './schema/ast'
+
+export { compileToTypeScript, compileToJSON, compileToOpenAPI } from './compiler/schema-compiler'
+export type { TypeScriptResult, JSONSchemaResult, OpenAPIResult } from './compiler/schema-compiler'
+
+// =============================================================================
+// SDK Generator
+// =============================================================================
+
+export { generateSDK, generateSDKTypes, generateSDKClient } from './sdk/generate'
+export type { GeneratedFile, SDKResult } from './sdk/generate'
+
+// =============================================================================
+// Command Palette
+// =============================================================================
+
+export { CommandPalette } from './cli/command-palette'
+export type { Command as PaletteCommand } from './cli/command-palette'
