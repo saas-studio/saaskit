@@ -1,467 +1,23 @@
 /**
  * MongoDataStore - MongoDB-backed data store for SaaSKit
  *
- * Wraps mongo.do to provide schema-driven data operations with
- * validation, auto-generated fields, and relation handling.
+ * Provides schema-driven data operations with validation, auto-generated fields,
+ * and relation handling. Supports multiple backends:
  *
- * For testing, uses an in-memory implementation that mimics MongoDB.
+ * - InMemoryBackend: Fast in-memory storage for unit tests
+ * - BunSQLiteBackend: Uses mongo.do with SQLite persistence
+ * - MiniflareBackend: Full Cloudflare Workers simulation (future)
  */
 
 import type { SaaSSchema, Resource, Field, Relation } from './types'
-
-// ============================================================================
-// In-Memory MongoDB Implementation (for testing)
-// ============================================================================
-
-/** Simple ObjectId-like string generator */
-function generateObjectId(): string {
-  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
-    return crypto.randomUUID()
-  }
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-    const r = (Math.random() * 16) | 0
-    const v = c === 'x' ? r : (r & 0x3) | 0x8
-    return v.toString(16)
-  })
-}
-
-/** In-memory collection that mimics MongoDB Collection */
-class InMemoryCollection {
-  private documents: Map<string, Record<string, unknown>> = new Map()
-  private snapshot: Map<string, Record<string, unknown>> | null = null
-
-  /** Take a snapshot for transaction support */
-  takeSnapshot(): void {
-    this.snapshot = new Map(
-      Array.from(this.documents.entries()).map(([k, v]) => [k, { ...v }])
-    )
-  }
-
-  /** Restore from snapshot (rollback) */
-  restoreSnapshot(): void {
-    if (this.snapshot) {
-      this.documents = this.snapshot
-      this.snapshot = null
-    }
-  }
-
-  /** Discard snapshot (commit) */
-  discardSnapshot(): void {
-    this.snapshot = null
-  }
-
-  async insertOne(
-    doc: Record<string, unknown>,
-    _options?: unknown
-  ): Promise<{ acknowledged: boolean; insertedId: string }> {
-    const _id = (doc._id as string) || generateObjectId()
-    const docWithId = { ...doc, _id }
-    this.documents.set(_id, docWithId)
-    return { acknowledged: true, insertedId: _id }
-  }
-
-  async findOne(
-    filter: Record<string, unknown>,
-    _options?: unknown
-  ): Promise<Record<string, unknown> | null> {
-    for (const doc of this.documents.values()) {
-      if (this.matchesFilter(doc, filter)) {
-        return { ...doc }
-      }
-    }
-    return null
-  }
-
-  find(
-    filter: Record<string, unknown>,
-    options?: { limit?: number; skip?: number; sort?: Record<string, 1 | -1> }
-  ): { toArray: () => Promise<Record<string, unknown>[]> } {
-    return {
-      toArray: async () => {
-        let results: Record<string, unknown>[] = []
-
-        for (const doc of this.documents.values()) {
-          if (this.matchesFilter(doc, filter)) {
-            results.push({ ...doc })
-          }
-        }
-
-        // Apply sort
-        if (options?.sort) {
-          results = this.sortDocuments(results, options.sort)
-        }
-
-        // Apply skip
-        if (options?.skip && options.skip > 0) {
-          results = results.slice(options.skip)
-        }
-
-        // Apply limit
-        if (options?.limit && options.limit > 0) {
-          results = results.slice(0, options.limit)
-        }
-
-        return results
-      },
-    }
-  }
-
-  async updateOne(
-    filter: Record<string, unknown>,
-    update: Record<string, unknown>,
-    _options?: unknown
-  ): Promise<{ acknowledged: boolean; modifiedCount: number }> {
-    for (const [id, doc] of this.documents.entries()) {
-      if (this.matchesFilter(doc, filter)) {
-        // Handle $set operator
-        if (update.$set) {
-          const updatedDoc = { ...doc, ...(update.$set as Record<string, unknown>) }
-          this.documents.set(id, updatedDoc)
-          return { acknowledged: true, modifiedCount: 1 }
-        }
-        // Direct update
-        const updatedDoc = { ...doc, ...update }
-        this.documents.set(id, updatedDoc)
-        return { acknowledged: true, modifiedCount: 1 }
-      }
-    }
-    return { acknowledged: true, modifiedCount: 0 }
-  }
-
-  async deleteOne(
-    filter: Record<string, unknown>,
-    _options?: unknown
-  ): Promise<{ acknowledged: boolean; deletedCount: number }> {
-    for (const [id, doc] of this.documents.entries()) {
-      if (this.matchesFilter(doc, filter)) {
-        this.documents.delete(id)
-        return { acknowledged: true, deletedCount: 1 }
-      }
-    }
-    return { acknowledged: true, deletedCount: 0 }
-  }
-
-  async countDocuments(filter: Record<string, unknown>): Promise<number> {
-    let count = 0
-    for (const doc of this.documents.values()) {
-      if (this.matchesFilter(doc, filter)) {
-        count++
-      }
-    }
-    return count
-  }
-
-  aggregate(
-    pipeline: Record<string, unknown>[]
-  ): { toArray: () => Promise<Record<string, unknown>[]> } {
-    return {
-      toArray: async () => {
-        let results: Record<string, unknown>[] = Array.from(this.documents.values()).map((d) => ({
-          ...d,
-        }))
-
-        for (const stage of pipeline) {
-          results = this.applyAggregationStage(results, stage)
-        }
-
-        return results
-      },
-    }
-  }
-
-  private matchesFilter(doc: Record<string, unknown>, filter: Record<string, unknown>): boolean {
-    for (const [key, value] of Object.entries(filter)) {
-      // Handle logical operators
-      if (key === '$and') {
-        const conditions = value as Record<string, unknown>[]
-        if (!conditions.every((c) => this.matchesFilter(doc, c))) {
-          return false
-        }
-        continue
-      }
-
-      if (key === '$or') {
-        const conditions = value as Record<string, unknown>[]
-        if (!conditions.some((c) => this.matchesFilter(doc, c))) {
-          return false
-        }
-        continue
-      }
-
-      // Handle field-level operators
-      if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
-        const ops = value as Record<string, unknown>
-        const docValue = doc[key]
-
-        for (const [op, opValue] of Object.entries(ops)) {
-          switch (op) {
-            case '$gt':
-              if (!((docValue as number) > (opValue as number))) return false
-              break
-            case '$gte':
-              if (!((docValue as number) >= (opValue as number))) return false
-              break
-            case '$lt':
-              if (!((docValue as number) < (opValue as number))) return false
-              break
-            case '$lte':
-              if (!((docValue as number) <= (opValue as number))) return false
-              break
-            case '$ne':
-              if (docValue === opValue) return false
-              break
-            case '$in':
-              if (!(opValue as unknown[]).includes(docValue)) return false
-              break
-            case '$nin':
-              if ((opValue as unknown[]).includes(docValue)) return false
-              break
-            case '$not': {
-              const notFilter = { [key]: opValue }
-              if (this.matchesFilter(doc, notFilter)) return false
-              break
-            }
-            case '$regex': {
-              const pattern = opValue as string
-              const options = (ops.$options as string) || ''
-              const regex = new RegExp(pattern, options)
-              if (!regex.test(docValue as string)) return false
-              break
-            }
-            case '$options':
-              // Handled with $regex
-              break
-            default:
-              // Unknown operator, treat as nested object match
-              if (docValue !== opValue) return false
-          }
-        }
-        continue
-      }
-
-      // Simple equality
-      if (doc[key] !== value) {
-        return false
-      }
-    }
-
-    return true
-  }
-
-  private sortDocuments(
-    docs: Record<string, unknown>[],
-    sort: Record<string, 1 | -1>
-  ): Record<string, unknown>[] {
-    return [...docs].sort((a, b) => {
-      for (const [field, direction] of Object.entries(sort)) {
-        const aVal = a[field]
-        const bVal = b[field]
-
-        if (aVal === bVal) continue
-
-        if (aVal === null || aVal === undefined) return direction
-        if (bVal === null || bVal === undefined) return -direction
-
-        if (typeof aVal === 'string' && typeof bVal === 'string') {
-          const cmp = aVal.localeCompare(bVal)
-          if (cmp !== 0) return cmp * direction
-        } else {
-          if (aVal < bVal) return -direction
-          if (aVal > bVal) return direction
-        }
-      }
-      return 0
-    })
-  }
-
-  private applyAggregationStage(
-    docs: Record<string, unknown>[],
-    stage: Record<string, unknown>
-  ): Record<string, unknown>[] {
-    const [stageName, stageValue] = Object.entries(stage)[0]
-
-    switch (stageName) {
-      case '$match':
-        return docs.filter((doc) => this.matchesFilter(doc, stageValue as Record<string, unknown>))
-
-      case '$group': {
-        const groupSpec = stageValue as Record<string, unknown>
-        const groupKey = groupSpec._id
-        const accumulators = Object.entries(groupSpec).filter(([k]) => k !== '_id')
-
-        // Group documents
-        const groups = new Map<unknown, Record<string, unknown>[]>()
-        for (const doc of docs) {
-          const key = groupKey === null ? null : doc[groupKey as string]
-          if (!groups.has(key)) {
-            groups.set(key, [])
-          }
-          groups.get(key)!.push(doc)
-        }
-
-        // Apply accumulators
-        const results: Record<string, unknown>[] = []
-        for (const [key, groupDocs] of groups.entries()) {
-          const result: Record<string, unknown> = { _id: key }
-
-          for (const [accName, accSpec] of accumulators) {
-            const spec = accSpec as Record<string, unknown>
-            const [accOp, accField] = Object.entries(spec)[0]
-
-            switch (accOp) {
-              case '$sum': {
-                if (typeof accField === 'string' && accField.startsWith('$')) {
-                  const fieldName = accField.slice(1)
-                  result[accName] = groupDocs.reduce(
-                    (sum, doc) => sum + ((doc[fieldName] as number) || 0),
-                    0
-                  )
-                } else {
-                  result[accName] = groupDocs.length * (accField as number)
-                }
-                break
-              }
-              case '$count':
-                result[accName] = groupDocs.length
-                break
-              case '$avg': {
-                if (typeof accField === 'string' && accField.startsWith('$')) {
-                  const fieldName = accField.slice(1)
-                  const sum = groupDocs.reduce(
-                    (s, doc) => s + ((doc[fieldName] as number) || 0),
-                    0
-                  )
-                  result[accName] = sum / groupDocs.length
-                }
-                break
-              }
-            }
-          }
-
-          results.push(result)
-        }
-        return results
-      }
-
-      default:
-        return docs
-    }
-  }
-}
-
-/** In-memory database that mimics MongoDB Database */
-class InMemoryDatabase {
-  private collections: Map<string, InMemoryCollection> = new Map()
-  private registeredCollections: Set<string> = new Set()
-
-  collection(name: string): InMemoryCollection {
-    if (!this.collections.has(name)) {
-      this.collections.set(name, new InMemoryCollection())
-    }
-    return this.collections.get(name)!
-  }
-
-  async createCollection(name: string): Promise<InMemoryCollection> {
-    this.registeredCollections.add(name)
-    return this.collection(name)
-  }
-
-  listCollections(): { toArray: () => Promise<{ name: string }[]> } {
-    return {
-      toArray: async () => {
-        return Array.from(this.registeredCollections).map((name) => ({ name }))
-      },
-    }
-  }
-
-  /** Take snapshots of all collections for transaction support */
-  takeSnapshot(): void {
-    for (const collection of this.collections.values()) {
-      collection.takeSnapshot()
-    }
-  }
-
-  /** Restore all collections from snapshots (rollback) */
-  restoreSnapshot(): void {
-    for (const collection of this.collections.values()) {
-      collection.restoreSnapshot()
-    }
-  }
-
-  /** Discard all collection snapshots (commit) */
-  discardSnapshot(): void {
-    for (const collection of this.collections.values()) {
-      collection.discardSnapshot()
-    }
-  }
-}
-
-/** In-memory client that mimics MongoDB Client */
-class InMemoryClient {
-  private _isConnected = false
-  private databases: Map<string, InMemoryDatabase> = new Map()
-  private _defaultDatabase: string
-
-  constructor(uri: string) {
-    // Parse database from URI
-    const match = uri.match(/\/([^/?]+)(?:\?|$)/)
-    this._defaultDatabase = match?.[1] || 'test'
-  }
-
-  get isConnected(): boolean {
-    return this._isConnected
-  }
-
-  async connect(): Promise<this> {
-    this._isConnected = true
-    return this
-  }
-
-  async close(): Promise<void> {
-    this._isConnected = false
-    this.databases.clear()
-  }
-
-  db(name?: string): InMemoryDatabase {
-    const dbName = name || this._defaultDatabase
-    if (!this.databases.has(dbName)) {
-      this.databases.set(dbName, new InMemoryDatabase())
-    }
-    return this.databases.get(dbName)!
-  }
-
-  startSession(): InMemorySession {
-    return new InMemorySession()
-  }
-}
-
-/** In-memory session for transactions */
-class InMemorySession {
-  private _inTransaction = false
-  private _aborted = false
-
-  startTransaction(): void {
-    this._inTransaction = true
-    this._aborted = false
-  }
-
-  async commitTransaction(): Promise<void> {
-    this._inTransaction = false
-  }
-
-  async abortTransaction(): Promise<void> {
-    this._inTransaction = false
-    this._aborted = true
-  }
-
-  endSession(): void {
-    // No-op for in-memory
-  }
-
-  get inTransaction(): boolean {
-    return this._inTransaction
-  }
-}
+import {
+  type MongoBackend,
+  type MongoSession,
+  type Document,
+  type BackendConfig,
+  InMemoryBackend,
+  createBackend,
+} from './mongo-backend'
 
 // ============================================================================
 // Types
@@ -469,18 +25,20 @@ class InMemorySession {
 
 /** Configuration options for MongoDataStore */
 export interface MongoDataStoreOptions {
-  /** MongoDB connection URI */
+  /** MongoDB connection URI (ignored for in-memory) */
   uri?: string
   /** Database name */
   database: string
   /** Use in-memory mode for testing */
   inMemory?: boolean
+  /** Backend configuration */
+  backend?: BackendConfig
 }
 
 /** Options for findAll query */
 export interface MongoFindAllOptions {
   /** Filter conditions (MongoDB-style) */
-  where?: Record<string, unknown>
+  where?: Document
   /** Sort order */
   orderBy?: Record<string, 'asc' | 'desc'>
   /** Maximum number of records to return */
@@ -493,7 +51,7 @@ export interface MongoFindAllOptions {
 
 /** Session options for transactional operations */
 export interface SessionOptions {
-  session?: InMemorySession
+  session?: MongoSession
 }
 
 // ============================================================================
@@ -510,11 +68,8 @@ export class MongoDataStore {
   /** Store configuration */
   private readonly options: MongoDataStoreOptions
 
-  /** MongoDB client (in-memory for testing) */
-  private client: InMemoryClient | null = null
-
-  /** MongoDB database */
-  private db: InMemoryDatabase | null = null
+  /** Backend implementation */
+  private backend: MongoBackend | null = null
 
   /** Resource lookup cache */
   private resourceMap: Map<string, Resource>
@@ -556,45 +111,49 @@ export class MongoDataStore {
 
   /** Check if connected */
   get isConnected(): boolean {
-    return this.client?.isConnected ?? false
+    return this.backend?.isConnected ?? false
   }
 
   /** Connect to the database */
   async connect(): Promise<void> {
-    if (this.client) {
+    if (this.backend) {
       return
     }
 
-    const uri = this.options.inMemory
-      ? `mongodo://localhost:27017/${this.options.database}`
-      : this.options.uri || `mongodo://localhost:27017/${this.options.database}`
+    // Determine backend type
+    const backendConfig: BackendConfig = this.options.backend || {
+      type: this.options.inMemory ? 'memory' : 'bun-sqlite',
+      dataDir: './.mongo-data',
+      database: this.options.database,
+    }
 
-    this.client = new InMemoryClient(uri)
-    await this.client.connect()
-    this.db = this.client.db(this.options.database)
+    // For backwards compatibility: inMemory option overrides backend type
+    if (this.options.inMemory) {
+      this.backend = new InMemoryBackend()
+    } else {
+      this.backend = await createBackend(backendConfig)
+    }
+
+    await this.backend.connect()
 
     // Ensure collections exist for all resources
     for (const resource of this.schema.resources) {
-      await this.db.createCollection(resource.name)
+      await this.backend.createCollection(resource.name)
     }
   }
 
   /** Disconnect from the database */
   async disconnect(): Promise<void> {
-    if (this.client) {
-      await this.client.close()
-      this.client = null
-      this.db = null
+    if (this.backend) {
+      await this.backend.disconnect()
+      this.backend = null
     }
   }
 
   /** List all collections */
   async listCollections(): Promise<string[]> {
-    if (!this.db) {
-      throw new Error('Not connected')
-    }
-    const collections = await this.db.listCollections().toArray()
-    return collections.map((c) => c.name)
+    this.ensureConnected()
+    return this.backend!.listCollections()
   }
 
   // ============================================================================
@@ -618,11 +177,11 @@ export class MongoDataStore {
   /** Create a new record */
   async create(
     resourceName: string,
-    data: Record<string, unknown>,
+    data: Document,
     _options?: SessionOptions
-  ): Promise<Record<string, unknown>> {
+  ): Promise<Document> {
+    this.ensureConnected()
     const resource = this.getResourceOrThrow(resourceName)
-    const collection = this.getCollection(resourceName)
 
     // Validate required fields
     this.validateRequiredFields(resource, data)
@@ -637,8 +196,8 @@ export class MongoDataStore {
       }
     }
 
-    // Insert into collection
-    const result = await collection.insertOne(doc)
+    // Insert into backend
+    const result = await this.backend!.insertOne(resourceName, doc)
     doc._id = result.insertedId
 
     return this.formatDocument(doc)
@@ -649,11 +208,11 @@ export class MongoDataStore {
     resourceName: string,
     id: string,
     _options?: SessionOptions
-  ): Promise<Record<string, unknown> | null> {
+  ): Promise<Document | null> {
+    this.ensureConnected()
     this.getResourceOrThrow(resourceName)
-    const collection = this.getCollection(resourceName)
 
-    const doc = await collection.findOne({ _id: id })
+    const doc = await this.backend!.findOne(resourceName, { _id: id })
     return doc ? this.formatDocument(doc) : null
   }
 
@@ -661,27 +220,17 @@ export class MongoDataStore {
   async findAll(
     resourceName: string,
     options?: MongoFindAllOptions
-  ): Promise<Record<string, unknown>[]> {
+  ): Promise<Document[]> {
+    this.ensureConnected()
     this.getResourceOrThrow(resourceName)
-    const collection = this.getCollection(resourceName)
-
-    // Build MongoDB query
-    const filter = options?.where || {}
-
-    // Build options
-    const findOptions: { limit?: number; skip?: number; sort?: Record<string, 1 | -1> } = {}
-    if (options?.limit) {
-      findOptions.limit = options.limit
-    }
-    if (options?.offset) {
-      findOptions.skip = options.offset
-    }
-    if (options?.orderBy) {
-      findOptions.sort = this.buildSort(options.orderBy)
-    }
 
     // Execute query
-    let docs = await collection.find(filter, findOptions).toArray()
+    let docs = await this.backend!.find(resourceName, {
+      filter: options?.where || {},
+      limit: options?.limit,
+      skip: options?.offset,
+      sort: options?.orderBy ? this.buildSort(options.orderBy) : undefined,
+    })
 
     // Handle includes (eager loading)
     if (options?.include && options.include.length > 0) {
@@ -697,20 +246,20 @@ export class MongoDataStore {
   async update(
     resourceName: string,
     id: string,
-    data: Record<string, unknown>,
+    data: Document,
     _options?: SessionOptions
-  ): Promise<Record<string, unknown>> {
+  ): Promise<Document> {
+    this.ensureConnected()
     const resource = this.getResourceOrThrow(resourceName)
-    const collection = this.getCollection(resourceName)
 
     // Check if record exists
-    const existing = await collection.findOne({ _id: id })
+    const existing = await this.backend!.findOne(resourceName, { _id: id })
     if (!existing) {
       throw new Error(`Record with id "${id}" not found in resource "${resourceName}"`)
     }
 
     // Build update document
-    const updateData: Record<string, unknown> = { ...data }
+    const updateData: Document = { ...data }
 
     // Don't update _id or createdAt
     delete updateData._id
@@ -732,11 +281,11 @@ export class MongoDataStore {
       updateData[updatedAtField.name] = new Date().toISOString()
     }
 
-    // Update in collection
-    await collection.updateOne({ _id: id }, { $set: updateData })
+    // Update in backend
+    await this.backend!.updateOne(resourceName, { _id: id }, { $set: updateData })
 
     // Return updated document
-    const updated = await collection.findOne({ _id: id })
+    const updated = await this.backend!.findOne(resourceName, { _id: id })
     return this.formatDocument(updated!)
   }
 
@@ -746,10 +295,10 @@ export class MongoDataStore {
     id: string,
     _options?: SessionOptions
   ): Promise<boolean> {
+    this.ensureConnected()
     this.getResourceOrThrow(resourceName)
-    const collection = this.getCollection(resourceName)
 
-    const result = await collection.deleteOne({ _id: id })
+    const result = await this.backend!.deleteOne(resourceName, { _id: id })
     return result.deletedCount > 0
   }
 
@@ -762,7 +311,8 @@ export class MongoDataStore {
     resourceName: string,
     id: string,
     relationName: string
-  ): Promise<Record<string, unknown> | Record<string, unknown>[] | null> {
+  ): Promise<Document | Document[] | null> {
+    this.ensureConnected()
     this.getResourceOrThrow(resourceName)
     const record = await this.findById(resourceName, id)
 
@@ -775,7 +325,6 @@ export class MongoDataStore {
     const directRelation = relations?.get(relationName)
 
     if (directRelation && directRelation.cardinality === 'one') {
-      // belongsTo relation
       const fkField = this.getForeignKeyField(directRelation)
       const foreignKey = record[fkField] as string | null
 
@@ -809,24 +358,23 @@ export class MongoDataStore {
   /** Count records */
   async count(
     resourceName: string,
-    options?: { where?: Record<string, unknown> }
+    options?: { where?: Document }
   ): Promise<number> {
+    this.ensureConnected()
     this.getResourceOrThrow(resourceName)
-    const collection = this.getCollection(resourceName)
 
-    const filter = options?.where || {}
-    return collection.countDocuments(filter)
+    return this.backend!.countDocuments(resourceName, options?.where)
   }
 
   /** Run aggregation pipeline */
   async aggregate(
     resourceName: string,
-    pipeline: Record<string, unknown>[]
-  ): Promise<Record<string, unknown>[]> {
+    pipeline: Document[]
+  ): Promise<Document[]> {
+    this.ensureConnected()
     this.getResourceOrThrow(resourceName)
-    const collection = this.getCollection(resourceName)
 
-    return collection.aggregate(pipeline).toArray()
+    return this.backend!.aggregate(resourceName, pipeline)
   }
 
   // ============================================================================
@@ -834,28 +382,26 @@ export class MongoDataStore {
   // ============================================================================
 
   /** Execute operations within a transaction */
-  async withTransaction<T>(fn: (session: InMemorySession) => Promise<T>): Promise<T> {
-    if (!this.client || !this.db) {
-      throw new Error('Not connected')
-    }
+  async withTransaction<T>(fn: (session: MongoSession) => Promise<T>): Promise<T> {
+    this.ensureConnected()
 
-    const session = this.client.startSession()
+    const session = this.backend!.startSession()
 
     try {
       // Take snapshot before starting transaction
-      this.db.takeSnapshot()
+      this.backend!.takeSnapshot()
       session.startTransaction()
 
       const result = await fn(session)
 
       // Commit - discard snapshots
       await session.commitTransaction()
-      this.db.discardSnapshot()
+      this.backend!.discardSnapshot()
       return result
     } catch (error) {
       // Rollback - restore from snapshots
       await session.abortTransaction()
-      this.db.restoreSnapshot()
+      this.backend!.restoreSnapshot()
       throw error
     } finally {
       session.endSession()
@@ -866,6 +412,13 @@ export class MongoDataStore {
   // Private Helpers
   // ============================================================================
 
+  /** Ensure backend is connected */
+  private ensureConnected(): void {
+    if (!this.backend || !this.backend.isConnected) {
+      throw new Error('MongoDataStore is not connected. Call connect() first.')
+    }
+  }
+
   /** Get resource or throw */
   private getResourceOrThrow(resourceName: string): Resource {
     const resource = this.resourceMap.get(resourceName)
@@ -875,27 +428,17 @@ export class MongoDataStore {
     return resource
   }
 
-  /** Get collection for a resource */
-  private getCollection(resourceName: string): InMemoryCollection {
-    if (!this.db) {
-      throw new Error('Not connected')
-    }
-    return this.db.collection(resourceName)
-  }
-
   /** Build inverse relation map */
   private buildInverseRelationMap(): void {
     for (const resource of this.schema.resources) {
       for (const relation of resource.relations) {
         if (relation.cardinality === 'one') {
-          // This is a belongsTo relation - create hasMany inverse
           const targetResource = relation.to
 
           if (!this.inverseRelationMap.has(targetResource)) {
             this.inverseRelationMap.set(targetResource, new Map())
           }
 
-          // Use explicit inverse name if provided, otherwise derive from source resource name
           const inverseName = relation.inverse || this.pluralize(resource.name.toLowerCase())
 
           this.inverseRelationMap.get(targetResource)!.set(inverseName, {
@@ -907,7 +450,7 @@ export class MongoDataStore {
     }
   }
 
-  /** Simple pluralization - adds 's' or 'es' */
+  /** Simple pluralization */
   private pluralize(word: string): string {
     if (word.endsWith('s') || word.endsWith('x') || word.endsWith('ch') || word.endsWith('sh')) {
       return word + 'es'
@@ -930,15 +473,13 @@ export class MongoDataStore {
   }
 
   /** Validate required fields */
-  private validateRequiredFields(resource: Resource, data: Record<string, unknown>): void {
+  private validateRequiredFields(resource: Resource, data: Document): void {
     const missingFields: string[] = []
 
     for (const field of resource.fields) {
-      // Skip auto-generated fields
       if (this.isAutoIdField(resource, field.name)) continue
       if (this.isAutoTimestampField(field.name)) continue
 
-      // Check if required field is missing
       if (field.required && !(field.name in data)) {
         if (field.default === undefined) {
           missingFields.push(field.name)
@@ -982,17 +523,28 @@ export class MongoDataStore {
     return ['createdAt', 'created_at', 'updatedAt', 'updated_at'].includes(fieldName)
   }
 
-  /** Build document with auto-generated fields */
-  private buildDocument(resource: Resource, data: Record<string, unknown>): Record<string, unknown> {
-    const now = new Date().toISOString()
-    const doc: Record<string, unknown> = {}
+  /** Generate UUID */
+  private generateObjectId(): string {
+    if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+      return crypto.randomUUID()
+    }
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+      const r = (Math.random() * 16) | 0
+      const v = c === 'x' ? r : (r & 0x3) | 0x8
+      return v.toString(16)
+    })
+  }
 
-    // Process fields
+  /** Build document with auto-generated fields */
+  private buildDocument(resource: Resource, data: Document): Document {
+    const now = new Date().toISOString()
+    const doc: Document = {}
+
     for (const field of resource.fields) {
       const fieldName = field.name
 
       if (this.isAutoIdField(resource, fieldName)) {
-        doc._id = generateObjectId()
+        doc._id = this.generateObjectId()
       } else if (fieldName === 'createdAt' || fieldName === 'created_at') {
         doc[fieldName] = now
       } else if (fieldName === 'updatedAt' || fieldName === 'updated_at') {
@@ -1024,7 +576,7 @@ export class MongoDataStore {
   }
 
   /** Format document for output */
-  private formatDocument(doc: Record<string, unknown>): Record<string, unknown> {
+  private formatDocument(doc: Document): Document {
     return { ...doc }
   }
 
@@ -1040,9 +592,9 @@ export class MongoDataStore {
   /** Populate relations for a document */
   private async populateRelations(
     resourceName: string,
-    doc: Record<string, unknown>,
+    doc: Document,
     includes: string[]
-  ): Promise<Record<string, unknown>> {
+  ): Promise<Document> {
     const populated = { ...doc }
     const relations = this.relationMap.get(resourceName)
 
@@ -1050,7 +602,6 @@ export class MongoDataStore {
       const relation = relations?.get(include)
 
       if (relation && relation.cardinality === 'one') {
-        // belongsTo relation
         const fkField = this.getForeignKeyField(relation)
         const foreignKey = doc[fkField] as string | null
 
