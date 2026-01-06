@@ -23,9 +23,9 @@ export * from './types'
 // Export field mapper (to be implemented)
 export { mapFieldType } from './field-mapper'
 
-// Export generators (to be implemented)
+// Export generators
+export { generateList } from './generators/list'
 // export { generateResource } from './generators/resource'
-// export { generateList } from './generators/list'
 // export { generateShow } from './generators/show'
 // export { generateCreate } from './generators/create'
 // export { generateEdit } from './generators/edit'
