@@ -20,8 +20,9 @@
 // Re-export types
 export * from './types'
 
-// Export field mapper (to be implemented)
+// Export field mapper
 export { mapFieldType } from './field-mapper'
+export { mapRelationType } from './reference-mapper'
 
 // Export generators
 export { generateList } from './generators/list'

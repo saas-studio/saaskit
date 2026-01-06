@@ -164,7 +164,7 @@ describe('Field Type Mapper', () => {
   // ==========================================================================
 
   describe('Enum Types', () => {
-    it('should map enum field to FunctionField/SelectInput', () => {
+    it('should map enum field to ChipField/SelectInput', () => {
       const field = createField({
         name: 'status',
         type: 'enum',
@@ -172,7 +172,7 @@ describe('Field Type Mapper', () => {
       })
       const mapping = mapFieldType(field)
 
-      expect(mapping.listComponent).toBe('FunctionField')
+      expect(mapping.listComponent).toBe('ChipField')
       expect(mapping.showComponent).toBe('TextField')
       expect(mapping.inputComponent).toBe('SelectInput')
       expect(mapping.props.source).toBe('status')
@@ -181,6 +181,44 @@ describe('Field Type Mapper', () => {
         { id: 'published', name: 'published' },
         { id: 'archived', name: 'archived' },
       ])
+    })
+
+    it('should handle single value enum', () => {
+      const field = createField({
+        name: 'type',
+        type: 'enum',
+        annotations: { enumValues: ['single'] },
+      })
+      const mapping = mapFieldType(field)
+
+      expect(mapping.props.choices).toEqual([{ id: 'single', name: 'single' }])
+    })
+
+    it('should handle enum values with special characters', () => {
+      const field = createField({
+        name: 'priority',
+        type: 'enum',
+        annotations: { enumValues: ['low-priority', 'high_priority', 'URGENT!'] },
+      })
+      const mapping = mapFieldType(field)
+
+      expect(mapping.props.choices).toEqual([
+        { id: 'low-priority', name: 'low-priority' },
+        { id: 'high_priority', name: 'high_priority' },
+        { id: 'URGENT!', name: 'URGENT!' },
+      ])
+    })
+
+    it('should include ChipField in imports for enum', () => {
+      const field = createField({
+        name: 'status',
+        type: 'enum',
+        annotations: { enumValues: ['a', 'b'] },
+      })
+      const mapping = mapFieldType(field)
+
+      expect(mapping.imports).toContain('ChipField')
+      expect(mapping.imports).toContain('SelectInput')
     })
   })
 
@@ -290,7 +328,7 @@ describe('Field Type Mapper', () => {
       expect(mapping.imports).toContain('EmailField')
     })
 
-    it('should include SelectInput import for enum type', () => {
+    it('should include ChipField and SelectInput imports for enum type', () => {
       const field = createField({
         name: 'status',
         type: 'enum',
@@ -298,6 +336,7 @@ describe('Field Type Mapper', () => {
       })
       const mapping = mapFieldType(field)
 
+      expect(mapping.imports).toContain('ChipField')
       expect(mapping.imports).toContain('SelectInput')
     })
   })

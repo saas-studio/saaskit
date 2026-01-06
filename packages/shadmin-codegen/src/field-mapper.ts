@@ -77,7 +77,7 @@ const TYPE_MAPPINGS: Record<string, ComponentMapping> = {
     inputComponent: 'ArrayInput',
   },
   enum: {
-    listComponent: 'FunctionField',
+    listComponent: 'ChipField',
     showComponent: 'TextField',
     inputComponent: 'SelectInput',
   },
