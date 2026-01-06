@@ -253,7 +253,8 @@ describe('generateDOSubclass - Relationship helpers', () => {
 
     const code = generateDOSubclass(schemaWithHasMany)
 
-    expect(code).toContain('async getUserPosts(userId: string)')
+    // hasMany methods take userId and optional pagination options
+    expect(code).toMatch(/async getUserPosts\(userId: string/)
   })
 
   it('should include relationship methods in allowlist', () => {
