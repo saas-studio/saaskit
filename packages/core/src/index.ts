@@ -16,11 +16,11 @@ export { SaasKitDO } from './saaskit-do'
 // Utilities
 export { pluralize, singularize, isPlural } from './utils'
 
-// DataStore Migration (RED phase - stubs that throw "Not implemented")
-export { createDOAdapter, migrateDataStore } from './datastore-migration'
+// DataStore Migration
+export { createDOAdapter, migrateDataStore, resetDeprecationWarnings } from './datastore-migration'
 export type { IDataStore, DataStoreMigrationResult, DataStoreMigrationOptions } from './datastore-migration'
 
-// Schema mapping (RED phase - stubs that throw "Not implemented")
+// Schema mapping
 export {
   mapSchemaToCollections,
   mapSchemaToThings,

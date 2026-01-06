@@ -1,12 +1,15 @@
 /**
  * Schema-to-DO Resource Mapping
  *
- * RED Phase: Type definitions and stub functions for mapping SaaSKit schemas
- * to Durable Object resources. All functions throw "Not implemented" to make
- * tests fail, following TDD RED phase.
+ * Maps SaaSKit schemas to Durable Object resources including:
+ * - Collection names
+ * - Thing type definitions (ns, type, urlPattern)
+ * - Relationship definitions
  *
  * @module @saaskit/core/schema-mapping
  */
+
+import { singularize } from './utils/pluralize'
 
 // ============================================================================
 // Type Definitions
@@ -80,7 +83,29 @@ export interface RelationshipDefinition {
 }
 
 // ============================================================================
-// Stub Functions (RED Phase - All throw "Not implemented")
+// Helper Functions
+// ============================================================================
+
+/**
+ * Convert a string to PascalCase
+ */
+function toPascalCase(str: string): string {
+  return str
+    .split(/[-_\s]+/)
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join('')
+}
+
+/**
+ * Singularize and convert to PascalCase for type names
+ */
+function toTypeName(resourceName: string): string {
+  const singular = singularize(resourceName)
+  return toPascalCase(singular)
+}
+
+// ============================================================================
+// Implementation Functions
 // ============================================================================
 
 /**
@@ -103,8 +128,8 @@ export interface RelationshipDefinition {
  * // Returns: ['users', 'posts']
  * ```
  */
-export function mapSchemaToCollections(_schema: SchemaDefinition): string[] {
-  throw new Error('Not implemented')
+export function mapSchemaToCollections(schema: SchemaDefinition): string[] {
+  return Object.keys(schema.resources)
 }
 
 /**
@@ -125,8 +150,14 @@ export function mapSchemaToCollections(_schema: SchemaDefinition): string[] {
  * // ]
  * ```
  */
-export function mapSchemaToThings(_schema: SchemaDefinition): ThingDefinition[] {
-  throw new Error('Not implemented')
+export function mapSchemaToThings(schema: SchemaDefinition): ThingDefinition[] {
+  const ns = schema.namespace
+
+  return Object.keys(schema.resources).map(resourceName => ({
+    ns,
+    type: toTypeName(resourceName),
+    urlPattern: `/${resourceName}/:id`
+  }))
 }
 
 /**
@@ -147,6 +178,22 @@ export function mapSchemaToThings(_schema: SchemaDefinition): ThingDefinition[] 
  * // ]
  * ```
  */
-export function mapSchemaToRelationships(_schema: SchemaDefinition): RelationshipDefinition[] {
-  throw new Error('Not implemented')
+export function mapSchemaToRelationships(schema: SchemaDefinition): RelationshipDefinition[] {
+  const result: RelationshipDefinition[] = []
+
+  for (const [resourceName, resource] of Object.entries(schema.resources)) {
+    if (!resource.relationships) continue
+
+    for (const [relName, relConfig] of Object.entries(resource.relationships)) {
+      result.push({
+        name: relName,
+        from: resourceName,
+        to: relConfig.resource,
+        type: relConfig.type,
+        cardinality: relConfig.type === 'belongsTo' ? 'one' : 'many'
+      })
+    }
+  }
+
+  return result
 }

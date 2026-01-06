@@ -13,6 +13,7 @@ import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest'
 import {
   createDOAdapter,
   migrateDataStore,
+  resetDeprecationWarnings,
   SaasKitDO,
   type IDataStore,
   type DataStoreMigrationResult,
@@ -283,10 +284,13 @@ describe('Deprecation warnings', () => {
   let consoleWarnSpy: ReturnType<typeof vi.spyOn>
 
   beforeEach(() => {
+    // Reset warnings before each test so we can test fresh
+    resetDeprecationWarnings()
+    // Set up spy BEFORE creating adapter so we capture the warnings
+    consoleWarnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
     mockState = createMockDurableObjectState()
     doInstance = new SaasKitDO(testSchema)
     adapter = createDOAdapter(doInstance)
-    consoleWarnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
   })
 
   afterEach(() => {
@@ -569,9 +573,9 @@ describe('migrateDataStore() - Migration helper', () => {
 
   describe('Idempotency', () => {
     it('should skip records that already exist in target', async () => {
-      // Create record in both source and target
+      // Create record in both source and target with same ID
       await legacyStore.create('users', { id: 'existing', email: 'existing@example.com', name: 'Original' })
-      await targetDO.create('users', { email: 'existing@example.com' })
+      await targetDO.create('users', { id: 'existing', email: 'existing@example.com' })
 
       const result = await migrateDataStore(legacyStore, targetDO, testSchema)
 

@@ -1,13 +1,11 @@
 /**
- * DataStore Migration - Stubs for TDD RED Phase
+ * DataStore Migration
  *
- * This file contains type definitions and stub implementations for:
+ * Provides backwards compatibility for migrating from legacy IDataStore
+ * to the new SaasKitDO system:
  * - IDataStore interface
- * - DOAdapter (createDOAdapter)
- * - Migration helper (migrateDataStore)
- *
- * All functions throw "Not implemented" - this is the RED phase of TDD.
- * Tests should compile but FAIL when run.
+ * - DOAdapter (createDOAdapter) - wraps SaasKitDO with IDataStore interface
+ * - Migration helper (migrateDataStore) - migrates data from legacy to new
  */
 
 import type { SaasKitDO } from './saaskit-do'
@@ -78,7 +76,33 @@ interface Schema {
 }
 
 // ============================================================================
-// Stub Implementations (RED phase - all throw "Not implemented")
+// Deprecation Warning System
+// ============================================================================
+
+/** Track which methods have already logged warnings */
+const warnedMethods = new Set<string>()
+
+/**
+ * Reset the warning tracker (for testing purposes)
+ * @internal
+ */
+export function resetDeprecationWarnings(): void {
+  warnedMethods.clear()
+}
+
+/**
+ * Log a deprecation warning once per method
+ */
+function logDeprecationWarning(method: string): void {
+  if (warnedMethods.has(method)) return
+  warnedMethods.add(method)
+  console.warn(
+    `[DEPRECATED] IDataStore.${method}() is deprecated. Migrate to using SaasKitDO directly.`
+  )
+}
+
+// ============================================================================
+// Implementation
 // ============================================================================
 
 /**
@@ -100,8 +124,40 @@ interface Schema {
  * const user = await adapter.create('users', { name: 'John' })
  * ```
  */
-export function createDOAdapter(_doInstance: SaasKitDO): IDataStore {
-  throw new Error('Not implemented: createDOAdapter')
+export function createDOAdapter(doInstance: SaasKitDO): IDataStore {
+  return {
+    async create(collection: string, data: Record<string, unknown>) {
+      logDeprecationWarning('create')
+      const result = await doInstance.create(collection, data)
+      return result as Record<string, unknown>
+    },
+
+    async read(collection: string, id: string) {
+      logDeprecationWarning('read')
+      const result = await doInstance.read(collection, id)
+      return result as Record<string, unknown> | null
+    },
+
+    async list(collection: string, options?: { limit?: number; offset?: number }) {
+      logDeprecationWarning('list')
+      const result = await doInstance.list(collection, options)
+      return {
+        data: result.data as Record<string, unknown>[],
+        total: result.total
+      }
+    },
+
+    async update(collection: string, id: string, data: Record<string, unknown>) {
+      logDeprecationWarning('update')
+      const result = await doInstance.update(collection, id, data)
+      return result as Record<string, unknown>
+    },
+
+    async delete(collection: string, id: string) {
+      logDeprecationWarning('delete')
+      return doInstance.delete(collection, id)
+    }
+  }
 }
 
 /**
@@ -119,11 +175,90 @@ export function createDOAdapter(_doInstance: SaasKitDO): IDataStore {
  * console.log(`Migrated ${result.migratedCount} records`)
  * ```
  */
-export function migrateDataStore(
-  _source: IDataStore,
-  _target: SaasKitDO,
-  _schema: Schema,
-  _options?: DataStoreMigrationOptions
+export async function migrateDataStore(
+  source: IDataStore,
+  target: SaasKitDO,
+  schema: Schema,
+  options?: DataStoreMigrationOptions
 ): Promise<DataStoreMigrationResult> {
-  throw new Error('Not implemented: migrateDataStore')
+  const dryRun = options?.dryRun ?? false
+  const collectionsToMigrate = options?.collections ?? Object.keys(schema.resources)
+  const batchSize = options?.batchSize ?? 100
+  const onProgress = options?.onProgress
+  const upsert = options?.upsert ?? false
+  const idMapping = options?.idMapping ?? {}
+
+  const result: DataStoreMigrationResult = {
+    success: true,
+    migratedCount: 0,
+    failedCount: 0,
+    skippedCount: 0,
+    byCollection: {},
+    errors: [],
+    dryRun
+  }
+
+  // Count total records for progress tracking
+  let totalRecords = 0
+  let processedRecords = 0
+
+  for (const collection of collectionsToMigrate) {
+    const listResult = await source.list(collection, { limit: 1 })
+    totalRecords += listResult.total
+  }
+
+  // Migrate each collection
+  for (const collection of collectionsToMigrate) {
+    result.byCollection[collection] = 0
+    let offset = 0
+
+    while (true) {
+      const batch = await source.list(collection, { limit: batchSize, offset })
+      if (batch.data.length === 0) break
+
+      for (const record of batch.data) {
+        processedRecords++
+        onProgress?.(processedRecords, totalRecords)
+
+        try {
+          const recordId = record.id as string
+
+          // When idMapping is provided, use mapped ID for lookups
+          const targetId = idMapping[recordId] ?? recordId
+
+          // Check if record already exists in target (by mapped ID if provided)
+          const existing = await target.read(collection, targetId)
+
+          if (existing && !upsert) {
+            result.skippedCount = (result.skippedCount ?? 0) + 1
+            continue
+          }
+
+          if (!dryRun) {
+            if (existing && upsert) {
+              // Update existing record, excluding id from updates
+              const { id: _sourceId, ...updateData } = record
+              await target.update(collection, targetId, updateData)
+            } else {
+              // Create new record, preserving source ID
+              await target.create(collection, record)
+            }
+          }
+
+          result.migratedCount++
+          result.byCollection[collection]++
+        } catch (error) {
+          result.failedCount = (result.failedCount ?? 0) + 1
+          result.success = false
+          const errorMessage = error instanceof Error ? error.message : String(error)
+          result.errors.push(`${collection}/${record.id}: ${errorMessage}`)
+        }
+      }
+
+      offset += batch.data.length
+      if (offset >= batch.total) break
+    }
+  }
+
+  return result
 }

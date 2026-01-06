@@ -243,7 +243,9 @@ export class SaasKitDO extends DO {
     this.validateData(collection, data)
 
     const now = new Date().toISOString()
-    const id = this.generateId()
+    // Use provided ID if present, otherwise generate one
+    const inputData = data as Record<string, unknown>
+    const id = (inputData.id as string) || this.generateId()
 
     const resource = this.schema.resources[collection]
     const record: Record = {
