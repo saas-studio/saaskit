@@ -25,7 +25,7 @@ export { mapFieldType } from './field-mapper'
 
 // Export generators
 export { generateList } from './generators/list'
+export { generateShow } from './generators/show'
+export { generateCreate } from './generators/create'
+export { generateEdit } from './generators/edit'
 // export { generateResource } from './generators/resource'
-// export { generateShow } from './generators/show'
-// export { generateCreate } from './generators/create'
-// export { generateEdit } from './generators/edit'
