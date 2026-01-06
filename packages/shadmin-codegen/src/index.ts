@@ -31,3 +31,8 @@ export { generateCreate } from './generators/create'
 export { generateEdit } from './generators/edit'
 export { generateResource } from './generators/resource'
 export { generateScaffold } from './generators/scaffold'
+export { generateAuthProvider } from './generators/auth-provider'
+export { generateMenu } from './generators/menu'
+
+// Export utilities
+export { pluralize } from './utils'

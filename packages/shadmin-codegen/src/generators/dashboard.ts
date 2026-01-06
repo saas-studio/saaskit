@@ -8,24 +8,7 @@
 
 import type { SaaSSchema } from '@saaskit/schema'
 import type { GeneratedComponent } from '../types'
-
-// ============================================================================
-// Helpers
-// ============================================================================
-
-/**
- * Convert resource name to URL-friendly plural form
- */
-function pluralize(name: string): string {
-  const lower = name.toLowerCase()
-  if (lower.endsWith('y')) {
-    return lower.slice(0, -1) + 'ies'
-  }
-  if (lower.endsWith('s') || lower.endsWith('x') || lower.endsWith('ch') || lower.endsWith('sh')) {
-    return lower + 'es'
-  }
-  return lower + 's'
-}
+import { pluralize } from '../utils'
 
 // ============================================================================
 // Main Generator

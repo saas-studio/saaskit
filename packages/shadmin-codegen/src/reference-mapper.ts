@@ -7,6 +7,7 @@
  */
 
 import type { Relation } from '@saaskit/schema'
+import { pluralize } from './utils'
 
 // ============================================================================
 // Types
@@ -29,30 +30,6 @@ export interface ReferenceMapping {
   inputOutput: string | null
   /** Required imports */
   imports: string[]
-}
-
-// ============================================================================
-// Helpers
-// ============================================================================
-
-/**
- * Pluralize a resource name (simple English rules)
- */
-function pluralize(name: string): string {
-  const lower = name.toLowerCase()
-
-  // Words ending in 's', 'x', 'z', 'ch', 'sh' add 'es'
-  if (/(?:s|x|z|ch|sh)$/.test(lower)) {
-    return lower + 'es'
-  }
-
-  // Words ending in consonant + 'y' change to 'ies'
-  if (/[^aeiou]y$/.test(lower)) {
-    return lower.slice(0, -1) + 'ies'
-  }
-
-  // Default: add 's'
-  return lower + 's'
 }
 
 /**
