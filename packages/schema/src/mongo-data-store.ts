@@ -35,6 +35,9 @@ export interface MongoDataStoreOptions {
   backend?: BackendConfig
 }
 
+/** Include option can be a string or an object with field selection */
+export type IncludeOption = string | { relation: string; select?: string[] }
+
 /** Options for findAll query */
 export interface MongoFindAllOptions {
   /** Filter conditions (MongoDB-style) */
@@ -46,7 +49,9 @@ export interface MongoFindAllOptions {
   /** Number of records to skip */
   offset?: number
   /** Relations to include (eager load) */
-  include?: string[]
+  include?: IncludeOption[]
+  /** Fields to select (projection) */
+  select?: string[]
 }
 
 /** Session options for transactional operations */
@@ -239,7 +244,24 @@ export class MongoDataStore {
       )
     }
 
-    return docs.map((doc) => this.formatDocument(doc))
+    // Format documents
+    let results = docs.map((doc) => this.formatDocument(doc))
+
+    // Apply top-level field selection (preserve included relations)
+    if (options?.select && options.select.length > 0) {
+      // Build list of relation names that were included
+      const includedRelations = (options.include || []).map((inc) =>
+        typeof inc === 'string' ? inc : inc.relation
+      )
+      // Add relation names to fields to preserve them
+      const fieldsWithRelations = [
+        ...options.select,
+        ...includedRelations.filter((rel) => !options.select!.includes(rel)),
+      ]
+      results = results.map((doc) => this.selectFields(doc, fieldsWithRelations))
+    }
+
+    return results
   }
 
   /** Update a record by ID */
@@ -577,7 +599,12 @@ export class MongoDataStore {
 
   /** Format document for output */
   private formatDocument(doc: Document): Document {
-    return { ...doc }
+    const result = { ...doc }
+    // Always expose id from _id (overwrite null or undefined id field)
+    if (result._id !== undefined) {
+      result.id = result._id
+    }
+    return result
   }
 
   /** Build sort object */
@@ -593,26 +620,235 @@ export class MongoDataStore {
   private async populateRelations(
     resourceName: string,
     doc: Document,
-    includes: string[]
+    includes: (string | { relation: string; select?: string[] })[]
   ): Promise<Document> {
     const populated = { ...doc }
     const relations = this.relationMap.get(resourceName)
+    const inverseRelations = this.inverseRelationMap.get(resourceName)
 
-    for (const include of includes) {
+    for (const includeItem of includes) {
+      // Handle object-style includes: { relation: 'author', select: ['name'] }
+      const include = typeof includeItem === 'string' ? includeItem : includeItem.relation
+      const selectFields = typeof includeItem === 'object' ? includeItem.select : undefined
+
+      // Handle nested includes (e.g., "company.contacts")
+      if (include.includes('.')) {
+        await this.populateNestedRelation(resourceName, populated, include)
+        continue
+      }
+
+      // Check for direct relation (belongsTo)
       const relation = relations?.get(include)
-
       if (relation && relation.cardinality === 'one') {
         const fkField = this.getForeignKeyField(relation)
         const foreignKey = doc[fkField] as string | null
 
         if (foreignKey) {
-          populated[include] = await this.findById(relation.to, foreignKey)
+          let related = await this.findById(relation.to, foreignKey)
+          // Apply field selection if specified
+          if (related && selectFields) {
+            related = this.selectFields(related, selectFields)
+          }
+          populated[include] = related
         } else {
           populated[include] = null
         }
+        continue
+      }
+
+      // Check for inverse relation (hasMany)
+      const inverseInfo = inverseRelations?.get(include)
+      if (inverseInfo) {
+        const { sourceResource, sourceRelation } = inverseInfo
+        const fkField = this.getForeignKeyField(sourceRelation)
+        const id = doc._id || doc.id
+
+        populated[include] = await this.findAll(sourceResource, {
+          where: { [fkField]: id },
+        })
+        continue
+      }
+
+      // Check for many-to-many via junction table
+      const manyToManyResult = await this.populateManyToMany(resourceName, doc, include)
+      if (manyToManyResult !== undefined) {
+        populated[include] = manyToManyResult
+        continue
       }
     }
 
     return populated
+  }
+
+  /** Populate nested relations (e.g., "company.contacts") */
+  private async populateNestedRelation(
+    resourceName: string,
+    doc: Document,
+    nestedInclude: string
+  ): Promise<void> {
+    const parts = nestedInclude.split('.')
+    const [firstRelation, ...rest] = parts
+    const nestedPath = rest.join('.')
+
+    // First populate the immediate relation
+    const relations = this.relationMap.get(resourceName)
+    const relation = relations?.get(firstRelation)
+
+    if (relation && relation.cardinality === 'one') {
+      const fkField = this.getForeignKeyField(relation)
+      const foreignKey = doc[fkField] as string | null
+
+      if (foreignKey && !doc[firstRelation]) {
+        doc[firstRelation] = await this.findById(relation.to, foreignKey)
+      }
+
+      // Then populate nested relations on the related document
+      if (doc[firstRelation] && nestedPath) {
+        doc[firstRelation] = await this.populateRelations(
+          relation.to,
+          doc[firstRelation] as Document,
+          [nestedPath]
+        )
+      }
+    }
+
+    // Also handle inverse relations for nested paths
+    const inverseRelations = this.inverseRelationMap.get(resourceName)
+    const inverseInfo = inverseRelations?.get(firstRelation)
+
+    if (inverseInfo) {
+      const { sourceResource, sourceRelation } = inverseInfo
+      const fkField = this.getForeignKeyField(sourceRelation)
+      const id = doc._id || doc.id
+
+      if (!doc[firstRelation]) {
+        doc[firstRelation] = await this.findAll(sourceResource, {
+          where: { [fkField]: id },
+        })
+      }
+
+      // Populate nested on each item in the array
+      if (doc[firstRelation] && nestedPath) {
+        const items = doc[firstRelation] as Document[]
+        doc[firstRelation] = await Promise.all(
+          items.map((item) =>
+            this.populateRelations(sourceResource, item, [nestedPath])
+          )
+        )
+      }
+    }
+  }
+
+  /** Populate many-to-many relation via junction table */
+  private async populateManyToMany(
+    resourceName: string,
+    doc: Document,
+    relationName: string
+  ): Promise<Document[] | undefined> {
+    // Look for junction table pattern: Post.tags -> PostTag -> Tag
+    // The junction table is named {ResourceName}{TargetName} or {TargetName}{ResourceName}
+    const id = doc._id || doc.id
+    if (!id) return undefined
+
+    // Derive target resource name from plural relation name
+    const targetName = this.singularize(relationName)
+    const targetResourceName = this.capitalizeFirst(targetName)
+
+    // Check if target resource exists
+    if (!this.resourceMap.has(targetResourceName)) {
+      return undefined
+    }
+
+    // Look for junction table
+    const junctionName1 = `${resourceName}${targetResourceName}`
+    const junctionName2 = `${targetResourceName}${resourceName}`
+
+    let junctionResource: Resource | undefined
+    let junctionName: string | undefined
+    let localFkField: string
+    let foreignFkField: string
+
+    if (this.resourceMap.has(junctionName1)) {
+      junctionResource = this.resourceMap.get(junctionName1)
+      junctionName = junctionName1
+      localFkField = `${this.lowercaseFirst(resourceName)}Id`
+      foreignFkField = `${this.lowercaseFirst(targetResourceName)}Id`
+    } else if (this.resourceMap.has(junctionName2)) {
+      junctionResource = this.resourceMap.get(junctionName2)
+      junctionName = junctionName2
+      localFkField = `${this.lowercaseFirst(resourceName)}Id`
+      foreignFkField = `${this.lowercaseFirst(targetResourceName)}Id`
+    }
+
+    if (!junctionResource || !junctionName) {
+      return undefined
+    }
+
+    // Find junction records
+    const junctionRecords = await this.findAll(junctionName, {
+      where: { [localFkField]: id },
+    })
+
+    if (junctionRecords.length === 0) {
+      return []
+    }
+
+    // Get target IDs from junction records
+    const targetIds = junctionRecords
+      .map((jr) => jr[foreignFkField] as string)
+      .filter(Boolean)
+
+    if (targetIds.length === 0) {
+      return []
+    }
+
+    // Fetch target records
+    const targetRecords = await Promise.all(
+      targetIds.map((targetId) => this.findById(targetResourceName, targetId))
+    )
+
+    return targetRecords.filter((r): r is Document => r !== null)
+  }
+
+  /** Simple singularization */
+  private singularize(word: string): string {
+    if (word.endsWith('ies')) {
+      return word.slice(0, -3) + 'y'
+    }
+    if (word.endsWith('es') && (word.endsWith('sses') || word.endsWith('xes') || word.endsWith('ches') || word.endsWith('shes'))) {
+      return word.slice(0, -2)
+    }
+    if (word.endsWith('s') && !word.endsWith('ss')) {
+      return word.slice(0, -1)
+    }
+    return word
+  }
+
+  /** Capitalize first letter */
+  private capitalizeFirst(word: string): string {
+    return word.charAt(0).toUpperCase() + word.slice(1)
+  }
+
+  /** Lowercase first letter */
+  private lowercaseFirst(word: string): string {
+    return word.charAt(0).toLowerCase() + word.slice(1)
+  }
+
+  /** Select specific fields from a document */
+  private selectFields(doc: Document, fields: string[]): Document {
+    const result: Document = {}
+    for (const field of fields) {
+      if (field in doc) {
+        result[field] = doc[field]
+      }
+    }
+    // Always include _id/id if not explicitly excluded
+    if (doc._id !== undefined && !('_id' in result)) {
+      result._id = doc._id
+    }
+    if (doc.id !== undefined && !('id' in result)) {
+      result.id = doc.id
+    }
+    return result
   }
 }
