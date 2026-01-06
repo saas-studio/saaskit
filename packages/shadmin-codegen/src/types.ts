@@ -59,7 +59,7 @@ export interface GeneratedComponent {
  */
 export interface GeneratedResource {
   /** Resource name from schema */
-  resourceName: string
+  name: string
   /** List component */
   list: GeneratedComponent
   /** Show component */
@@ -68,8 +68,8 @@ export interface GeneratedResource {
   create: GeneratedComponent
   /** Edit component */
   edit: GeneratedComponent
-  /** Resource registration code */
-  resourceRegistration: string
+  /** All unique imports across components */
+  imports: string[]
 }
 
 /**
