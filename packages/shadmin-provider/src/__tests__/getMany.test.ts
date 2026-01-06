@@ -36,8 +36,11 @@ function createMockDataStore(records: Record<string, MockRecord[]> = {}): IDataS
   }
 
   const mockSchema: SaaSSchema = {
-    name: 'test-schema',
-    version: '1.0.0',
+    metadata: {
+      name: 'test-schema',
+      version: '1.0.0',
+      description: 'Test schema for getMany tests',
+    },
     resources: Object.keys(records).map((name) => ({
       name,
       fields: [

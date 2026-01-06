@@ -124,7 +124,7 @@ export function generateList(resource: Resource): GeneratedComponent {
   const filterableFields = resource.fields.filter(isFilterable)
 
   // Check for createdAt field for default sort
-  const hasCreatedAt = resource.fields.some((f) => f.name === 'createdAt')
+  const hasCreatedAt = resource.fields.some((f: Field) => f.name === 'createdAt')
 
   // Generate field columns
   const columns: string[] = []

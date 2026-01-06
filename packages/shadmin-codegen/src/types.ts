@@ -32,6 +32,8 @@ export interface FieldMapping {
 export interface FieldMappingOptions {
   /** Whether the field is being used in an Edit form (affects readonly fields) */
   isEdit?: boolean
+  /** Whether the field is being used in a Create form */
+  isCreate?: boolean
   /** Whether to include validation props */
   includeValidation?: boolean
 }

@@ -1,4 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest'
+import type { IDataStore } from '@saaskit/schema'
 import { createDataStoreProvider } from '../index'
 import type {
   DataProvider,
@@ -120,7 +121,7 @@ describe('DataProvider.delete()', () => {
       posts: {},
     })
 
-    dataProvider = createDataStoreProvider({ dataStore: mockDataStore })
+    dataProvider = createDataStoreProvider({ dataStore: mockDataStore as unknown as IDataStore })
   })
 
   // --------------------------------------------------------------------------
@@ -285,7 +286,7 @@ describe('DataProvider.delete()', () => {
           '123': { id: '123', name: 'Numeric ID User' },
         },
       })
-      const numericProvider = createDataStoreProvider({ dataStore: numericStore })
+      const numericProvider = createDataStoreProvider({ dataStore: numericStore as unknown as IDataStore })
 
       const result = await numericProvider.delete('users', { id: 123 as unknown as Identifier })
 

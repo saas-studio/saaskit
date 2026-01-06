@@ -6,7 +6,7 @@
  * @see saaskit-060
  */
 
-import type { SaaSSchema } from '@saaskit/schema'
+import type { SaaSSchema, Resource } from '@saaskit/schema'
 import type { GeneratedComponent, GeneratedResource } from '../types'
 import { generateResource } from './resource'
 
@@ -56,12 +56,12 @@ function generateApp(schema: SaaSSchema): GeneratedComponent {
   const resources = schema.resources
 
   // Generate imports
-  const imports = resources.map((r) => {
+  const imports = resources.map((r: Resource) => {
     return `import { ${r.name}List, ${r.name}Edit, ${r.name}Create, ${r.name}Show } from './resources/${r.name}'`
   })
 
   // Generate Resource elements
-  const resourceElements = resources.map((r) => {
+  const resourceElements = resources.map((r: Resource) => {
     const name = pluralize(r.name)
     return `    <Resource
       name="${name}"
@@ -206,7 +206,7 @@ if (container) {
  */
 export function generateScaffold(schema: SaaSSchema): ScaffoldResult {
   // Generate resources using existing generator
-  const resources = schema.resources.map((r) => generateResource(r))
+  const resources = schema.resources.map((r: Resource) => generateResource(r))
 
   return {
     app: generateApp(schema),

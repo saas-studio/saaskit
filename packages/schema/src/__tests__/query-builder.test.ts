@@ -8,9 +8,26 @@
  * @see saaskit-8sk
  */
 
-import { describe, it, expect, beforeEach, afterEach } from 'bun:test'
+import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import type { SaaSSchema, Resource, Field, Relation } from '../types'
 import { MongoDataStore, type MongoFindAllOptions } from '../mongo-data-store'
+
+// Helper type for records with populated relations
+type RecordWithRelations = Record<string, unknown> & {
+  author?: RecordWithRelations
+  company?: RecordWithRelations & { contacts?: RecordWithRelations[] }
+  contact?: RecordWithRelations
+  category?: RecordWithRelations
+  comments?: Array<RecordWithRelations & { author?: RecordWithRelations }>
+  tags?: RecordWithRelations[]
+  posts?: RecordWithRelations[]
+  todos?: RecordWithRelations[]
+  list?: RecordWithRelations
+  name?: string
+  email?: string
+  id?: string
+  title?: string
+}
 
 // ============================================================================
 // Test Fixtures: Schema with Relations
@@ -207,14 +224,14 @@ describe('Relation-Aware Query Builder', () => {
       // Query with include
       const todos = await store.findAll('Todo', {
         include: ['list'],
-      })
+      }) as RecordWithRelations[]
 
       expect(todos).toHaveLength(1)
       expect(todos[0].title).toBe('Buy milk')
       // The list relation should be populated
       expect(todos[0].list).toBeDefined()
-      expect(todos[0].list.name).toBe('Shopping')
-      expect(todos[0].list.id).toBe(list.id)
+      expect(todos[0].list!.name).toBe('Shopping')
+      expect(todos[0].list!.id).toBe(list.id as string)
     })
 
     it('should populate Post.author relation', async () => {
@@ -230,12 +247,12 @@ describe('Relation-Aware Query Builder', () => {
 
       const posts = await store.findAll('Post', {
         include: ['author'],
-      })
+      }) as RecordWithRelations[]
 
       expect(posts).toHaveLength(1)
       expect(posts[0].author).toBeDefined()
-      expect(posts[0].author.name).toBe('Alice')
-      expect(posts[0].author.email).toBe('alice@example.com')
+      expect(posts[0].author!.name).toBe('Alice')
+      expect(posts[0].author!.email).toBe('alice@example.com')
     })
 
     it('should handle null optional belongsTo relations', async () => {
@@ -252,7 +269,7 @@ describe('Relation-Aware Query Builder', () => {
 
       const posts = await store.findAll('Post', {
         include: ['author', 'category'],
-      })
+      }) as RecordWithRelations[]
 
       expect(posts).toHaveLength(1)
       expect(posts[0].author).toBeDefined()
@@ -286,13 +303,13 @@ describe('Relation-Aware Query Builder', () => {
       // Query List with its todos populated
       const lists = await store.findAll('List', {
         include: ['todos'], // hasMany - inverse of Todo.list
-      })
+      }) as RecordWithRelations[]
 
       expect(lists).toHaveLength(1)
       expect(lists[0].name).toBe('Work Tasks')
       expect(lists[0].todos).toBeDefined()
       expect(lists[0].todos).toHaveLength(3)
-      expect(lists[0].todos.map((t: { title: string }) => t.title)).toEqual(
+      expect(lists[0].todos!.map((t) => t.title)).toEqual(
         expect.arrayContaining(['Task 1', 'Task 2', 'Task 3'])
       )
     })
@@ -338,12 +355,12 @@ describe('Relation-Aware Query Builder', () => {
       // Query posts with tags populated
       const posts = await store.findAll('Post', {
         include: ['tags'], // many-to-many via PostTag junction
-      })
+      }) as RecordWithRelations[]
 
       expect(posts).toHaveLength(1)
       expect(posts[0].tags).toBeDefined()
       expect(posts[0].tags).toHaveLength(3)
-      expect(posts[0].tags.map((t: { name: string }) => t.name)).toEqual(
+      expect(posts[0].tags!.map((t) => t.name)).toEqual(
         expect.arrayContaining(['typescript', 'javascript', 'programming'])
       )
     })
@@ -396,14 +413,14 @@ describe('Relation-Aware Query Builder', () => {
       // Query deals with nested relations
       const deals = await store.findAll('Deal', {
         include: ['company.contacts'], // Nested: company and its contacts
-      })
+      }) as RecordWithRelations[]
 
       expect(deals).toHaveLength(1)
       expect(deals[0].company).toBeDefined()
-      expect(deals[0].company.name).toBe('Acme Corp')
-      expect(deals[0].company.contacts).toBeDefined()
-      expect(deals[0].company.contacts).toHaveLength(2)
-      expect(deals[0].company.contacts.map((c: { name: string }) => c.name)).toEqual(
+      expect(deals[0].company!.name).toBe('Acme Corp')
+      expect(deals[0].company!.contacts).toBeDefined()
+      expect(deals[0].company!.contacts).toHaveLength(2)
+      expect(deals[0].company!.contacts!.map((c) => c.name)).toEqual(
         expect.arrayContaining(['John', 'Jane'])
       )
     })
@@ -431,13 +448,13 @@ describe('Relation-Aware Query Builder', () => {
       // Query posts with comments and their authors
       const posts = await store.findAll('Post', {
         include: ['author', 'comments.author'],
-      })
+      }) as RecordWithRelations[]
 
       expect(posts).toHaveLength(1)
-      expect(posts[0].author.name).toBe('Author')
+      expect(posts[0].author!.name).toBe('Author')
       expect(posts[0].comments).toBeDefined()
       expect(posts[0].comments).toHaveLength(1)
-      expect(posts[0].comments[0].author.name).toBe('Commenter')
+      expect(posts[0].comments![0].author!.name).toBe('Commenter')
     })
   })
 
@@ -467,13 +484,13 @@ describe('Relation-Aware Query Builder', () => {
       // Multiple includes
       const posts = await store.findAll('Post', {
         include: ['author', 'category', 'tags'],
-      })
+      }) as RecordWithRelations[]
 
       expect(posts).toHaveLength(1)
-      expect(posts[0].author.name).toBe('Alice')
-      expect(posts[0].category.name).toBe('Technology')
+      expect(posts[0].author!.name).toBe('Alice')
+      expect(posts[0].category!.name).toBe('Technology')
       expect(posts[0].tags).toHaveLength(1)
-      expect(posts[0].tags[0].name).toBe('tech')
+      expect(posts[0].tags![0].name).toBe('tech')
     })
 
     it('should work with where clause and include', async () => {
@@ -495,11 +512,11 @@ describe('Relation-Aware Query Builder', () => {
       const posts = await store.findAll('Post', {
         where: { status: 'published' },
         include: ['author'],
-      })
+      }) as RecordWithRelations[]
 
       expect(posts).toHaveLength(1)
       expect(posts[0].title).toBe('Published Post')
-      expect(posts[0].author.name).toBe('Alice')
+      expect(posts[0].author!.name).toBe('Alice')
     })
 
     it('should work with orderBy and include', async () => {
@@ -521,12 +538,12 @@ describe('Relation-Aware Query Builder', () => {
       const posts = await store.findAll('Post', {
         orderBy: { title: 'desc' },
         include: ['author'],
-      })
+      }) as RecordWithRelations[]
 
       expect(posts).toHaveLength(2)
       expect(posts[0].title).toBe('Second Post')
       expect(posts[1].title).toBe('First Post')
-      expect(posts[0].author.name).toBe('Alice')
+      expect(posts[0].author!.name).toBe('Alice')
     })
 
     it('should work with limit/offset and include', async () => {
@@ -575,13 +592,13 @@ describe('Relation-Aware Query Builder', () => {
       // Select only specific fields from author
       const posts = await store.findAll('Post', {
         include: [{ relation: 'author', select: ['name'] }],
-      } as MongoFindAllOptions)
+      } as MongoFindAllOptions) as RecordWithRelations[]
 
       expect(posts).toHaveLength(1)
       expect(posts[0].author).toBeDefined()
-      expect(posts[0].author.name).toBe('Alice')
+      expect(posts[0].author!.name).toBe('Alice')
       // Email should not be included
-      expect(posts[0].author.email).toBeUndefined()
+      expect(posts[0].author!.email).toBeUndefined()
     })
 
     it('should support excluding fields from relations', async () => {
@@ -599,14 +616,13 @@ describe('Relation-Aware Query Builder', () => {
       // Exclude content field from response
       const posts = await store.findAll('Post', {
         include: ['author'],
-        // @ts-expect-error - select not in current types
         select: ['id', 'title', 'status', 'authorId'],
-      })
+      }) as RecordWithRelations[]
 
       expect(posts).toHaveLength(1)
       expect(posts[0].title).toBe('Hello')
       expect(posts[0].content).toBeUndefined() // Excluded
-      expect(posts[0].author.name).toBe('Alice')
+      expect(posts[0].author!.name).toBe('Alice')
     })
   })
 
@@ -672,10 +688,10 @@ describe('Relation-Aware Query Builder', () => {
       // This should not cause infinite recursion
       const posts = await store.findAll('Post', {
         include: ['author', 'comments.author'],
-      })
+      }) as RecordWithRelations[]
 
       expect(posts).toHaveLength(1)
-      expect(posts[0].comments[0].author.id).toBe(user.id)
+      expect(posts[0].comments![0].author!.id).toBe(user.id as string)
     })
   })
 })

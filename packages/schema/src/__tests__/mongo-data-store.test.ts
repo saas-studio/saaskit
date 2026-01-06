@@ -3,6 +3,14 @@ import { MongoDataStore } from '../mongo-data-store'
 import { parseSchemaYaml } from '../yaml-parser'
 import type { SaaSSchema } from '../types'
 
+// Helper type for records with populated relations
+type RecordWithRelations = Record<string, unknown> & {
+  company?: RecordWithRelations
+  contact?: RecordWithRelations
+  name?: string
+  _id?: string
+}
+
 /**
  * MongoDataStore Tests (TDD Red Phase)
  *
@@ -549,21 +557,21 @@ describe('MongoDataStore - Relations', () => {
     it('should include belongsTo relation', async () => {
       const deals = await store.findAll('Deal', {
         include: ['company'],
-      })
+      }) as RecordWithRelations[]
 
       expect(deals[0].company).toBeDefined()
-      expect(deals[0].company.name).toBe('Acme Corp')
+      expect(deals[0].company!.name).toBe('Acme Corp')
     })
 
     it('should include multiple relations', async () => {
       const deals = await store.findAll('Deal', {
         include: ['company', 'contact'],
-      })
+      }) as RecordWithRelations[]
 
       expect(deals[0].company).toBeDefined()
-      expect(deals[0].company.name).toBe('Acme Corp')
+      expect(deals[0].company!.name).toBe('Acme Corp')
       expect(deals[0].contact).toBeDefined()
-      expect(deals[0].contact.name).toBe('John Doe')
+      expect(deals[0].contact!.name).toBe('John Doe')
     })
 
     it('should handle null relation gracefully', async () => {

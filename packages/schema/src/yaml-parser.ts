@@ -539,7 +539,7 @@ function parseVerboseResource(raw: ParsedResource, resourceNames: Set<string>): 
   // Parse fields array
   if (Array.isArray(raw.fields)) {
     for (const fieldDef of raw.fields) {
-      const { field, relation } = parseObjectField(fieldDef.name, fieldDef as Record<string, unknown>)
+      const { field, relation } = parseObjectField(fieldDef.name, fieldDef as unknown as Record<string, unknown>)
       if (field) {
         fields.push(field)
       }

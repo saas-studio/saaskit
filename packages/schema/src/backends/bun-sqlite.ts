@@ -69,6 +69,7 @@ export class BunSQLiteBackend implements MongoBackend {
     try {
       // Dynamically import mongo.do's LocalSQLiteBackend
       // This requires Bun runtime
+      // @ts-expect-error - Module path only available at runtime in Bun
       const { LocalSQLiteBackend } = await import('mongo.do/src/wire/backend/local-sqlite')
       this.backend = new LocalSQLiteBackend(this.dataDir)
       this._isConnected = true

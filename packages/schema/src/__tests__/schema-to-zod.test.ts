@@ -8,12 +8,11 @@
  * @see saaskit-94i
  */
 
-import { describe, it, expect } from 'bun:test'
+import { describe, it, expect } from 'vitest'
 import { z } from 'zod'
 import type { SaaSSchema, Resource, Field } from '../types'
 
-// Import the function we're testing (will fail until implemented)
-// @ts-expect-error - Function not yet implemented
+// Import the function we're testing
 import { generateZodSchemas, type ZodSchemaResult } from '../zod-generator'
 
 // ============================================================================

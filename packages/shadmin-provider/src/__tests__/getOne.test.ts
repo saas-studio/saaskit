@@ -1,4 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest'
+import type { IDataStore } from '@saaskit/schema'
 import { createDataStoreProvider } from '../index'
 import type {
   DataProvider,
@@ -84,7 +85,7 @@ describe('DataProvider.getOne()', () => {
       },
     })
 
-    dataProvider = createDataStoreProvider({ dataStore: mockDataStore })
+    dataProvider = createDataStoreProvider({ dataStore: mockDataStore as unknown as IDataStore })
   })
 
   // --------------------------------------------------------------------------
@@ -248,7 +249,7 @@ describe('DataProvider.getOne()', () => {
         },
       })
       const numericProvider = createDataStoreProvider({
-        dataStore: numericMockStore,
+        dataStore: numericMockStore as unknown as IDataStore,
       })
 
       const result = await numericProvider.getOne('items', { id: 42 })

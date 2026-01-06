@@ -765,8 +765,8 @@ export class MongoDataStore {
 
     let junctionResource: Resource | undefined
     let junctionName: string | undefined
-    let localFkField: string
-    let foreignFkField: string
+    let localFkField = ''
+    let foreignFkField = ''
 
     if (this.resourceMap.has(junctionName1)) {
       junctionResource = this.resourceMap.get(junctionName1)

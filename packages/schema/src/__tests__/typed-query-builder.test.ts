@@ -163,7 +163,7 @@ describe('Type-Safe Query Builder', () => {
       qb.where('age', 25)
 
       // TypeScript will catch invalid fields at compile time
-      // @ts-expect-error - 'invalid' is not a key of User
+      // Uncommenting below would cause compile error:
       // qb.where('invalid', 'value')
     })
 
