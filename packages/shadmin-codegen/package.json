@@ -15,6 +15,7 @@
     "typecheck": "npx tsc --noEmit"
   },
   "dependencies": {
+    "@saaskit/core": "workspace:*",
     "@saaskit/schema": "workspace:*"
   },
   "devDependencies": {

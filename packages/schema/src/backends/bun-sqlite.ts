@@ -20,6 +20,39 @@ import type {
 
 // We'll lazy-load the mongo.do backend to avoid import issues in non-Bun environments
 
+/**
+ * Interface for mongo.do's LocalSQLiteBackend
+ * This backend is dynamically imported at runtime, so we define the expected shape here
+ */
+interface LocalSQLiteBackendInterface {
+  listCollections(database: string): Promise<{ collections: Array<{ name: string }> }>
+  insert(
+    database: string,
+    collection: string,
+    params: { documents: Document[] }
+  ): Promise<{ insertedIds?: Array<string | number> }>
+  find(
+    database: string,
+    collection: string,
+    params: { filter?: Document; limit?: number; skip?: number; sort?: Record<string, 1 | -1> }
+  ): Promise<{ documents?: Document[] }>
+  update(
+    database: string,
+    collection: string,
+    params: { filter: Document; update: Document; multi?: boolean }
+  ): Promise<{ modifiedCount?: number }>
+  delete(
+    database: string,
+    collection: string,
+    params: { filter: Document; limit?: number }
+  ): Promise<{ deletedCount?: number }>
+  aggregate(
+    database: string,
+    collection: string,
+    params: { pipeline: PipelineStage[] }
+  ): Promise<{ documents?: Document[] }>
+}
+
 /** Session wrapper for Bun SQLite backend */
 class BunSQLiteSession implements MongoSession {
   startTransaction(): void {
@@ -45,7 +78,7 @@ class BunSQLiteSession implements MongoSession {
  * This provides real MongoDB-compatible storage with SQLite persistence.
  */
 export class BunSQLiteBackend implements MongoBackend {
-  private backend: any = null
+  private backend: LocalSQLiteBackendInterface | null = null
   private _isConnected = false
   private dataDir: string
   private database: string
@@ -68,15 +101,17 @@ export class BunSQLiteBackend implements MongoBackend {
 
     try {
       // Dynamically import mongo.do's LocalSQLiteBackend
-      // This requires Bun runtime
-      // @ts-expect-error - Module path only available at runtime in Bun
+      // This requires Bun runtime and mongo.do to be installed as an optional dependency
+      // Note: This uses a deep import path that requires the source files to be available
+      // @ts-expect-error - Module path only available at runtime when mongo.do source is accessible
       const { LocalSQLiteBackend } = await import('mongo.do/src/wire/backend/local-sqlite')
       this.backend = new LocalSQLiteBackend(this.dataDir)
       this._isConnected = true
     } catch (e) {
       throw new Error(
         `Failed to load BunSQLiteBackend: ${e instanceof Error ? e.message : String(e)}. ` +
-          'Make sure you are running in Bun and mongo.do is installed.'
+          'MongoDB support requires mongo.do to be installed with source files accessible. ' +
+          'This is an optional feature - consider using a different backend if mongo.do is not available.'
       )
     }
   }
@@ -90,15 +125,15 @@ export class BunSQLiteBackend implements MongoBackend {
   }
 
   async createCollection(name: string): Promise<void> {
-    this.ensureConnected()
+    this.getBackend() // Validate connection
     this.collections.add(name)
     // LocalSQLiteBackend creates collections lazily on first write
   }
 
   async listCollections(): Promise<string[]> {
-    this.ensureConnected()
+    const backend = this.getBackend()
     try {
-      const result = await this.backend.listCollections(this.database)
+      const result = await backend.listCollections(this.database)
       return result.collections.map((c: { name: string }) => c.name)
     } catch {
       // Fallback to tracked collections if backend doesn't support listing
@@ -107,10 +142,10 @@ export class BunSQLiteBackend implements MongoBackend {
   }
 
   async insertOne(collection: string, doc: Document): Promise<{ insertedId: string }> {
-    this.ensureConnected()
+    const backend = this.getBackend()
     this.collections.add(collection)
 
-    const result = await this.backend.insert(this.database, collection, {
+    const result = await backend.insert(this.database, collection, {
       documents: [doc],
     })
 
@@ -120,9 +155,9 @@ export class BunSQLiteBackend implements MongoBackend {
   }
 
   async findOne(collection: string, filter: Document): Promise<Document | null> {
-    this.ensureConnected()
+    const backend = this.getBackend()
 
-    const result = await this.backend.find(this.database, collection, {
+    const result = await backend.find(this.database, collection, {
       filter,
       limit: 1,
     })
@@ -131,9 +166,9 @@ export class BunSQLiteBackend implements MongoBackend {
   }
 
   async find(collection: string, options?: FindOptions): Promise<Document[]> {
-    this.ensureConnected()
+    const backend = this.getBackend()
 
-    const result = await this.backend.find(this.database, collection, {
+    const result = await backend.find(this.database, collection, {
       filter: options?.filter || {},
       limit: options?.limit,
       skip: options?.skip,
@@ -148,9 +183,9 @@ export class BunSQLiteBackend implements MongoBackend {
     filter: Document,
     update: Document
   ): Promise<{ modifiedCount: number }> {
-    this.ensureConnected()
+    const backend = this.getBackend()
 
-    const result = await this.backend.update(this.database, collection, {
+    const result = await backend.update(this.database, collection, {
       filter,
       update,
       multi: false,
@@ -162,9 +197,9 @@ export class BunSQLiteBackend implements MongoBackend {
   }
 
   async deleteOne(collection: string, filter: Document): Promise<{ deletedCount: number }> {
-    this.ensureConnected()
+    const backend = this.getBackend()
 
-    const result = await this.backend.delete(this.database, collection, {
+    const result = await backend.delete(this.database, collection, {
       filter,
       limit: 1,
     })
@@ -175,9 +210,9 @@ export class BunSQLiteBackend implements MongoBackend {
   }
 
   async countDocuments(collection: string, filter?: Document): Promise<number> {
-    this.ensureConnected()
+    const backend = this.getBackend()
 
-    const result = await this.backend.find(this.database, collection, {
+    const result = await backend.find(this.database, collection, {
       filter: filter || {},
     })
 
@@ -185,9 +220,9 @@ export class BunSQLiteBackend implements MongoBackend {
   }
 
   async aggregate(collection: string, pipeline: PipelineStage[]): Promise<Document[]> {
-    this.ensureConnected()
+    const backend = this.getBackend()
 
-    const result = await this.backend.aggregate(this.database, collection, {
+    const result = await backend.aggregate(this.database, collection, {
       pipeline,
     })
 
@@ -202,28 +237,28 @@ export class BunSQLiteBackend implements MongoBackend {
   // Note: Real SQLite transactions would be better, but this works for testing
 
   async takeSnapshot(): Promise<void> {
-    this.ensureConnected()
+    const backend = this.getBackend()
     this.snapshots.clear()
 
     for (const collection of this.collections) {
-      const result = await this.backend.find(this.database, collection, {})
+      const result = await backend.find(this.database, collection, {})
       this.snapshots.set(collection, result.documents || [])
     }
   }
 
   async restoreSnapshot(): Promise<void> {
-    this.ensureConnected()
+    const backend = this.getBackend()
 
     for (const [collection, docs] of this.snapshots) {
       // Delete all current documents
-      await this.backend.delete(this.database, collection, {
+      await backend.delete(this.database, collection, {
         filter: {},
         limit: 0, // 0 = no limit = delete all
       })
 
       // Re-insert snapshot documents
       if (docs.length > 0) {
-        await this.backend.insert(this.database, collection, {
+        await backend.insert(this.database, collection, {
           documents: docs,
         })
       }
@@ -236,9 +271,14 @@ export class BunSQLiteBackend implements MongoBackend {
     this.snapshots.clear()
   }
 
-  private ensureConnected(): void {
+  /**
+   * Ensures the backend is connected and returns the backend instance.
+   * @throws Error if not connected
+   */
+  private getBackend(): LocalSQLiteBackendInterface {
     if (!this._isConnected || !this.backend) {
       throw new Error('BunSQLiteBackend is not connected. Call connect() first.')
     }
+    return this.backend
   }
 }

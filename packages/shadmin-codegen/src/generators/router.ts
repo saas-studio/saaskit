@@ -3,29 +3,12 @@
  *
  * Generates React Router configuration from a SaaSKit schema.
  *
- * @see saaskit-e2c
+ * @see saaskit-e2c, saaskit-ncy9
  */
 
 import type { SaaSSchema, Resource } from '@saaskit/schema'
 import type { GeneratedComponent } from '../types'
-
-// ============================================================================
-// Helpers
-// ============================================================================
-
-/**
- * Convert resource name to URL-friendly plural form
- */
-function pluralize(name: string): string {
-  const lower = name.toLowerCase()
-  if (/(?:s|x|z|ch|sh)$/.test(lower)) {
-    return lower + 'es'
-  }
-  if (/[^aeiou]y$/.test(lower)) {
-    return lower.slice(0, -1) + 'ies'
-  }
-  return lower + 's'
-}
+import { pluralize } from '../utils'
 
 /**
  * Convert resource name to kebab-case

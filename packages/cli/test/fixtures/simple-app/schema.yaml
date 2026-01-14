@@ -1,0 +1,18 @@
+name: SimpleApp
+namespace: simple.example.com
+
+resources:
+  users:
+    fields:
+      name: string
+      email:
+        type: string
+        required: true
+  posts:
+    fields:
+      title: string
+      content: string
+    relationships:
+      author:
+        resource: users
+        type: belongsTo

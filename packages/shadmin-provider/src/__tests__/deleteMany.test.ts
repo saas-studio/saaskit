@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { createDataStoreProvider } from '../index'
+import type { IDataStore, SaaSSchema, FindAllOptions } from '@saaskit/schema'
 import type {
   DataProvider,
   DeleteManyParams,
@@ -9,27 +10,20 @@ import type {
 } from '../types'
 
 // ============================================================================
-// Mock DataStore Interface
+// Mock DataStore Implementation
 // ============================================================================
 
-/**
- * Mock DataStore interface for testing
- * Matches the IDataStore interface from @saaskit/schema
- */
-interface MockDataStore {
-  findById(resourceName: string, id: string): Record<string, unknown> | null
-  findAll(resourceName: string, options?: { where?: Record<string, unknown> }): Record<string, unknown>[]
-  delete(resourceName: string, id: string): boolean
+/** Empty schema for testing - deleteMany only uses findById, findAll, and delete */
+const mockSchema: SaaSSchema = {
+  name: 'test-schema',
+  version: '1.0.0',
+  resources: [],
 }
 
-// ============================================================================
-// Test Setup
-// ============================================================================
-
 /**
- * Creates a mock DataStore with in-memory storage
+ * Creates a mock DataStore implementing IDataStore interface
  */
-function createMockDataStore(initialData: Record<string, Record<string, unknown>[]> = {}): MockDataStore {
+function createMockDataStore(initialData: Record<string, Record<string, unknown>[]> = {}): IDataStore {
   const data: Map<string, Map<string, Record<string, unknown>>> = new Map()
 
   // Initialize data from provided records
@@ -42,13 +36,19 @@ function createMockDataStore(initialData: Record<string, Record<string, unknown>
   }
 
   return {
+    schema: mockSchema,
+
+    create(resourceName: string, data: Record<string, unknown>): Record<string, unknown> {
+      throw new Error('create not implemented in mock')
+    },
+
     findById(resourceName: string, id: string): Record<string, unknown> | null {
       const resourceData = data.get(resourceName)
       if (!resourceData) return null
       return resourceData.get(id) ?? null
     },
 
-    findAll(resourceName: string, options?: { where?: Record<string, unknown> }): Record<string, unknown>[] {
+    findAll(resourceName: string, options?: FindAllOptions): Record<string, unknown>[] {
       const resourceData = data.get(resourceName)
       if (!resourceData) return []
 
@@ -66,10 +66,22 @@ function createMockDataStore(initialData: Record<string, Record<string, unknown>
       return records
     },
 
+    update(resourceName: string, id: string, data: Record<string, unknown>): Record<string, unknown> {
+      throw new Error('update not implemented in mock')
+    },
+
     delete(resourceName: string, id: string): boolean {
       const resourceData = data.get(resourceName)
       if (!resourceData) return false
       return resourceData.delete(id)
+    },
+
+    getRelated(
+      resourceName: string,
+      id: string,
+      relationName: string
+    ): Record<string, unknown> | Record<string, unknown>[] | null {
+      throw new Error('getRelated not implemented in mock')
     },
   }
 }
@@ -79,7 +91,7 @@ function createMockDataStore(initialData: Record<string, Record<string, unknown>
 // ============================================================================
 
 describe('DataProvider.deleteMany()', () => {
-  let dataStore: MockDataStore
+  let dataStore: IDataStore
   let dataProvider: DataProvider
 
   const initialUsers = [
@@ -94,7 +106,7 @@ describe('DataProvider.deleteMany()', () => {
     dataStore = createMockDataStore({
       users: [...initialUsers],
     })
-    dataProvider = createDataStoreProvider({ dataStore: dataStore as any })
+    dataProvider = createDataStoreProvider({ dataStore })
   })
 
   // --------------------------------------------------------------------------
@@ -327,7 +339,7 @@ describe('DataProvider.deleteMany()', () => {
           { id: 3, title: 'Post 3' },
         ],
       })
-      const numericProvider = createDataStoreProvider({ dataStore: numericStore as any })
+      const numericProvider = createDataStoreProvider({ dataStore: numericStore })
 
       const params: DeleteManyParams = {
         ids: [1, 2],
@@ -346,7 +358,7 @@ describe('DataProvider.deleteMany()', () => {
         name: `User ${i + 1}`,
       }))
       const largeStore = createMockDataStore({ users: manyRecords })
-      const largeProvider = createDataStoreProvider({ dataStore: largeStore as any })
+      const largeProvider = createDataStoreProvider({ dataStore: largeStore })
 
       // Delete 50 records
       const idsToDelete = Array.from({ length: 50 }, (_, i) => String(i + 1))

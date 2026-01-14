@@ -1,15 +1,17 @@
 /**
  * Shared Utilities for Shadmin Codegen
  *
- * @see saaskit-03e
+ * @see saaskit-03e, saaskit-ncy9
  */
 
-// ============================================================================
-// String Utilities
-// ============================================================================
+import { pluralize as corePluralize, singularize } from '@saaskit/core'
+
+// Re-export core utilities
+export { singularize }
 
 /**
- * Pluralize a resource name using simple English rules
+ * Pluralize a resource name using simple English rules.
+ * Returns lowercase for URL/collection naming conventions.
  *
  * @example
  * pluralize('User') // 'users'
@@ -17,18 +19,5 @@
  * pluralize('Box') // 'boxes'
  */
 export function pluralize(name: string): string {
-  const lower = name.toLowerCase()
-
-  // Words ending in 's', 'x', 'z', 'ch', 'sh' add 'es'
-  if (/(?:s|x|z|ch|sh)$/.test(lower)) {
-    return lower + 'es'
-  }
-
-  // Words ending in consonant + 'y' change to 'ies'
-  if (/[^aeiou]y$/.test(lower)) {
-    return lower.slice(0, -1) + 'ies'
-  }
-
-  // Default: add 's'
-  return lower + 's'
+  return corePluralize(name).toLowerCase()
 }

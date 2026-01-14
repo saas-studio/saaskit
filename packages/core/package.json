@@ -15,9 +15,7 @@
     "test": "bun test",
     "typecheck": "npx tsc --noEmit"
   },
-  "dependencies": {
-    "@dotdo/do": "link:@dotdo/do"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/node": "^20.0.0",
     "typescript": "^5.7.2"

@@ -9,8 +9,8 @@
  * - Relationship handlers
  */
 
-import type { SchemaDefinition, FieldDefinition, RelationshipConfig } from '@saaskit/core'
-import { singularize } from '@saaskit/core'
+import type { SchemaDefinition, FieldDefinition, RelationshipConfig } from '@saaskit/core/schema-mapping'
+import { singularize } from '@saaskit/core/utils/pluralize'
 
 /**
  * Options for DO subclass generation

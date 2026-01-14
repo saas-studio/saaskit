@@ -6,7 +6,11 @@
  * consistent behavior across all modules.
  *
  * @module utils
+ * @see saaskit-ncy9 - pluralize consolidated to @saaskit/core
  */
+
+// Re-export pluralize from @saaskit/core
+export { pluralize, singularize, isPlural } from '@saaskit/core'
 
 // =============================================================================
 // String Transformation Utilities
@@ -53,33 +57,6 @@ export function toDisplayName(name: string): string {
     .split(' ')
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join(' ')
-}
-
-/**
- * Pluralizes a name using simple English rules.
- *
- * @param name - The singular name
- * @returns The pluralized name
- *
- * @example
- * pluralize('Task')      // 'Tasks'
- * pluralize('Person')    // 'Persons' (use 'plural' prop for 'People')
- * pluralize('Category')  // 'Categories'
- * pluralize('Box')       // 'Boxes'
- * pluralize('Class')     // 'Classes'
- * pluralize('Bush')      // 'Bushes'
- * pluralize('Catch')     // 'Catches'
- */
-export function pluralize(name: string): string {
-  // Handle words ending in 'y' preceded by a consonant
-  if (name.endsWith('y') && !/[aeiou]y$/i.test(name)) {
-    return name.slice(0, -1) + 'ies'
-  }
-  // Handle words ending in 's', 'x', 'ch', 'sh'
-  if (name.endsWith('s') || name.endsWith('x') || name.endsWith('ch') || name.endsWith('sh')) {
-    return name + 'es'
-  }
-  return name + 's'
 }
 
 // =============================================================================

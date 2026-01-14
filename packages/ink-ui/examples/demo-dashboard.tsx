@@ -37,7 +37,20 @@ import {
 // DEMO DATA
 // =============================================================================
 
-const customers = [
+/** Plan type matching PlanBadge component */
+type PlanType = 'free' | 'starter' | 'pro' | 'enterprise' | 'custom';
+
+/** Customer record type */
+interface Customer {
+  id: string;
+  name: string;
+  email: string;
+  plan: PlanType;
+  status: 'active' | 'trial' | 'churned';
+  mrr: number;
+}
+
+const customers: Customer[] = [
   { id: '1', name: 'Acme Corp', email: 'admin@acme.com', plan: 'enterprise', status: 'active', mrr: 2400 },
   { id: '2', name: 'TechStart Inc', email: 'hello@techstart.io', plan: 'pro', status: 'active', mrr: 99 },
   { id: '3', name: 'DataFlow LLC', email: 'ops@dataflow.dev', plan: 'pro', status: 'trial', mrr: 0 },
@@ -182,7 +195,7 @@ const DashboardView: React.FC = () => {
               key: 'plan',
               header: 'Plan',
               width: 10,
-              render: (v) => <PlanBadge plan={v as any} />,
+              render: (v) => <PlanBadge plan={v as PlanType} />,
             },
             {
               key: 'status',

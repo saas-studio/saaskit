@@ -3,29 +3,12 @@
  *
  * Generates a Menu component that lists all resources from the schema.
  *
- * @see saaskit-asn
+ * @see saaskit-asn, saaskit-ncy9
  */
 
 import type { SaaSSchema, Resource } from '@saaskit/schema'
 import type { GeneratedComponent } from '../types'
-
-// ============================================================================
-// Helpers
-// ============================================================================
-
-/**
- * Convert resource name to URL-friendly plural form
- */
-function pluralize(name: string): string {
-  const lower = name.toLowerCase()
-  if (/(?:s|x|z|ch|sh)$/.test(lower)) {
-    return lower + 'es'
-  }
-  if (/[^aeiou]y$/.test(lower)) {
-    return lower.slice(0, -1) + 'ies'
-  }
-  return lower + 's'
-}
+import { pluralize } from '../utils'
 
 /**
  * Get an appropriate icon name for a resource based on its name

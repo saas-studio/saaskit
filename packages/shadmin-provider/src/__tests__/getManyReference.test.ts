@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import { createDataStoreProvider } from '../index'
+import type { IDataStore, SaaSSchema, FindAllOptions } from '@saaskit/schema'
 import type {
   DataProvider,
   GetManyReferenceParams,
@@ -9,27 +10,34 @@ import type {
 } from '../types'
 
 // ============================================================================
-// Mock DataStore Interface
-// ============================================================================
-
-interface FindAllOptions {
-  where?: Record<string, unknown>
-  orderBy?: Record<string, 'asc' | 'desc'>
-  limit?: number
-  offset?: number
-}
-
-interface MockDataStore {
-  findAll(resourceName: string, options?: FindAllOptions): Record<string, unknown>[]
-  count(resourceName: string, options?: { where?: Record<string, unknown> }): number
-}
-
-// ============================================================================
 // Mock DataStore Implementation
 // ============================================================================
 
-function createMockDataStore(data: Record<string, Record<string, unknown>[]>): MockDataStore {
+/** Empty schema for testing - getManyReference only uses findAll */
+const mockSchema: SaaSSchema = {
+  name: 'test-schema',
+  version: '1.0.0',
+  resources: [],
+}
+
+/**
+ * Creates a mock DataStore implementing IDataStore interface
+ */
+function createMockDataStore(initialData: Record<string, Record<string, unknown>[]>): IDataStore {
+  const data = { ...initialData }
+
   return {
+    schema: mockSchema,
+
+    create(resourceName: string, data: Record<string, unknown>): Record<string, unknown> {
+      throw new Error('create not implemented in mock')
+    },
+
+    findById(resourceName: string, id: string): Record<string, unknown> | null {
+      const records = data[resourceName] || []
+      return records.find((r) => String(r.id) === id) ?? null
+    },
+
     findAll(resourceName: string, options?: FindAllOptions): Record<string, unknown>[] {
       let records = [...(data[resourceName] || [])]
 
@@ -42,20 +50,6 @@ function createMockDataStore(data: Record<string, Record<string, unknown>[]>): M
             }
           }
           return true
-        })
-      }
-
-      // Apply sorting
-      if (options?.orderBy) {
-        const [field, order] = Object.entries(options.orderBy)[0]
-        records.sort((a, b) => {
-          const aVal = a[field]
-          const bVal = b[field]
-          if (aVal === bVal) return 0
-          if (aVal === null || aVal === undefined) return 1
-          if (bVal === null || bVal === undefined) return -1
-          const comparison = aVal < bVal ? -1 : 1
-          return order === 'desc' ? -comparison : comparison
         })
       }
 
@@ -72,21 +66,20 @@ function createMockDataStore(data: Record<string, Record<string, unknown>[]>): M
       return records
     },
 
-    count(resourceName: string, options?: { where?: Record<string, unknown> }): number {
-      let records = data[resourceName] || []
+    update(resourceName: string, id: string, data: Record<string, unknown>): Record<string, unknown> {
+      throw new Error('update not implemented in mock')
+    },
 
-      if (options?.where) {
-        records = records.filter((record) => {
-          for (const [key, value] of Object.entries(options.where!)) {
-            if (record[key] !== value) {
-              return false
-            }
-          }
-          return true
-        })
-      }
+    delete(resourceName: string, id: string): boolean {
+      throw new Error('delete not implemented in mock')
+    },
 
-      return records.length
+    getRelated(
+      resourceName: string,
+      id: string,
+      relationName: string
+    ): Record<string, unknown> | Record<string, unknown>[] | null {
+      throw new Error('getRelated not implemented in mock')
     },
   }
 }
@@ -131,7 +124,7 @@ const testComments: Comment[] = [
 // ============================================================================
 
 describe('getManyReference', () => {
-  let dataStore: MockDataStore
+  let dataStore: IDataStore
   let dataProvider: DataProvider
 
   beforeEach(() => {
@@ -139,7 +132,7 @@ describe('getManyReference', () => {
       posts: testPosts as Record<string, unknown>[],
       comments: testComments as Record<string, unknown>[],
     })
-    dataProvider = createDataStoreProvider({ dataStore: dataStore as any })
+    dataProvider = createDataStoreProvider({ dataStore })
   })
 
   // ==========================================================================

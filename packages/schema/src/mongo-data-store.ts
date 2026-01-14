@@ -18,6 +18,7 @@ import {
   InMemoryBackend,
   createBackend,
 } from './mongo-backend'
+import { pluralize as corePluralize } from '@saaskit/core'
 
 // ============================================================================
 // Types
@@ -472,15 +473,9 @@ export class MongoDataStore {
     }
   }
 
-  /** Simple pluralization */
+  /** Simple pluralization - delegates to @saaskit/core */
   private pluralize(word: string): string {
-    if (word.endsWith('s') || word.endsWith('x') || word.endsWith('ch') || word.endsWith('sh')) {
-      return word + 'es'
-    }
-    if (word.endsWith('y') && !['a', 'e', 'i', 'o', 'u'].includes(word.charAt(word.length - 2))) {
-      return word.slice(0, -1) + 'ies'
-    }
-    return word + 's'
+    return corePluralize(word).toLowerCase()
   }
 
   /** Get foreign key field name */
