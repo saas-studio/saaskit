@@ -5,9 +5,14 @@
 	"description": "Headless SaaS for AI Agents",
 	"type": "module",
 	"workspaces": ["packages/*"],
+	"bin": {
+		"saaskit": "./dist/cli/index.js"
+	},
 	"scripts": {
 		"dev": "bun run src/index.ts",
 		"build": "bun build src/index.ts --outdir dist --target node",
+		"build:cli": "bun build src/cli/index.ts --outdir dist/cli --target node && chmod +x dist/cli/index.js",
+		"build:all": "bun run build && bun run build:cli",
 		"build:packages": "bun run --filter './packages/*' build",
 		"test": "bun test",
 		"typecheck": "tsc --noEmit",
@@ -17,8 +22,11 @@
 	},
 	"dependencies": {
 		"ink": "^5.0.1",
+		"mongo.do": "file:../mongo",
 		"react": "^18.3.1",
-		"yoga-wasm-web": "^0.3.3"
+		"yaml": "^2.8.2",
+		"yoga-wasm-web": "^0.3.3",
+		"zod": "^3.23.0"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",

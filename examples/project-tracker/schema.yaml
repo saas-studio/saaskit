@@ -1,0 +1,320 @@
+# Project Tracker Schema
+# A kanban-style project management application with full task lifecycle support
+#
+# This schema defines a complete project tracking system with:
+# - Projects with lifecycle states
+# - Tasks with kanban workflow stages
+# - User assignments and roles
+# - Comments for collaboration
+# - Labels for flexible categorization
+#
+# Example:
+#   project-tracker create project --name "Website Redesign" --status active
+#   project-tracker create task --title "Design homepage" --project website-redesign --priority P1
+
+app:
+  name: project-tracker
+  description: Kanban-style project management for teams
+  version: 1.0.0
+
+resources:
+  # =============================================================================
+  # Users - Team members who own projects and work on tasks
+  # =============================================================================
+  users:
+    fields:
+      id:
+        type: id
+        auto: true
+      name:
+        type: string
+        required: true
+        description: Full name of the user
+      email:
+        type: email
+        required: true
+        unique: true
+        description: User email address for notifications
+      role:
+        type: select
+        options:
+          - admin      # Full access to all projects and settings
+          - member     # Can create/edit tasks in assigned projects
+          - viewer     # Read-only access to projects
+        default: member
+        description: User role determining access level
+      avatar_url:
+        type: url
+        required: false
+        description: URL to user profile image
+      created_at:
+        type: datetime
+        auto: true
+
+    views:
+      list:
+        columns: [name, email, role]
+        default: true
+      detail:
+        sections:
+          - fields: [name, email, role, avatar_url]
+          - title: Activity
+            related: [tasks, comments]
+
+  # =============================================================================
+  # Projects - Top-level containers for organizing work
+  # =============================================================================
+  projects:
+    fields:
+      id:
+        type: id
+        auto: true
+      name:
+        type: string
+        required: true
+        description: Project name
+      description:
+        type: text
+        required: false
+        description: Detailed project description and goals
+      status:
+        type: select
+        options:
+          - active       # Currently being worked on
+          - completed    # All work finished
+          - on_hold      # Temporarily paused
+        default: active
+        description: Current project lifecycle state
+      start_date:
+        type: date
+        required: false
+        description: Project kickoff date
+      due_date:
+        type: date
+        required: false
+        description: Target completion date
+      owner_id:
+        type: relation
+        to: users
+        required: true
+        description: Project owner responsible for delivery
+      created_at:
+        type: datetime
+        auto: true
+      updated_at:
+        type: datetime
+        auto: true
+
+    views:
+      list:
+        columns: [name, status, owner_id, due_date]
+        default: true
+        groupBy: status
+      board:
+        groupBy: status
+        columns: [active, on_hold, completed]
+      detail:
+        sections:
+          - fields: [name, description, status]
+          - title: Timeline
+            fields: [start_date, due_date]
+          - title: Team
+            fields: [owner_id]
+          - title: Tasks
+            related: tasks
+
+  # =============================================================================
+  # Tasks - Individual work items within projects
+  # =============================================================================
+  tasks:
+    fields:
+      id:
+        type: id
+        auto: true
+      title:
+        type: string
+        required: true
+        description: Short task title
+      description:
+        type: text
+        required: false
+        description: Detailed task description and acceptance criteria
+      status:
+        type: select
+        options:
+          - backlog      # Not yet prioritized
+          - todo         # Ready to be worked on
+          - in_progress  # Currently being worked on
+          - review       # Awaiting review/approval
+          - done         # Completed
+        default: backlog
+        description: Current kanban stage
+      priority:
+        type: select
+        options:
+          - P0  # Critical - drop everything
+          - P1  # High - current sprint
+          - P2  # Medium - next sprint
+          - P3  # Low - backlog
+        default: P2
+        description: Task priority level
+      project_id:
+        type: relation
+        to: projects
+        required: true
+        description: Parent project this task belongs to
+      assignee_id:
+        type: relation
+        to: users
+        required: false
+        description: User assigned to complete this task
+      due_date:
+        type: date
+        required: false
+        description: Task deadline
+      estimated_hours:
+        type: number
+        required: false
+        description: Estimated time to complete (hours)
+      actual_hours:
+        type: number
+        required: false
+        description: Actual time spent (hours)
+      created_at:
+        type: datetime
+        auto: true
+      updated_at:
+        type: datetime
+        auto: true
+
+    views:
+      list:
+        columns: [title, status, priority, assignee_id, due_date]
+        default: true
+      board:
+        groupBy: status
+        columns: [backlog, todo, in_progress, review, done]
+        cardFields: [title, priority, assignee_id]
+        description: Kanban board view for task management
+      detail:
+        sections:
+          - fields: [title, description]
+          - title: Status
+            fields: [status, priority, due_date]
+          - title: Assignment
+            fields: [project_id, assignee_id]
+          - title: Time Tracking
+            fields: [estimated_hours, actual_hours]
+          - title: Discussion
+            related: comments
+          - title: Labels
+            related: task_labels
+
+    actions:
+      move-to-todo:
+        description: Move task to Todo column
+        run: |
+          update status = 'todo'
+      start:
+        description: Start working on task
+        run: |
+          update status = 'in_progress'
+      submit-for-review:
+        description: Submit task for review
+        run: |
+          update status = 'review'
+      complete:
+        description: Mark task as done
+        run: |
+          update status = 'done'
+
+  # =============================================================================
+  # Comments - Discussion threads on tasks
+  # =============================================================================
+  comments:
+    fields:
+      id:
+        type: id
+        auto: true
+      task_id:
+        type: relation
+        to: tasks
+        required: true
+        description: Task this comment belongs to
+      user_id:
+        type: relation
+        to: users
+        required: true
+        description: Author of the comment
+      content:
+        type: text
+        required: true
+        description: Comment text content
+      created_at:
+        type: datetime
+        auto: true
+
+    views:
+      list:
+        columns: [content, user_id, created_at]
+        default: true
+
+  # =============================================================================
+  # Labels - Flexible categorization tags
+  # =============================================================================
+  labels:
+    fields:
+      id:
+        type: id
+        auto: true
+      name:
+        type: string
+        required: true
+        unique: true
+        description: Label name (e.g., "bug", "feature", "urgent")
+      color:
+        type: string
+        required: false
+        default: "#6366f1"
+        description: Hex color code for display
+
+    views:
+      list:
+        columns: [name, color]
+        default: true
+
+  # =============================================================================
+  # Task Labels - Many-to-many relationship between tasks and labels
+  # =============================================================================
+  task_labels:
+    fields:
+      id:
+        type: id
+        auto: true
+      task_id:
+        type: relation
+        to: tasks
+        required: true
+        description: The task being labeled
+      label_id:
+        type: relation
+        to: labels
+        required: true
+        description: The label applied to the task
+      created_at:
+        type: datetime
+        auto: true
+
+    constraints:
+      unique: [task_id, label_id]  # Prevent duplicate label assignments
+
+# =============================================================================
+# Relationships Summary
+# =============================================================================
+# projects.owner_id -> users (many-to-one)
+# tasks.project_id -> projects (many-to-one)
+# tasks.assignee_id -> users (many-to-one, optional)
+# comments.task_id -> tasks (many-to-one)
+# comments.user_id -> users (many-to-one)
+# task_labels.task_id -> tasks (many-to-many via join table)
+# task_labels.label_id -> labels (many-to-many via join table)

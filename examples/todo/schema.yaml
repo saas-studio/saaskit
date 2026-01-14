@@ -1,0 +1,30 @@
+# Todo App Schema
+# A simple example demonstrating SaaSkit's shorthand schema syntax
+#
+# This schema defines a todo list application with:
+# - lists: Organize todos into named lists
+# - todos: Individual todo items that belong to lists
+
+app:
+  name: todos
+  description: A simple todo list application
+  version: 1.0.0
+
+resources:
+  # Lists organize todos into categories
+  List:
+    id: auto
+    name: text
+    color?: text           # Optional hex color for the list
+    description?: text     # Optional description
+    createdAt: auto
+
+  # Todo items belong to a list
+  Todo:
+    id: auto
+    title: text
+    completed: boolean     # Inferred as boolean from name
+    priority: low | medium | high
+    dueDate?: date
+    createdAt: auto
+    list: ->List           # Relation: todos belong to a list
