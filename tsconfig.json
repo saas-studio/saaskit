@@ -19,12 +19,10 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
-      "@tests/*": ["tests/*"],
-      "@saaskit/core": ["packages/core/src/index.ts"],
-      "@saaskit/core/*": ["packages/core/src/*"]
+      "@tests/*": ["tests/*"]
     },
     "types": ["bun-types"]
   },
-  "include": ["src/**/*", "tests/**/*", "packages/**/*"],
+  "include": ["src/**/*", "tests/**/*"],
   "exclude": ["node_modules", "dist"]
 }
