@@ -6,12 +6,22 @@
  * @module @saaskit/core
  */
 
-// @dotdo/do re-exports
-export { DO } from '@dotdo/do'
-export { RpcTarget } from '@dotdo/do/rpc'
+// @dotdo/do re-exports (disabled until package is published)
+// export { DO } from '@dotdo/do'
+// export { RpcTarget } from '@dotdo/do/rpc'
 
 // SaasKitDO base class
 export { SaasKitDO } from './saaskit-do'
+
+// SaaS Metric Types
+export type {
+  Metric,
+  MRRMetric,
+  ChurnMetric,
+  NRRMetric,
+  CACMetric,
+  LTVMetric
+} from './types'
 
 // Utilities
 export { pluralize, singularize, isPlural } from './utils'
