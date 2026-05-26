@@ -38,17 +38,101 @@ AI agents are fundamentally changing how software is consumed. The traditional S
 ## Quick Start
 
 ```bash
-npx create-saas-app my-app
-cd my-app
-npm start
+npm install saaskit
 ```
 
-## The `<App/>` Component
+```ts
+import { App, ai, agent, human } from 'saaskit'
 
-Define your entire SaaS product in a single file:
+export default App({
+  name: 'ledger',
+  buyerChain: 'B2B',                                 // ADR 0007
+  entities: {
+    Invoice: {
+      amount:    'number',
+      status:    'open | paid | void',               // union literal → enum
+      dueAt:     'date',
+      notes:     'text?',                             // trailing ? → optional
+      customer:  '-> Customer',                       // belongsTo
+      lineItems: '-> LineItem[]',                     // hasMany
+    },
+    Customer: { name: 'text', email: 'email' },
+    LineItem: { description: 'text', amount: 'number' },
+  },
+  functions: {
+    markPaid: (i, ctx) => ({ ...i, status: 'paid' as const }),     // Code (default)
+    remind:   ai('Draft a friendly overdue reminder'),              // Generative
+    collect:  agent({ goal: 'Collect payment', tools: ['email', 'charge'] }), // Agentic
+    approve:  human({ assignee: 'cfo', when: i => i.amount > 5000 }),         // Human
+  },
+  workflows: {
+    onPaid: { on: 'Invoice.paid', do: ['markPaid'] },               // XState (ADR 0012)
+  },
+  agents: {
+    support: { role: 'Support', goals: ['first-response < 1h'] },   // Roster (ADR 0018)
+  },
+})
+```
+
+`App(config)` (alias `defineApp`) returns a typed, JSON-serializable `AppDefinition` — the canonical data form (ADR 0011) the platform projects into the agent surfaces (`api · cli · mcp · sdk`).
+
+### Field shorthand DSL → Zod (ADR 0020)
+
+| Shorthand        | Meaning                              |
+|------------------|--------------------------------------|
+| `text`           | string                               |
+| `number`         | number                               |
+| `boolean`        | boolean                              |
+| `date`           | calendar date (`YYYY-MM-DD`)         |
+| `datetime`       | ISO 8601 timestamp                   |
+| `email`          | string, email-validated              |
+| `url`            | string, URL-validated                |
+| `json`           | arbitrary JSON value                 |
+| `a \| b \| c`    | enum / select                        |
+| `-> Entity`      | belongsTo relation                   |
+| `-> Entity[]`    | hasMany relation                     |
+| trailing `?`     | optional                             |
+
+The **first field is the display field** by convention. Every entity auto-gets `id` (UUIDv7 internal + sqid public handle), `createdAt`, and `updatedAt`.
+
+**Escape hatch:** pass a Zod schema directly for an entity when the shorthand isn't enough. `z` is re-exported from `saaskit`.
+
+```ts
+import { App, z } from 'saaskit'
+
+App({
+  name: 'app',
+  entities: {
+    Widget: z.object({ name: z.string(), price: z.number().int().positive() }),
+  },
+})
+```
+
+### Function kinds (ADR 0012)
+
+- **Code** — plain `(entity, ctx) => result` (default)
+- **Generative** — `ai(prompt, opts)`
+- **Agentic** — `agent({ goal, tools })`
+- **Human** — `human({ assignee, when })`
+
+Handlers receive a typed `ctx`: `db` (data access), `now` (deterministic timestamp), and `$` (the runtime event bus).
+
+### Serialisation
+
+```ts
+const app = App({ /* ... */ })
+const json = app.toJSON()          // canonical AppDefinitionJSON
+const schema = app.schema('Invoice') // the compiled Zod schema (Standard Schema interface, ADR 0020)
+```
+
+---
+
+## Legacy JSX Authoring (still supported)
+
+The original `<App>` JSX root component is preserved as `AppComponent`:
 
 ```tsx
-import { App } from 'saaskit'
+import { AppComponent as App } from 'saaskit'
 
 export default (
   <App name="todos">
