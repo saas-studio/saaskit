@@ -12,7 +12,7 @@
 // =============================================================================
 
 /** Current SaaSkit version */
-export const VERSION = '0.1.0'
+export const VERSION = '0.3.0'
 
 /** Framework name */
 export const NAME = 'saaskit'
@@ -21,12 +21,30 @@ export const NAME = 'saaskit'
 export const DESCRIPTION = 'Headless SaaS for AI Agents'
 
 // =============================================================================
-// Schema Components
+// Canonical Authoring API (ADR 0023) — the headline `saaskit` import
 // =============================================================================
+//
+// `App(config)` is the canonical public authoring surface: a config factory
+// returning a typed, JSON-serializable `AppDefinition`. `defineApp` is an alias.
+// `ai` / `agent` / `human` tag the Function kinds (ADR 0012); `z` is re-exported
+// as the Zod escape hatch + canonical validation (ADR 0020).
+export * from './app'
 
-// App - Root component for defining a SaaS application
-export { App, useApp, useAppRequired, getAppMetadata, isAppMetadata } from './schema/App'
-export type { AppProps, AppMetadata } from './schema/App'
+// =============================================================================
+// Schema Components (legacy JSX/Ink authoring — still available)
+// =============================================================================
+//
+// The original JSX `<App>` root component is preserved as `AppComponent` so the
+// canonical `App()` factory above owns the `App` name (ADR 0023 resolves the
+// long-standing `App` ambiguity in favor of the config factory).
+export {
+	App as AppComponent,
+	useApp,
+	useAppRequired,
+	getAppMetadata,
+	isAppMetadata,
+} from './schema/App'
+export type { AppProps as AppComponentProps, AppMetadata } from './schema/App'
 
 // Resource - Data model definition component
 export { Resource, parseResourceProps, getResourceMetadata } from './schema/Resource'
